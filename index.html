@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNA Survey Visualizer</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: #fff;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 { margin-bottom: 8px; color: #2c3e50; }
+        .header p { color: #555; margin: 0; }
+        .main-container {
+            display: flex;
+            width: 100%;
+            gap: 0;
+        }
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-right: 1px solid #ddd;
+        }
+        .sidebar h3 { margin-top: 0; }
+        .sidebar label {
+            font-weight: bold;
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 6px;
+        }
+        .sidebar .checkbox-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 6px 0;
+        }
+        .sidebar input[type="checkbox"] { margin: 0; }
+        .range-display {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 4px 0;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            padding-left: 2%;
+        }
+        .details-panel {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #90caf9;
+            min-height: 60px;
+        }
+        .details-panel h4 { margin: 0 0 12px 0; }
+        .details-panel .paper-title { font-weight: bold; margin-bottom: 6px; font-size: 0.95em; }
+        .details-panel .citation { margin-bottom: 10px; color: #666; font-style: italic; font-size: 0.9em; }
+        .details-panel .metrics { margin-bottom: 6px; color: #555; font-size: 0.9em; }
+        .details-panel a { color: #2196F3; text-decoration: none; font-weight: bold; font-size: 0.9em; }
+        .details-panel .placeholder { color: #999; }
+        .btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 4px;
+            background: #e0e0e0;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+        }
+        .btn:hover { background: #d0d0d0; }
+        .toggle-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .stats { margin-bottom: 15px; color: #666; }
+        .charts-row {
+            display: flex;
+            gap: 2%;
+            margin-bottom: 10px;
+        }
+        .chart-container {
+            flex: 1;
+            min-width: 0;
+        }
+        hr { margin: 24px 0 16px 0; border: none; border-top: 1px solid #ddd; }
+        .manual-section h4 { margin: 0 0 12px 0; }
+        .manual-section label { font-size: 12px; display: block; margin-bottom: 2px; }
+        .manual-section input[type="text"],
+        .manual-section input[type="number"] {
+            width: 100%;
+            padding: 4px;
+            margin-bottom: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .manual-row { display: flex; gap: 4%; }
+        .manual-row > div { flex: 1; }
+        .btn-add {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .btn-add:hover { background: #45a049; }
+        .btn-clear {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #f44336;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-clear:hover { background: #d32f2f; }
+        .manual-list { margin-top: 12px; font-size: 11px; color: #666; }
+        /* Dual range slider styles */
+        .dual-range {
+            position: relative;
+            height: 30px;
+            margin: 8px 0 16px 0;
+        }
+        .dual-range input[type="range"] {
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            top: 10px;
+            background: none;
+            pointer-events: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .dual-range input[type="range"]::-webkit-slider-thumb {
+            pointer-events: auto;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .dual-range input[type="range"]::-moz-range-thumb {
+            pointer-events: auto;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .dual-range .slider-track {
+            position: absolute;
+            top: 12px;
+            height: 6px;
+            width: 100%;
+            background: #ddd;
+            border-radius: 3px;
+        }
+        .dual-range .slider-range {
+            position: absolute;
+            top: 12px;
+            height: 6px;
+            background: #2196F3;
+            border-radius: 3px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+        .data-table th, .data-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .data-table th { border-bottom: 2px solid #ddd; background: #f9f9f9; }
+        .data-table a { color: #2196F3; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📡 LNA Survey Visualizer</h1>
+        <p>Explore RF/microwave LNAs, filter by specs, and inspect linked papers</p>
+        <p style="font-size: 12px; color: #777; margin-top: 8px;">Based on the survey by <a href="https://ideas.ethz.ch/Surveys/lna-survey.html" target="_blank" style="color: #2196F3;">ETH Zürich Integrated Devices, Electronics, And Systems (IDEAS)</a></p>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <h3>Filters</h3>
+            
+            <label>Technology / Process:</label>
+            <div class="checkbox-group" id="tech-filters"></div>
+
+            <label>Frequency Range (GHz):</label>
+            <div class="range-display" id="freq-display">0 – 100 GHz</div>
+            <div class="dual-range" id="freq-slider"></div>
+
+            <label>Year Range:</label>
+            <div class="range-display" id="year-display">2000 – 2025</div>
+            <div class="dual-range" id="year-slider"></div>
+
+            <label>NF Range (dB):</label>
+            <div class="range-display" id="nf-display">0 – 10 dB</div>
+            <div class="dual-range" id="nf-slider"></div>
+
+            <label>Gain Range (dB):</label>
+            <div class="range-display" id="gain-display">0 – 40 dB</div>
+            <div class="dual-range" id="gain-slider"></div>
+
+            <label>Power Range (mW):</label>
+            <div class="range-display" id="power-display">0 – 100 mW</div>
+            <div class="dual-range" id="power-slider"></div>
+
+            <hr>
+            <div class="manual-section">
+                <h4>➕ Add Manual Point</h4>
+                <label>Label:</label>
+                <input type="text" id="manual-label" placeholder="My Design">
+                <div class="manual-row">
+                    <div><label>Freq (GHz):</label><input type="number" id="manual-freq" placeholder="28" step="0.1"></div>
+                    <div><label>NF (dB):</label><input type="number" id="manual-nf" placeholder="2.5" step="0.1"></div>
+                </div>
+                <div class="manual-row">
+                    <div><label>Gain (dB):</label><input type="number" id="manual-gain" placeholder="15" step="0.1"></div>
+                    <div><label>Power (mW):</label><input type="number" id="manual-power" placeholder="20" step="0.1"></div>
+                </div>
+                <label>IIP3 (dBm):</label>
+                <input type="number" id="manual-iip3" placeholder="-5" step="0.1" style="width: 60%;">
+                <div style="margin-top: 12px;">
+                    <button class="btn-add" onclick="addManualPoint()">Add Point</button>
+                    <button class="btn-clear" onclick="clearManualPoints()">Clear All</button>
+                </div>
+                <div class="manual-list" id="manual-list">No manual points added</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="details-panel" id="details-panel">
+                <p class="placeholder">👆 Click on a data point to view details and access the paper link</p>
+            </div>
+            <button class="btn" onclick="clearSelection()">✕ Clear Selection</button>
+            <label class="toggle-label">
+                <input type="checkbox" id="minor-grid-toggle" onchange="updateCharts()"> Minor Grid
+            </label>
+
+            <div class="stats" id="stats">📊 Loading data...</div>
+
+            <div class="charts-row">
+                <div class="chart-container" id="nf-chart"></div>
+                <div class="chart-container" id="gain-chart"></div>
+            </div>
+            <div class="charts-row">
+                <div class="chart-container" id="power-chart"></div>
+                <div class="chart-container" id="iip3-chart"></div>
+            </div>
+            <div class="charts-row">
+                <div class="chart-container" id="fom-chart"></div>
+                <div class="chart-container" id="gain-nf-chart"></div>
+            </div>
+
+            <h3>📋 Data Table</h3>
+            <div id="data-table"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let rawData = [];
+        let filteredData = [];
+        let manualPoints = [];
+        let selectedId = null;
+        let selectedIds = [];
+        let hiddenTraces = [];
+
+        // Color and symbol maps
+        const COLOR_MAP = {
+            'CMOS Bulk': '#636EFA',
+            'CMOS SOI': '#00CC96',
+            'SiGe': '#EF553B',
+            'FinFET': '#AB63FA',
+            'III-V': '#FFA15A',
+            'Other': '#19D3F3',
+            'User': '#FFD700'
+        };
+        const SYMBOL_MAP = {
+            'CMOS Bulk': 'circle',
+            'CMOS SOI': 'square',
+            'SiGe': 'diamond',
+            'FinFET': 'triangle-up',
+            'III-V': 'cross',
+            'Other': 'x'
+        };
+
+        // Process grouping function
+        function groupProcess(p) {
+            if (!p) return 'Other';
+            const pl = p.toLowerCase();
+            if (pl.includes('cmos') && pl.includes('soi')) return 'CMOS SOI';
+            if (pl.includes('cmos')) return 'CMOS Bulk';
+            if (pl.includes('sige')) return 'SiGe';
+            if (pl.includes('finfet')) return 'FinFET';
+            if (pl.includes('gaas') || pl.includes('inp') || pl.includes('gan')) return 'III-V';
+            return 'Other';
+        }
+
+        // Load CSV data
+        async function loadData() {
+            try {
+                const response = await fetch('data/lna_data.csv');
+                const csvText = await response.text();
+                const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+                
+                rawData = parsed.data.map((row, idx) => {
+                    const fc = parseFloat(row.fc) || parseFloat(row['f@NFmin']) || null;
+                    const nf = parseFloat(row.NF) || parseFloat(row.NFmin) || null;
+                    const gain = parseFloat(row.Gain) || null;
+                    const power = parseFloat(row.Power) || null;
+                    const iip3 = parseFloat(row.IIP3) || null;
+                    const year = parseInt(row.Year) || null;
+                    
+                    // Calculate FOM
+                    let fom = null;
+                    if (gain && fc && power && nf) {
+                        const F_lin = Math.pow(10, nf / 10);
+                        const Gain_lin = Math.pow(10, gain / 10);
+                        fom = (Gain_lin * fc) / (power * (F_lin - 1));
+                    }
+                    
+                    return {
+                        id: idx.toString(),
+                        fc, nf, gain, power, iip3, year, fom,
+                        process: row.Process,
+                        processGroup: groupProcess(row.Process),
+                        paperTitle: row.Paper_Title || '',
+                        lastName: row.Last_Name || '',
+                        publication: row.Publication || '',
+                        searchLink: row.Paper_Title ? 
+                            `https://scholar.google.com/scholar?q=${encodeURIComponent(row.Paper_Title)}` : null
+                    };
+                }).filter(d => d.fc !== null);
+
+                initializeFilters();
+                updateCharts();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('stats').textContent = '❌ Error loading data';
+            }
+        }
+
+        // Initialize filter controls
+        function initializeFilters() {
+            const techs = [...new Set(rawData.map(d => d.processGroup))].sort();
+            const techContainer = document.getElementById('tech-filters');
+            techContainer.innerHTML = techs.map(tech => `
+                <label><input type="checkbox" value="${tech}" checked onchange="updateCharts()"> ${tech}</label>
+            `).join('');
+
+            // Set range limits and create sliders
+            const freqMin = Math.floor(Math.min(...rawData.filter(d => d.fc).map(d => d.fc)));
+            const freqMax = Math.ceil(Math.max(...rawData.filter(d => d.fc).map(d => d.fc)));
+            const yearMin = Math.min(...rawData.filter(d => d.year).map(d => d.year));
+            const yearMax = Math.max(...rawData.filter(d => d.year).map(d => d.year));
+            const nfMax = Math.ceil(Math.max(...rawData.filter(d => d.nf).map(d => d.nf)));
+            const gainMax = Math.ceil(Math.max(...rawData.filter(d => d.gain).map(d => d.gain)));
+            const powerMax = Math.ceil(Math.max(...rawData.filter(d => d.power).map(d => d.power)));
+
+            sliders.freq = createDualRangeSlider('freq-slider', freqMin, freqMax, 0.1, () => { updateRangeDisplay('freq'); updateCharts(); });
+            sliders.year = createDualRangeSlider('year-slider', yearMin, yearMax, 1, () => { updateRangeDisplay('year'); updateCharts(); });
+            sliders.nf = createDualRangeSlider('nf-slider', 0, nfMax, 0.1, () => { updateRangeDisplay('nf'); updateCharts(); });
+            sliders.gain = createDualRangeSlider('gain-slider', 0, gainMax, 0.5, () => { updateRangeDisplay('gain'); updateCharts(); });
+            sliders.power = createDualRangeSlider('power-slider', 0, powerMax, 1, () => { updateRangeDisplay('power'); updateCharts(); });
+
+            // Update initial displays
+            ['freq', 'year', 'nf', 'gain', 'power'].forEach(updateRangeDisplay);
+        }
+
+        // Create dual-range slider
+        function createDualRangeSlider(containerId, minVal, maxVal, step, onChange) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="slider-track"></div>
+                <div class="slider-range"></div>
+                <input type="range" class="range-min" min="${minVal}" max="${maxVal}" value="${minVal}" step="${step}">
+                <input type="range" class="range-max" min="${minVal}" max="${maxVal}" value="${maxVal}" step="${step}">
+            `;
+            const rangeMin = container.querySelector('.range-min');
+            const rangeMax = container.querySelector('.range-max');
+            const sliderRange = container.querySelector('.slider-range');
+
+            function updateSlider() {
+                let minV = parseFloat(rangeMin.value);
+                let maxV = parseFloat(rangeMax.value);
+                if (minV > maxV) {
+                    [rangeMin.value, rangeMax.value] = [maxV, minV];
+                    [minV, maxV] = [maxV, minV];
+                }
+                const percentMin = ((minV - minVal) / (maxVal - minVal)) * 100;
+                const percentMax = ((maxV - minVal) / (maxVal - minVal)) * 100;
+                sliderRange.style.left = percentMin + '%';
+                sliderRange.style.width = (percentMax - percentMin) + '%';
+                onChange();
+            }
+
+            rangeMin.addEventListener('input', updateSlider);
+            rangeMax.addEventListener('input', updateSlider);
+            updateSlider();
+
+            return { getMin: () => parseFloat(rangeMin.value), getMax: () => parseFloat(rangeMax.value) };
+        }
+
+        // Slider references
+        let sliders = {};
+
+        function updateRangeDisplay(name) {
+            if (!sliders[name]) return;
+            const min = sliders[name].getMin();
+            const max = sliders[name].getMax();
+            const units = { freq: 'GHz', year: '', nf: 'dB', gain: 'dB', power: 'mW' };
+            const decimals = name === 'year' ? 0 : (name === 'power' ? 0 : 1);
+            document.getElementById(`${name}-display`).textContent = 
+                `${min.toFixed(decimals)} – ${max.toFixed(decimals)} ${units[name]}`;
+        }
+
+        // Get current filter values
+        function getFilters() {
+            const techs = [...document.querySelectorAll('#tech-filters input:checked')].map(i => i.value);
+            return {
+                techs,
+                freqMin: sliders.freq ? sliders.freq.getMin() : 0,
+                freqMax: sliders.freq ? sliders.freq.getMax() : 1000,
+                yearMin: sliders.year ? sliders.year.getMin() : 2000,
+                yearMax: sliders.year ? sliders.year.getMax() : 2025,
+                nfMin: sliders.nf ? sliders.nf.getMin() : 0,
+                nfMax: sliders.nf ? sliders.nf.getMax() : 30,
+                gainMin: sliders.gain ? sliders.gain.getMin() : 0,
+                gainMax: sliders.gain ? sliders.gain.getMax() : 50,
+                powerMin: sliders.power ? sliders.power.getMin() : 0,
+                powerMax: sliders.power ? sliders.power.getMax() : 1000
+            };
+        }
+
+        // Filter data
+        function filterData() {
+            const f = getFilters();
+            ['freq', 'year', 'nf', 'gain', 'power'].forEach(updateRangeDisplay);
+            
+            filteredData = rawData.filter(d => {
+                if (!f.techs.includes(d.processGroup)) return false;
+                if (d.fc < f.freqMin || d.fc > f.freqMax) return false;
+                if (d.year && (d.year < f.yearMin || d.year > f.yearMax)) return false;
+                if (d.nf && (d.nf < f.nfMin || d.nf > f.nfMax)) return false;
+                if (d.gain && (d.gain < f.gainMin || d.gain > f.gainMax)) return false;
+                if (d.power && (d.power < f.powerMin || d.power > f.powerMax)) return false;
+                return true;
+            });
+
+            document.getElementById('stats').textContent = 
+                `📊 Showing ${filteredData.length} points out of ${rawData.length} total`;
+        }
+
+        // Create scatter plot
+        function createScatterPlot(containerId, yKey, yTitle, title) {
+            const container = document.getElementById(containerId);
+            const showMinorGrid = document.getElementById('minor-grid-toggle').checked;
+            const hasSelection = selectedIds.length > 0;
+            
+            const traces = [];
+            const techs = [...new Set(filteredData.map(d => d.processGroup))].sort();
+            
+            techs.forEach(tech => {
+                const techData = filteredData.filter(d => d.processGroup === tech && d[yKey] !== null);
+                if (techData.length === 0) return;
+
+                const sizes = techData.map(d => d.id === selectedId ? 16 : 11);
+                const opacities = techData.map(d => {
+                    if (!hasSelection) return 0.85;
+                    return selectedIds.includes(d.id) ? 1.0 : 0.08;
+                });
+                const lineWidths = techData.map(d => d.id === selectedId ? 3.5 : 0.8);
+                const lineColors = techData.map(d => d.id === selectedId ? '#000' : '#444');
+
+                const hoverText = techData.map(d => {
+                    const titleShort = d.paperTitle.substring(0, 50) + (d.paperTitle.length > 50 ? '...' : '');
+                    const citation = d.lastName || d.publication ? 
+                        `(${d.lastName}, ${d.publication} ${d.year})` : `(${d.year})`;
+                    return `<b>${titleShort}</b><br>${citation}<br>` +
+                        `Freq: ${d.fc?.toFixed(2)} GHz | NF: ${d.nf?.toFixed(2)} dB<br>` +
+                        `Gain: ${d.gain?.toFixed(1)} dB | Power: ${d.power?.toFixed(1)} mW<br>` +
+                        `IIP3: ${d.iip3?.toFixed(1)} dBm | Process: ${d.processGroup}`;
+                });
+
+                traces.push({
+                    x: techData.map(d => d.fc),
+                    y: techData.map(d => d[yKey]),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: tech,
+                    customdata: techData.map(d => d.id),
+                    text: hoverText,
+                    hovertemplate: '%{text}<extra></extra>',
+                    marker: {
+                        size: sizes,
+                        color: COLOR_MAP[tech] || '#999',
+                        symbol: SYMBOL_MAP[tech] || 'circle',
+                        opacity: opacities,
+                        line: { width: lineWidths, color: lineColors }
+                    },
+                    visible: hiddenTraces.includes(tech) ? 'legendonly' : true
+                });
+            });
+
+            // Add manual points
+            if (manualPoints.length > 0) {
+                const mpData = manualPoints.filter(p => p[yKey] !== undefined);
+                if (mpData.length > 0) {
+                    traces.push({
+                        x: mpData.map(p => p.freq),
+                        y: mpData.map(p => p[yKey]),
+                        mode: 'markers',
+                        type: 'scatter',
+                        name: 'User Points',
+                        text: mpData.map(p => `<b>${p.label}</b><br>Freq: ${p.freq} GHz | ${yTitle}: ${p[yKey]}`),
+                        hovertemplate: '%{text}<extra></extra>',
+                        marker: { size: 14, color: '#FFD700', symbol: 'star', line: { width: 2, color: '#000' } }
+                    });
+                }
+            }
+
+            const freqTicks = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+            const layout = {
+                title: title,
+                xaxis: {
+                    title: 'Frequency (GHz)',
+                    type: 'log',
+                    tickvals: freqTicks,
+                    ticktext: freqTicks.map(String),
+                    showgrid: true,
+                    gridwidth: 1,
+                    gridcolor: 'rgba(128,128,128,0.3)',
+                    minor: showMinorGrid ? { showgrid: true, gridwidth: 0.5, gridcolor: 'rgba(128,128,128,0.15)' } : {}
+                },
+                yaxis: {
+                    title: yTitle,
+                    showgrid: true,
+                    gridwidth: 1,
+                    gridcolor: 'rgba(128,128,128,0.3)',
+                    minor: showMinorGrid ? { showgrid: true, gridwidth: 0.5, gridcolor: 'rgba(128,128,128,0.15)' } : {}
+                },
+                hovermode: 'closest',
+                height: 400,
+                showlegend: true,
+                template: 'plotly_white',
+                dragmode: 'select',
+                legend: { bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#ccc', borderwidth: 1 }
+            };
+
+            const config = {
+                toImageButtonOptions: { format: 'svg', filename: containerId, scale: 2 },
+                displaylogo: false
+            };
+
+            Plotly.react(container, traces, layout, config);
+
+            // Click handler
+            container.removeAllListeners?.('plotly_click');
+            container.on('plotly_click', function(data) {
+                if (data.points && data.points[0]) {
+                    const id = data.points[0].customdata;
+                    if (id) {
+                        selectedId = id;
+                        updateSelection();
+                    }
+                }
+            });
+
+            // Selection handler
+            container.on('plotly_selected', function(data) {
+                if (data && data.points) {
+                    selectedIds = data.points.map(p => p.customdata).filter(Boolean);
+                    if (selectedIds.length > 0) selectedId = selectedIds[0];
+                    updateSelection();
+                }
+            });
+
+            // Legend click handler
+            container.on('plotly_legendclick', function(data) {
+                const techName = data.data[data.curveNumber].name;
+                if (hiddenTraces.includes(techName)) {
+                    hiddenTraces = hiddenTraces.filter(t => t !== techName);
+                } else {
+                    hiddenTraces.push(techName);
+                }
+                // Don't prevent default - let Plotly handle it
+            });
+        }
+
+        // Create Cartesian plot (Gain vs NF)
+        function createCartesianPlot() {
+            const container = document.getElementById('gain-nf-chart');
+            const showMinorGrid = document.getElementById('minor-grid-toggle').checked;
+            const hasSelection = selectedIds.length > 0;
+            
+            const traces = [];
+            const techs = [...new Set(filteredData.map(d => d.processGroup))].sort();
+            
+            techs.forEach(tech => {
+                const techData = filteredData.filter(d => d.processGroup === tech && d.nf !== null && d.gain !== null);
+                if (techData.length === 0) return;
+
+                const sizes = techData.map(d => d.id === selectedId ? 16 : 11);
+                const opacities = techData.map(d => {
+                    if (!hasSelection) return 0.85;
+                    return selectedIds.includes(d.id) ? 1.0 : 0.08;
+                });
+                const lineWidths = techData.map(d => d.id === selectedId ? 3.5 : 0.8);
+                const lineColors = techData.map(d => d.id === selectedId ? '#000' : '#444');
+
+                const hoverText = techData.map(d => {
+                    const titleShort = d.paperTitle.substring(0, 50) + (d.paperTitle.length > 50 ? '...' : '');
+                    const citation = d.lastName || d.publication ? 
+                        `(${d.lastName}, ${d.publication} ${d.year})` : `(${d.year})`;
+                    return `<b>${titleShort}</b><br>${citation}<br>` +
+                        `Freq: ${d.fc?.toFixed(2)} GHz | NF: ${d.nf?.toFixed(2)} dB<br>` +
+                        `Gain: ${d.gain?.toFixed(1)} dB | Power: ${d.power?.toFixed(1)} mW<br>` +
+                        `IIP3: ${d.iip3?.toFixed(1)} dBm | Process: ${d.processGroup}`;
+                });
+
+                traces.push({
+                    x: techData.map(d => d.nf),
+                    y: techData.map(d => d.gain),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: tech,
+                    customdata: techData.map(d => d.id),
+                    text: hoverText,
+                    hovertemplate: '%{text}<extra></extra>',
+                    marker: {
+                        size: sizes,
+                        color: COLOR_MAP[tech] || '#999',
+                        symbol: SYMBOL_MAP[tech] || 'circle',
+                        opacity: opacities,
+                        line: { width: lineWidths, color: lineColors }
+                    },
+                    visible: hiddenTraces.includes(tech) ? 'legendonly' : true
+                });
+            });
+
+            // Add manual points
+            if (manualPoints.length > 0) {
+                const mpData = manualPoints.filter(p => p.nf !== undefined && p.gain !== undefined);
+                if (mpData.length > 0) {
+                    traces.push({
+                        x: mpData.map(p => p.nf),
+                        y: mpData.map(p => p.gain),
+                        mode: 'markers',
+                        type: 'scatter',
+                        name: 'User Points',
+                        text: mpData.map(p => `<b>${p.label}</b><br>NF: ${p.nf} dB | Gain: ${p.gain} dB`),
+                        hovertemplate: '%{text}<extra></extra>',
+                        marker: { size: 14, color: '#FFD700', symbol: 'star', line: { width: 2, color: '#000' } }
+                    });
+                }
+            }
+
+            const layout = {
+                title: 'Gain vs Noise Figure',
+                xaxis: {
+                    title: 'Noise Figure (dB)',
+                    showgrid: true,
+                    gridwidth: 1,
+                    gridcolor: 'rgba(128,128,128,0.3)',
+                    minor: showMinorGrid ? { showgrid: true, gridwidth: 0.5, gridcolor: 'rgba(128,128,128,0.15)' } : {}
+                },
+                yaxis: {
+                    title: 'Gain (dB)',
+                    showgrid: true,
+                    gridwidth: 1,
+                    gridcolor: 'rgba(128,128,128,0.3)',
+                    minor: showMinorGrid ? { showgrid: true, gridwidth: 0.5, gridcolor: 'rgba(128,128,128,0.15)' } : {}
+                },
+                hovermode: 'closest',
+                height: 400,
+                showlegend: true,
+                template: 'plotly_white',
+                dragmode: 'select',
+                legend: { bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#ccc', borderwidth: 1 }
+            };
+
+            const config = {
+                toImageButtonOptions: { format: 'svg', filename: 'gain_vs_nf', scale: 2 },
+                displaylogo: false
+            };
+
+            Plotly.react(container, traces, layout, config);
+
+            container.on('plotly_click', function(data) {
+                if (data.points && data.points[0]) {
+                    const id = data.points[0].customdata;
+                    if (id) {
+                        selectedId = id;
+                        updateSelection();
+                    }
+                }
+            });
+
+            container.on('plotly_selected', function(data) {
+                if (data && data.points) {
+                    selectedIds = data.points.map(p => p.customdata).filter(Boolean);
+                    if (selectedIds.length > 0) selectedId = selectedIds[0];
+                    updateSelection();
+                }
+            });
+        }
+
+        // Update all charts
+        function updateCharts() {
+            filterData();
+            createScatterPlot('nf-chart', 'nf', 'NF (dB)', 'Noise Figure vs Frequency');
+            createScatterPlot('gain-chart', 'gain', 'Gain (dB)', 'Gain vs Frequency');
+            createScatterPlot('power-chart', 'power', 'Power (mW)', 'Power vs Frequency');
+            createScatterPlot('iip3-chart', 'iip3', 'IIP3 (dBm)', 'IIP3 vs Frequency');
+            createScatterPlot('fom-chart', 'fom', 'FOM', 'Figure of Merit vs Frequency');
+            createCartesianPlot();
+            updateTable();
+        }
+
+        // Update selection display
+        function updateSelection() {
+            const panel = document.getElementById('details-panel');
+            
+            if (selectedId) {
+                const point = rawData.find(d => d.id === selectedId);
+                if (point) {
+                    const citation = point.lastName || point.publication ? 
+                        `(${point.lastName}, ${point.publication} ${point.year})` : `(${point.year})`;
+                    panel.innerHTML = `
+                        <h4>📍 Selected Point Details</h4>
+                        <div class="paper-title">${point.paperTitle}</div>
+                        <div class="citation">${citation}</div>
+                        <div class="metrics">Process: ${point.processGroup}</div>
+                        <div class="metrics">Freq: ${point.fc?.toFixed(2)} GHz | NF: ${point.nf?.toFixed(2)} dB | Gain: ${point.gain?.toFixed(1)} dB</div>
+                        <div class="metrics">Power: ${point.power?.toFixed(1)} mW | IIP3: ${point.iip3?.toFixed(1)} dBm</div>
+                        ${point.searchLink ? `<a href="${point.searchLink}" target="_blank">🔍 Search on Google Scholar</a>` : ''}
+                    `;
+                } else {
+                    panel.innerHTML = '<p class="placeholder">Point not found</p>';
+                }
+            } else {
+                panel.innerHTML = '<p class="placeholder">👆 Click on a data point to view details and access the paper link</p>';
+            }
+            
+            updateCharts();
+        }
+
+        // Clear selection
+        function clearSelection() {
+            selectedId = null;
+            selectedIds = [];
+            updateSelection();
+        }
+
+        // Manual points
+        function addManualPoint() {
+            const freq = parseFloat(document.getElementById('manual-freq').value);
+            const nf = parseFloat(document.getElementById('manual-nf').value);
+            const gain = parseFloat(document.getElementById('manual-gain').value);
+            const power = parseFloat(document.getElementById('manual-power').value);
+            const iip3 = parseFloat(document.getElementById('manual-iip3').value);
+            const label = document.getElementById('manual-label').value || `Point ${manualPoints.length + 1}`;
+
+            if (isNaN(freq) || isNaN(nf) || isNaN(gain)) {
+                alert('Please enter at least Frequency, NF, and Gain');
+                return;
+            }
+
+            manualPoints.push({ label, freq, nf, gain, power: power || 0, iip3: iip3 || 0 });
+            updateManualList();
+            clearManualInputs();
+            updateCharts();
+        }
+
+        function clearManualPoints() {
+            manualPoints = [];
+            updateManualList();
+            updateCharts();
+        }
+
+        function updateManualList() {
+            const list = document.getElementById('manual-list');
+            if (manualPoints.length === 0) {
+                list.innerHTML = '<i>No manual points added</i>';
+            } else {
+                list.innerHTML = manualPoints.map(p => 
+                    `• ${p.label}: ${p.freq}GHz, NF=${p.nf}dB, G=${p.gain}dB`
+                ).join('<br>');
+            }
+        }
+
+        function clearManualInputs() {
+            ['manual-label', 'manual-freq', 'manual-nf', 'manual-gain', 'manual-power', 'manual-iip3']
+                .forEach(id => document.getElementById(id).value = '');
+        }
+
+        // Update data table
+        function updateTable() {
+            const table = document.getElementById('data-table');
+            const rows = filteredData.slice(0, 100).map(d => `
+                <tr>
+                    <td style="max-width: 300px;">${d.paperTitle}</td>
+                    <td>${d.year || ''}</td>
+                    <td>${d.fc?.toFixed(2) || ''}</td>
+                    <td>${d.nf?.toFixed(2) || ''}</td>
+                    <td>${d.gain?.toFixed(1) || ''}</td>
+                    <td>${d.power?.toFixed(1) || ''}</td>
+                    <td>${d.iip3?.toFixed(1) || ''}</td>
+                    <td>${d.processGroup}</td>
+                    <td>${d.searchLink ? `<a href="${d.searchLink}" target="_blank">Scholar</a>` : ''}</td>
+                </tr>
+            `).join('');
+
+            table.innerHTML = `
+                <table class="data-table">
+                    <tr>
+                        <th>Paper Title</th>
+                        <th>Year</th>
+                        <th>Freq (GHz)</th>
+                        <th>NF (dB)</th>
+                        <th>Gain (dB)</th>
+                        <th>Power (mW)</th>
+                        <th>IIP3 (dBm)</th>
+                        <th>Process</th>
+                        <th>Link</th>
+                    </tr>
+                    ${rows}
+                </table>
+                ${filteredData.length > 100 ? `<p style="color: #666; font-size: 12px;">Showing first 100 of ${filteredData.length} results</p>` : ''}
+            `;
+        }
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+</html>

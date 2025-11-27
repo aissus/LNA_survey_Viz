@@ -1,0 +1,473 @@
+Publication,Year,Month,Last_Name,Paper_Title,Process,Node,f@NFmin,NFmin,fc,NF,Gain,P1dB,I/O_P1dB,IIP3,3dB_BW,Power,Comment
+ASSCC,2022,11,Xu,An n79 Sub-1-dB Noise Figure Highly Linear Variable_x0002_Gain LNA Employing Adaptive Imbalanced Bleeding for 5G NR,CMOS,65,4.4,0.74,,,,,,,,,
+JSSC,2021,7,Peng,A Cryogenic Broadband Sub-1-dB NF CMOS Low Noise Amplifier for Quantum Applications,CMOS,40,4,0.75,,,,,,,,,
+RFIC,2022,6,Zou,A Capacitor Assisting Triple-Winding Transformer Low-Noise Amplifier with 0.8-1.5dB NF 6-12GHz BW 0.75dB Ripple in 130nm SOI CMOS,CMOS SOI,130,8.5,0.8,,,,,,,,,
+EuMA,2023,9,Ozdol,A High Linearity 6 GHz LNA in 130 nm SiGe Technology,SiGe BiCMOS,130,6,1.15,,,,,,,,,
+IMS,2018,6,Li,LNA Design with CMOS SOI Process—1.4dB NF K/Ka band LNA,CMOS SOI,45,27,1.4,,,,,,,,,
+TMTT,2022,4,Huynh,Dual-Resistive Feedback Wideband LNA for Noise Cancellation and Robust Linearization,CMOS,65,1,1.56,,,,,,,,,
+ISSCC,2022,2,Yang,A Hybrid Coupler-First 5GHz Noise-Cancelling Dual-Mode Receiver with +10dBm In-Band IIP3 in Current-Mode and 1.7dB NF in Voltage-Mode,CMOS,28,5,1.7,,,,,,,,,
+TMTT,2023,1,Zhao,A K-Band Hybrid-Packaged Temperature-Compensated Phased-Array Receiver and Integrated Antenna Array,CMOS,65,16,1.7,,,,,,,,,System
+JSSC,2020,5,Cui,"A 1.7-dB Minimum NF, 22–32-GHz Low-Noise Feedback Amplifier With Multistage Noise Matching in 22-nm FD-SOI CMOS",CMOS SOI,22,28,1.73,,,,,,,,,
+RFIC,2022,6,Huang,28 GHz Compact LNAs with 1.9 dB NF Using Folded Three-Coil Transformer and Dual-Feedforward Techniques in 65nm CMOS,CMOS,65,29.1,1.9,,,,,,,,,
+TMTT,2022,3,Zhou,A 0.1–3.5-GHz Inductorless Noise-Canceling CMOS LNA With IIP3 Optimization Technique,CMOS,65,0.1,2,,,,,,,,,
+RFIC,2022,6,Radpour,"An LNAwith Input Power Match from 6.1 to 38.6 GHz, the Noise-Figure Minimum of 1.9 dB, and Employing Back Gate for Matching",CMOS SOI,22,17,2,,,,,,,,,
+JSSC,2021,Early Access,Wang,A Ka-Band SATCOM Transceiver in 65-nm CMOS With High-Linearity TX and Dual-Channel Wide-Dynamic-Range RX for Terrestrial Terminal,CMOS,65,20,2,,,,,,,,,
+EuMiC,2021,1,Ozkan,A High-Gain SiGe BiCMOS LNA for 5G In-Band Full-Duplex Applications,SiGe BiCMOS,130,25,2,,,,,,,,,
+RFIC,2022,6,Radpour,"An LNAwith Input Power Match from 6.1 to 38.6 GHz, the Noise-Figure Minimum of 1.9 dB, and Employing Back Gate for Matching",CMOS SOI,22,26,2,,,,,,,,,
+TMTT,2020,10,El-Aassar,Design of Low-Power Sub-2.4 dB Mean NF 5G LNAs Using Forward Body Bias in 22 nm FDSOI,CMOS SOI,22,25,2.08,,,,,,,,,
+MWTL,2023,4,Cai,A Sub-GHz Low-Power Receiver Employing Resistive-Feedback-Tuned LNA With 2.1-dB NF and 106-dB Gain Tuning Range,CMOS,130,0.433,2.1,,,,,,,,,
+TCAS II,2023,4,Kobal,"A Compact, Low-Power, Low-NF, Millimeter-Wave Cascode LNA With Magnetic Coupling Feedback in 22-nm FD-SOI CMOS for 5G Applications",CMOS SOI,22,27.5,2.1,,,,,,,,,
+JSSC,2020,5,Huang,A 24.5–43.5-GHz Ultra-Compact CMOS Receiver Front End With Calibration-Free Instantaneous Full-Band Image Rejection for Multiband 5G Massive MIMO,CMOS SOI,45,38,2.1,,,,,,,,,Simulated
+ICEEICT,2022,6,Shukala,90-nm Dual-Band CMOS LNA with Gain Enhancement for Wireless LAN Applications,CMOS,90,2.4,2.13,,,,,,,,,
+TMTT,2020,10,El-Aassar,Design of Low-Power Sub-2.4 dB Mean NF 5G LNAs Using Forward Body Bias in 22 nm FDSOI,CMOS SOI,22,26,2.2,,,,,,,,,
+TMTT,2020,10,El-Aassar,Design of Low-Power Sub-2.4 dB Mean NF 5G LNAs Using Forward Body Bias in 22 nm FDSOI,CMOS SOI,22,25,2.25,,,,,,,,,
+IMS,2020,8,Choi,A CMOS Band-Pass Low Noise Amplifier with Excellent Gain Flatness for mm-Wave 5G Communications,CMOS,65,26,2.27,,,,,,,,,
+IMS,2021,6,Zhang,A CMOS LNA with Transformer-Based Integrated Notch Filter for Ku-Band Satellite Communications,CMOS,65,11,2.3,,,,,,,,,
+EuMC,2022,9,Fumagalli,20 GHz LNA and 29 GHz PA on SiGe BiCMOS  technology for SatCom phased array systems,SiGe BICMOS,130,20,2.3,,,,,,,,,
+TCAS I,2023,3,Li,24–35 GHz Filtering LNA and Filtering Switch Using Compact Mixed Magnetic-Electric Coupling Circuit in 28-nm Bulk CMOS,CMOS,31,25,2.4,,,,,,,,,
+MWCL,2021,6,Hu,A 27–46-GHz Low-Noise Amplifier With Dual-Resonant Input Matching and a Transformer-Based Broadband Output Network,CMOS SOI,45,27.7,2.4,,,,,,,,,
+TCAS,2023,4,Hu,A Systematic Approach to Designing Broadband Millimeter-Wave Cascode Common-Source With Inductive Degeneration Low Noise Amplifiers,CMOS SOI,45,27.7,2.4,,,,,,,,,
+MWCL,2022,2,Meng,A K-Band Ultra-Compact Gm-Boost LNA Using One Multi-Coupled Transformer in 65-nm CMOS,CMOS,65,30,2.4,,,,,,,,,
+TCSI,2022,1,Bozorg,A 20 MHz–2 GHz Inductorless Two-Fold Noise-Canceling Low-Noise Amplifier in 28-nm CMOS,CMOS,28,0.6,2.5,,,,,,,,,
+APMC,2022,11,Seguchi,1.40/2.42/4.21-GHz Triple-Band Concurrent LNA  Using Inductor Coupling,CMOS,180,1.4,2.5,,,,,,,,,
+RFIC,2022,6,Radpour,"An LNAwith Input Power Match from 6.1 to 38.6 GHz, the Noise-Figure Minimum of 1.9 dB, and Employing Back Gate for Matching",CMOS SOI,22,6,2.5,,,,,,,,,
+ICICM,2022,8,Linling,A Wideband Low-Noise Amplifier in 0.13-μm CMOS,CMOS,130,10,2.5,,,,,,,,,
+RFIC,2022,6,Lin,22-33 GHz CMOS LNA Using Coupled-TL Feedback and Body Self-Forward-Bias for 28 GHz 5G System ,CMOS,90,31,2.5,,,,,,,,,
+TCAS II,2022,Early Access,Lin,Design and Analysis of a Wideband K/Ka-Band CMOS LNA Using Coupled-TL Feedback,CMOS,90,31,2.5,,,,,,,,,
+BCICTS,2020,11,Alhamed,A 28–37 GHz Triple-Stage Transformer-Coupled SiGe LNA with 2.5 dB Minimum NF for Low Power Wideband Phased Array Receivers,SiGe BiCMOS,180,32.5,2.5,,,,,,,,,
+EuMA,2022,9,Nyssens,A 2.5-2.6 dB Noise Figure LNA for 39 GHz band in 22 nm FD-SOI with Back-Gate Bias Tunability,CMOS SOI,22,39,2.5,,,,,,,,,
+TMTT,2023,3,Fu,A Millimeter-Wave Concurrent LNA in 22-nm CMOS SOI for 5G Applications,CMOS SOI,22,25,2.55,,,,,,,,,
+JSSC,2021,Early Access,Deng,A 22.9-38.2-GHz Dual-Path Noise-Canceling LNA With 2.65-4.62-dB NF in 28-nm CMOS,CMOS,28,30,2.56,,,,,,,,,
+TCSII,2022,3,Shirmohammadi,A Linear Wideband CMOS Balun-LNA With Balanced Loads,CMOS,65,2,2.57,,,,,,,,,
+JSSC,2021,11,Deng,A 22.9–38.2-GHz Dual-Path Noise-Canceling LNA With 2.65–4.62-dB NF in 28-nm CMOS,CMOS,28,30,2.65,,,,,,,,,
+ISSCC,2022,2,Liu,A 0.0078mm2 3.4mW Wideband Positive-feedback-Based Noise-Cancelling LNA in 28nm CMOS Exploiting Gm Boosting,CMOS,28,1,2.7,,,,,,,,,
+ISSCC,2022,2,Liu,A 0.0078mm2 3.4mW Wideband Positive-Feedback-Based  Noise-Cancelling LNA in 28nm CMOS Exploiting Gm Boosting,CMOS,28,1.2,2.7,,,,,,,,,
+BCICTS,2020,11,Issakov,A 10 mW LNA with Temperature Compensation for 24 GHz Radar Applications in SiGe BiCMOS,SiGe BiCMOS,130,24,2.7,,,,,,,,,
+RFIC,2021,6,Li,A Millimeter-Wave LNA in 45nm CMOS SOI with Over 23dB Peak Gain and Sub-3dB NF for Different 5G Operating Bands and Improved Dynamic Range,CMOS SOI,45,28.5,2.7,,,,,,,,,
+MWCL,2022,1,Chang,A 13.7-mW 21–29-GHz CMOS LNA With 21.6-dB Gain and 2.74-dB NF for 28-GHz 5G Systems,CMOS,90,25,2.74,,,,,,,,,
+TCAS I,2023,1,Kooshkaki,A 36 μW 2.8–3.4 dB Noise Figure Impedance Boosted and Noise Attenuated LNA for NB-IoT,CMOS,65,0.637,2.8,,,,,,,,,
+RFIC,2022,6,Zolkov,An Integrated Reconfigurable SAW-Less Quadrature Balanced N-Path Transceiver for Frequency-Division and Half Duplex Wireless,CMOS,65,1,2.8,,,,,,,,,System
+TMTT,2021,10,Li,A 24–30-GHz TRX Front-End With High Linearity and Load-Variation Insensitivity for mm-Wave 5G in 0.13-μm SiGe BiCMOS,SiGe BiCMOS,130,28,2.8,,,,,,,,,
+MWCL,2023,1,Liu,A 28-/39-GHz Dual-Band CMOS LNA With Shunt-Series Transformer Feedback,CMOS,65,39,2.8,,,,,,,,,
+TMTT,2022,3,Zhou,A 0.1–3.5-GHz Inductorless Noise-Canceling CMOS LNA With IIP3 Optimization Technique,CMOS,65,3.5,2.9,,,,,,,,,
+MWCL,2022,5,Lee,A 21–41-GHz Common-Gate LNA With TLT Matching Networks in 28-nm FDSOI CMOS,CMOS SOI,28,26,2.92,,,,,,,,,
+WMCL,2022,4,Lee,A 21–41-GHz Common-Gate LNA With TLT Matching Networks in 28-nm FDSOI CMOS,CMOS SOI,28,26,2.92,,,,,,,,,
+APMC,2022,11,Seguchi,1.40/2.42/4.21-GHz Triple-Band Concurrent LNA  Using Inductor Coupling,CMOS,180,2.42,2.97,,,,,,,,,
+ISSCC,2022,2,Liu,A 0.0078mm2 3.4mW Wideband Positive-Feedback-Based  Noise-Cancelling LNA in 28nm CMOS Exploiting Gm Boosting,CMOS,28,2,3,,,,,,,,,
+ICMMT,2022,8,Zhang,A 1.5-mA 2.5-GHz LNA With Reusing On-Chip Matching Network in 55nm CMOS Technology,CMOS,55,2.5,3,,,,,,,,,
+TCSI,2021,9,Anjos,A Compact 26.5–29.5-GHz LNA-Phase-Shifter Combo With 360° Continuous Phase Tuning Based on All-Pass Networks for Millimeter-Wave 5G,SiGe BiCMOS,250,28,3,,,,,,,,,
+TCS,2020,9,Wang,A 22-to-47 GHz 2-Stage LNA With 22.2 dB Peak Gain by Using Coupled L-Type Interstage Matching Inductors,SiGe BiCMOS,130,30,3,,,,,,,,,
+WMCL,2022,4,Lee,A 21–41-GHz Common-Gate LNA With TLT Matching Networks in 28-nm FDSOI CMOS,CMOS SOI,28,44,3,,,,,,,,,
+APMC,2022,11,Seguchi,1.40/2.42/4.21-GHz Triple-Band Concurrent LNA  Using Inductor Coupling,CMOS,180,4.21,3.02,,,,,,,,,
+MWCL,2023,1,Liu,A 28-/39-GHz Dual-Band CMOS LNA With Shunt-Series Transformer Feedback,CMOS,65,28,3.1,,,,,,,,,
+RFIC,2019,6,Gao,A 24-43 GHz LNA with 3.1-3.7 dB Noise Figure and Embedded 3-Pole Elliptic High-Pass Response for 5G Applications in 22 nm FDSOI,CMOS SOI,22,29,3.1,,,,,,,,,
+ICEEICT,2022,6,Shukala,90-nm Dual-Band CMOS LNA with Gain Enhancement for Wireless LAN Applications,CMOS,90,5.2,3.18,,,,,,,,,
+APCCAS,2022,11,Mao,A 0.5 to 2GHz Blocker-Tolerant Receiver Achieving 29dBm OOB-IIP3 and 3.2 to 6dB NF Using Bottom-Plate Switched-Capacitor Technique,CMOS,65,0.5,3.2,,,,,,,,,
+APCCAS,2022,11,Liu,A 32dBm OOB-IIP3 BW-Extended 5G-NR Receiver  with 4th-Order Gain-Boosted N-path LNA,CMOS,65,0.5,3.2,,,,,,,,,
+TCSI,2022,4,Kim,A Reconfigurable Balun-LNA and Tunable Filter With Frequency-Optimized Harmonic Rejection for Sub-GHz and 2.4 GHz IoT Receivers,CMOS,130,2.4,3.2,,,,,,,,,
+TMTT,2021,6,Tang,Design and Analysis of a 28 GHz T/R Front-End Module in 22-nm FD-SOI CMOS Technology,CMOS SOI,22,28,3.2,,,,,,,,,
+EuMiC,2021,1,Ferschischi,A Broadband 60-GHz Low Noise Amplifier with 3.2 dB Noise Figure and 24 dB Gain,SiGe BiCMOS,130,60,3.2,,,,,,,,,
+ESSCIRC,2014,9,Medra,A 79GHz Variable Gain Low-Noise Amplifier and Power Amplifier in 28nm CMOS Operating up to 125℃,CMOS,28,74,3.2,,,,,,,,,
+IMS,2022,6,Zhang,A3.2 mW2.2–13.2 GHz CMOSDifferential Common-Gate LNA for Ultra-Wideband Receivers,CMOS,65,3.8,3.3,,,,,,,,,
+TMMT,2022,1,Cheng,A 7.2–27.3 GHz CMOS LNA With 3.51 ±0.21 dB Noise Figure Using Multistage Noise Matching Technique,CMOS,65,7.2,3.3,,,,,,,,,
+JSSC,2020,10,Zhang,A 20-GHz 1.9-mW LNA Using gm-Boost and Current-Reuse Techniques in 65-nm CMOS for Satellite Communications,CMOS,65,20,3.3,,,,,,,,,
+RFIC,2021,6,Wong,"A 4Rx, 4Tx Ka-band transceiver in 40nm bulk CMOS technology for satellite terminal applications",CMOS,40,20,3.3,,,,,,,,,Receiver Frontend
+TMMT,2022,1,Cheng,A 7.2–27.3 GHz CMOS LNA With 3.51 ±0.21 dB Noise Figure Using Multistage Noise Matching Technique,CMOS,65,25,3.3,,,,,,,,,
+MWCL,2018,1,Elkholy,A wideband variable gain LNA with high OIP3 for 5G using 40-nm bulk CMOS,CMOS,40,31,3.3,,,,,,,,,
+MWCL,2021,5,Sutbas,A V-Band Low-Power Compact LNA in 130-nm SiGe BiCMOS Technology,SiGe BiCMOS,130,60,3.3,,,,,,,,,Simulated
+JSSC,2022,2,Shao,A 1.7–3.6 GHz 20 MHz-Bandwidth Channel-Selection N-Path Passive-LNA Using a Switched-Capacitor-Transformer Network Achieving 23.5 dBm OB-IIP3 and 3.4–4.8 dB NF,CMOS,28,3,3.4,,,,,,,,,
+IMS,2022,6,Zhang,A3.2 mW2.2–13.2 GHz CMOSDifferential Common-Gate LNA for Ultra-Wideband Receivers,CMOS,65,10,3.5,,,,,,,,,
+RFIC,2021,6,Ershadi,A 22.2-43 GHz Gate-Drain Mutually Induced Feedback Low Noise Amplifier in 28-nm CMOS,CMOS,28,30,3.5,,,,,,,,,
+RFIIC,2021,6,Ershadi,A 22.2-43 GHz Gate-Drain Mutually Induced Feedback Low Noise Amplifier in 28-nm CMOS,CMOS,28,30,3.5,,,,,,,,,
+JSSC,2021,10,Zhou,A −28.5-dB EVM 64-QAM 45-GHz Transceiver for IEEE 802.11aj,SiGe BiCMOS,120,41,3.5,,,,,,,,,
+JSSC,2021,10,Zhou,A −28.5-dB EVM 64-QAM 45-GHz Transceiver for IEEE 802.11aj,SiGe BiCMOS,120,41,3.5,,,,,,,,,
+JSSC,2021,10,Zhou,A −28.5-dB EVM 64-QAM 45-GHz Transceiver for IEEE 802.11aj,SiGe BiCMOS,120,50,3.5,,,,,,,,,
+RFIC,2022,6,Shahramian,An All-Silicon E-Band Backhaul-on-Glass Frequency Division Duplex Module with >24dBm PSAT & 8dB NF,SiGe BiCMOS,130,72,3.5,,,,,,,,,
+CICC,2021,4,Deng,"A 3.6dB NF, 23-39GHz Reflectionless RX with Absorptive Amplifier and Dual-Path Noise Cancelling LNA Supporting 64-QAM/256-QAM/1024-QAM for 5G NR",CMOS,28,31,3.6,,,,,,,,,
+JSSC,2022,1,Deng,A Reflectionless Receiver With Absorptive IF Amplifier and Dual-Path Noise-Canceling LNA,CMOS,28,31,3.6,,,,,,,,,
+IEEE ACCESS,2023,1,Jeong,Calibration-Free Blocker Rejection Broadband CMOS Low Noise Amplifier for Advanced Cellular Applications,CMOS,65,0.8,3.7,,,,,,,,,System
+RFIC,2022,6,Wang,A0.5-4GHz Full-Duplex Receiver with Multi-Domain Self-Interference Cancellation Using Capacitor Stacking Based Second-Order Delay Cells in RF Canceller,CMOS,65,2,3.7,,,,,,,,,
+TMMT,2022,1,Cheng,A 7.2–27.3 GHz CMOS LNA With 3.51 ±0.21 dB Noise Figure Using Multistage Noise Matching Technique,CMOS,65,15,3.7,,,,,,,,,
+JSSC,2021,8,Garg,A 28-GHz Beam-Space MIMO RX With Spatial Filtering and Frequency-Division Multiplexing-Based Single-Wire IF Interface,CMOS,65,28,3.75,,,,,,,,,Simulated
+ICCS,2021,,Wang,A 2~10 GHz Ultra-Wideband LNA in 0.13 μm SiGe BiCMOS Technology,SiGe BiCMOS,130,4,3.8,,,,,,,,,
+TCS,2020,8,Shaheen,Millimeter-wave Frequency Reconfigurable Low Noise Amplifiers for 5G,CMOS SOI,45,22,3.8,,,,,,,,,
+CICC,2022,4,Deng,"A 3.8-dB NF, 23-40GHz Phased-Array Receiver with 14-Bit Phase & Gain Manager and Calibration-Free Dual-Mode  28-52dB Image Rejection Ratio for 5G NR",CMOS,40,28,3.8,,,,,,,,,
+JSSC,2023,3,Deng,A 23–40-GHz Phased-Array Receiver Using 14-Bit Phase-Gain Manager and Wideband Noise-Canceling LNA,CMOS,40,30,3.8,,,,,,,,,
+RFIC,2022,6,Shahramian,An All-Silicon E-Band Backhaul-on-Glass Frequency Division Duplex Module with >24dBm PSAT & 8dB NF,SiGe BiCMOS,130,81,3.8,,,,,,,,,
+IMS,2021,6,Liang,"A 0.6-V VDD, 3.8-dB Minimum Noise Figure, 19.5-62.5-GHz Low Noise Amplifier in 28-nm Bulk CMOS ",CMOS ,28,24.5,3.83,,,,,,,,,
+MWTL,2023,3,Bae,Dual-Band CMOS Low-Noise Amplifier Employing Transformer-Based Band-Switchable Load for 5G NR FR2 Applications,CMOS,65,28,3.84,,,,,,,,,
+MWCL,2022,2,Meng,A K-Band Ultra-Compact Gm-Boost LNA Using One Multi-Coupled Transformer in 65-nm CMOS,CMOS,65,21,3.9,,,,,,,,,
+JSSC,2021,Early Access,Su,A 24-GHz Fully Integrated CMOS Transceiver for FMCW Radar Applications,CMOS,55,24,4,,,,,,,,,
+IWS,2021,5,Cheng,A 22-34 GHz Wide-Band Low Noise Amplifier with 22 dB Gain and 4 dB NF,CMOS,65,26,4,,,,,,,,,
+JSSC,2020,8,Deng,An Energy-Efficient 10-Gb/s CMOS Millimeter-Wave Transceiver With Direct-Modulation Digital Transmitter and I/Q Phase-Coupled Frequency Synthesizer,CMOS ,65,60,4,,,,,,,,,Simulated
+MWSYM,2013,6,Ulusoy,A 110 GHz LNA with 20 dB Gain and 4 dB Noise Figure in an 0.13 μm SiGe BiCMOS Technology,SiGe BiCMOS,130,110,4,,,,,,,,,
+IMS,2013,1,Ulusoy,A 110 GHz LNA with 20dB gain and 4dB noise figure in an 0.13μm SiGe BiCMOS technology,SiGe BiCMOS,130,110,4,,,,,,,,,
+MWSCAS,2019,10,Wei,"A 140 GHz, 4 dB Noise-Figure Low-Noise Amplifier Design with the Compensation of Parasitic Capacitance CGS",CMOS,28,140,4,,,,,,,,,Simulated
+IWS,2021,,Cheng,A K-Band Variable Gain Low-Noise Amplifier with Low Phase Variation in 65-nm CMOS,CMOS,65,20,4.1,,,,,,,,,
+IWS,2021,5,Cheng,A K-Band Variable Gain Low-Noise Amplifier with Low Phase Variation in 65-nm CMOS ,CMOS,65,20,4.1,,,,,,,,,
+CICC,2022,4,Deng,"A 3.8-dB NF, 23-40GHz Phased-Array Receiver with 14-Bit Phase & Gain Manager and Calibration-Free Dual-Mode  28-52dB Image Rejection Ratio for 5G NR",CMOS,40,25,4.1,,,,,,,,,
+JSSC,2019,5,Pang,A 28-GHz CMOS Phased-Array Transceiver Based on LO Phase-Shifting Architecture With Gain Invariant Phase Tuning for 5G New Radio,CMOS,65,28,4.1,,,,,,,,,Receiver Frontend
+JSSC,2022,2,Wang,A K a-Band SATCOM Transceiver in 65-nm CMOS With High-Linearity TX and Dual-Channel Wide-Dynamic-Range RX for Terrestrial Terminal,CMOS,65,21,4.2,,,,,,,,,
+ISCAS,2020,10,Zhao,A 28-GHz Massive MIMO Receiver Deploying One-Bit Direct Detection with Wireless Synchronization,SiGe BiCMOS,180,28,4.2,,,,,,,,,Receiver Frontend
+ISCAS,2020,10,Zhao,A 28-GHz Massive MIMO Receiver Deploying One-Bit Direct Detection with Wireless Synchronization,SiGe BiCMOS,180,28,4.2,,,,,,,,,Receiver Frontend
+JSSC,2020,9,Pang,A 28-GHz CMOS Phased-Array Beamformer Utilizing Neutralized Bi-Directional Technique Supporting Dual-Polarized MIMO for 5G NR,CMOS,65,28,4.2,,,,,,,,,2x2 Array
+CICC,2022,4,Deng,"A 3.8-dB NF, 23-40GHz Phased-Array Receiver with 14-Bit Phase & Gain Manager and Calibration-Free Dual-Mode  28-52dB Image Rejection Ratio for 5G NR",CMOS,40,35,4.2,,,,,,,,,
+MWTL,2023,Early Access,Huang,A 30–50-GHz Ultralow-Power Low-Noise Amplifier With Second-Stage Current-Reuse for Radio Astronomical Receivers in 90-nm CMOS Process,CMOS,90,40,4.2,,,,,,,,,
+APMC,2018,11,Ustundag,Low-Noise Amplifiers for W-band and D-band Passive Imaging Systems in SiGe BiCMOS Technology ,SiGe BiCMOS,130,80,4.2,,,,,,,,,
+TCASII,2020,1,Ustundag,Front-End Blocks of a W-Band Dicke Radiometer in SiGe BiCMOS Technology,SiGe BiCMOS,130,80,4.2,,,,,,,,,
+MWTL,2023,3,Lei,A 5–6-GHz CMOS Beamforming Transceiver Front-End for Fiber-to-the-Room All-Optical Wi-Fi Solution,CMOS,55,5.3,4.3,,,,,,,,,
+JSSC,2019,12,Huang,A Mm-Wave Wideband MIMO RX With Instinctual Array-Based Blocker/Signal Management for Ultralow-Latency Communication,CMOS SOI,45,29,4.3,,,,,,,,,Receiver Frontend
+RFIC,2020,8,Zhu,A 24-28 GHz Power and Area Efficient 4-Element Phased-Array Transceiver Front-End with 21.1%/16.6%Transmitter Peak/OP1dB PAE Supporting 2.4 Gb/s in 256-QAM for 5-G Communications,CMOS,65,26,4.4,,,,,,,,,Receiver Frontend
+IWS,2022,6,Chen,A Ka-band High Gain Wideband Low Noise  Amplifier in 0.18-μm SiGe BiCMOS ,SiGe BiCMOS,180,35,4.4,,,,,,,,,
+MWCL,2021,8,Morath,A 3.6 mW 60 GHz Low-Noise Amplifier With 0.6 ns Settling Time for Duty-Cycled Receivers,CMOS SOI,22,60,4.4,,,,,,,,,
+ICTA,2022,10,Ke,A Compact 60 GHz LNA with 22.7-dB Gain and 4.4-dB NF in 40nm CMOS,CMOS,40,60,4.4,,,,,,,,,
+MWTL,2023,3,Bae,Dual-Band CMOS Low-Noise Amplifier Employing Transformer-Based Band-Switchable Load for 5G NR FR2 Applications,CMOS,65,38,4.47,,,,,,,,,
+TMTT,2022,3,Shin,A Blocker-Tolerant Receiver Front End Employing Dual-Band N-Path Balun-LNA for 5G New Radio Cellular Applications,CMOS,65,2.14,4.5,,,,,,,,,
+TCS,2020,8,Shaheen,Millimeter-wave Frequency Reconfigurable Low Noise Amplifiers for 5G,CMOS SOI,45,24,4.5,,,,,,,,,
+TCS,2020,8,Shaheen,Millimeter-wave Frequency Reconfigurable Low Noise Amplifiers for 5G,CMOS SOI,45,28,4.5,,,,,,,,,
+JSSC,2021,5,Frounchi,Millimeter-Wave SiGe Radiometer Front End With Transformer-Based Dicke Switch and On-Chip Calibration Noise Source,SiGe BiCMOS,130,51,4.5,,,,,,,,,
+JSSC,2021,5,Frounchi,Millimeter-Wave SiGe Radiometer Front End With Transformer-Based Dicke Switch and On-Chip Calibration Noise Source,SiGe BiCMOS,130,51,4.5,,,,,,,,,
+MWCL,2021,1,Li,A High Linearity W-Band LNA With 21-dB Gain and 5.5-dB NF in 0.13 μm SiGe BiCMOS,SiGe BICMOS,130,73,4.5,,,,,,,,,
+EuMC,2021,1,Li,A High Linearity W-Band LNA With 21-dB Gain and 5.5-dB NF in 0.13 μm SiGe BiCMOS,SiGe BiCMOS,130,76,4.5,,,,,,,,,
+MWCL,2015,1,Ulusoy,A SiGe D-Band Low-Noise Amplifier Utilizing Gain-Boosting Technique,SiGe BiCMOS,SG13G2,110,4.5,,,,,,,,,
+IMS,2020,8,Liang,A Tri (K/Ka/V)-Band Monolithic CMOS Low Noise Amplifier with Shared Signal Path and Variable Gains,CMOS,28,33,4.55,,,,,,,,,
+MWCL,2022,4,Qiu,Ultralow Power E-Band Low-Noise Amplifier With Three-Stacked Current-Sharing Amplification Stages in 28-nm CMOS,CMOS,28,74,4.56,,,,,,,,,
+APMC,2022,11,Huang,"A Low Power, Wideband Low-Noise Amplifier with Current-Reused  Techniques in 0.18-μm CMOS for 5G Wireless Systems",CMOS,180,20.5,4.6,,,,,,,,,
+ISSCC,2023,2,Han,"A 4.8dB NF, 70-to-86GHz Deep-Noise-Canceling LNA Using  Asymmetric Compensation Transformer and 4-to-1  Hybrid-Phase Combiner in 40nm CMOS",CMOS,40,73,4.6,,,,,,,,,
+TMTT,2020,1,Gao,Design of E- and W-Band Low-Noise Amplifiers in 22-nm CMOS FD-SOI,CMOS SOI,22,77,4.6,,,,,,,,,
+IWS,2021,5,Chen,A CMOS Low-Power Variable-Gain LNA Based on Triple Cascoded Common-Source Amplifiers and Forward-Body-Bias Technology,CMOS,65,20,4.7,,,,,,,,,
+IMS,2021,6,Chiu,A Ka-Band Transformer-Based Switchless Bidirectional PA-LNA in 90-nm CMOS Process,CMOS,90,36,4.7,,,,,,,,,
+TMTT,2021,5,Yun,A D-Band High-Gain and Low-Power LNA in 65-nm CMOS by Adopting Simultaneous Noiseand Input-Matched Gmax-Core,CMOS,65,148,4.7,,,,,,,,,
+TMTT,2021,5,Liang,A K/Ka/V Triband Single-Signal-Path Receiver With Variable-Gain Low-Noise Amplifier and Constant-Gain Phase Shifter in 28-nm CMOS,CMOS,28,27,4.78,,,,,,,,,Receiver Frontend
+JSSC,2022,2,Shao,A 1.7–3.6 GHz 20 MHz-Bandwidth Channel-Selection N-Path Passive-LNA Using a Switched-Capacitor-Transformer Network Achieving 23.5 dBm OB-IIP3 and 3.4–4.8 dB NF,CMOS,28,1.7,4.8,,,,,,,,,
+RFIC,2021,6,Kazan,A 10–110 GHz LNA with 19-25.5 dB Gain and 4.8-5.3 dB NF for Ultra-Wideband Applications in 90nm SiGe HBT Technology,SiGe BiCMOS,90,30,4.8,,,,,,,,,
+RFIC,2022,6,Zhao,A 29-to-36GHz 4TX/4RX Dual-Stream Phased-Array Joint Radar-Communication CMOS Transceiver Supporting Centimeter-Level 2D Imaging and 64-QAM OTA Wireless Link,CMOS,65,32,4.8,,,,,,,,,
+IMS,2020,8,Alhamed,A Multi-Standard 15-57 GHz 4-Channel Receive Beamformer with 4.8 dB Midband NF for 5G Applications,SiGe BiCMOS,90,35,4.8,,,,,,,,,
+MWCL,2022,3,Wang,An E-Band High-Performance Variable Gain Low Noise Amplifier for Wireless Communications in 90-nm CMOS Process,CMOS,90,76,4.8,,,,,,,,,
+JSSC,2020,12,Li,Multi-Feed Antenna and Electronics Co-Design: An E-Band Antenna-LNA Front End With On-Antenna Noise-Canceling and Gm-Boosting,CMOS SOI,45,78,4.8,,,,,,,,,
+IWS,2020,9,Luo,A SiGe BiCMOS W-Band Low Noise Amplifier with Active Bias Control and Internal Stabilization Technique,SiGe BiCMOS,130,100,4.8,,,,,,,,,
+EuMiC,2021,1,Xu,A 28 GHz and 38 GHz High-Gain Dual-Band LNA for 5G Wireless Systems in 22 nm FD-SOI CMOS,CMOS SOI,22,38,4.9,,,,,,,,,
+TCS,2020,8,Shaheen,Millimeter-wave Frequency Reconfigurable Low Noise Amplifiers for 5G,CMOS SOI,45,39,4.9,,,,,,,,,
+CICC,2021,5,Zhu,An Ultra-Compact 84.9-107GHz LNA with 4.9dB NF by Utilizing Coupled-line-based Gm-Boosting and NoiseCanceling Techniques in 65-nm CMOS Technology,CMOS,65,95.6,4.9,,,,,,,,,
+RFIC,2020,8,Wang,A CMOS Ka-Band SATCOM Transceiver with ACI-Cancellation Enhanced Dual-Channel Low-NF Wide-Dynamic-Range RX and High-Linearity TX,CMOS,65,19,5,,,,,,,,,
+RFIC,2020,8,Wang,A CMOS Ka-Band SATCOM Transceiver with ACI-Cancellation Enhanced Dual-Channel Low-NF Wide-Dynamic-Range RX and High-Linearity TX,CMOS,65,19,5,,,,,,,,,
+EuMC,2021,1,Hietanen,Ka-Band TDD Front-End with Gate Shunt Switched Cascode LNA and Three-Stack PA on 22nm FDSOI CMOS Technology,CMOS SOI,22,25,5,,,,,,,,,Receiver Frontend
+IWS,2021,5,Chen,A CMOS Low-Power Variable-Gain LNA Based on Triple Cascoded Common-Source Amplifiers and Forward-Body-Bias Technology,CMOS,65,26,5,,,,,,,,,
+MWCL,2022,4,Liu,A 26–31 GHz Linearized Wideband CMOS LNA Using Post-Distortion Technique,CMOS,65,28,5,,,,,,,,,
+IMS,2021,6,Liang,"A 0.6-V VDD, 3.8-dB Minimum Noise Figure, 19.5-62.5-GHz Low Noise Amplifier in 28-nm Bulk CMOS ",CMOS ,28,40,5,,,,,,,,,
+JSSC,2023,4,Li,A 39-GHz CMOS Bidirectional Doherty Phased_x0002_Array Beamformer Using Shared-LUT DPD With Inter-Element Mismatch Compensation Technique for 5G Base Station,CMOS,65,41,5,,,,,,,,,
+RFIC,2022,6,Venkatesh,Active Tunable Millimeter-wave Reflective Surface across 57-64 GHz for Blockage Mitigation and Physical Layer Security,CMOS,65,57,5,,,,,,,,,
+IMS,2021,6,Liang,"A 0.6-V VDD, 3.8-dB Minimum Noise Figure, 19.5-62.5-GHz Low Noise Amplifier in 28-nm Bulk CMOS ",CMOS ,28,60,5,,,,,,,,,
+EuMC,2021,1,Li,A High Linearity W-Band LNA With 21-dB Gain and 5.5-dB NF in 0.13 μm SiGe BiCMOS,SiGe BiCMOS,130,83,5,,,,,,,,,
+MWCL,2017,2,Karaca,"A 75.5-to-120.5-GHz, High-gain CMOS Low-Noise Amplifier",CMOS SOI,28,105,5,,,,,,,,,
+SSCL,2021,1,Karakuzulu,Full D-Band Transmit–Receive Module for Phased Array Systems in 130-nm SiGe BiCMOS,SiGe BICMOS,130,110,5,,,,,,,,,
+JSSC,2021,6,Jang,120-GHz Wideband I/Q Receiver Based on Baseband Equalizing Technique,CMOS,40,123,5,,,,,,,,,
+ISCAS,2021,4,Zhang,A 64-84 GHz CMOS LNA with Excellent Gain Flatness for Wideband mmW Applications,CMOS,55,75,5.09,,,,,,,,,
+ASSCC,2021,11,Huang,A 24-30GHz 4-Element Phased Array Transceiver with Low Insertion Loss Compact T/R Switch and Bidirectional Phase Shifter in 65 nm CMOS Technology,CMOS,65,26,5.1,,,,,,,,,
+TMTT,2021,5,Liang,A K/Ka/V Triband Single-Signal-Path Receiver With Variable-Gain Low-Noise Amplifier and Constant-Gain Phase Shifter in 28-nm CMOS,CMOS,28,30,5.12,,,,,,,,,Receiver Frontend
+ICTA,2020,11,Lv,A 24-27GHz Phased Array Transceiver with 6bit Phase Shifter and 31.5dB Gain Control for 5G Communication in 65nm CMOS,CMOS,65,26,5.2,,,,,,,,,
+ISSCC,2022,2,Park,A 26-to-39GHz Broadband Ultra-Compact High-Linearity Switchless Hybrid N/PMOS Bi-Directional PA/LNA Front-End for Multi-Band 5G Large-Scaled MIMO System,CMOS SOI,45,26,5.2,,,,,,,,,
+ISSCC,2022,2,Park,A 26-to-39GHz Broadband Ultra-Compact High-Linearity Switchless Hybrid N/PMOS Bi-Directional PA/LNA Front-End for Multi-Band 5G Large-Scaled MIMO System,CMOS SOI,45,27,5.2,,,,,,,,,
+EuMiC,2021,1,Xu,A 28 GHz and 38 GHz High-Gain Dual-Band LNA for 5G Wireless Systems in 22 nm FD-SOI CMOS,CMOS SOI,22,28,5.2,,,,,,,,,
+MWCL,2021,5,Liang,A 0.6-V VDD W-Band Neutralized Differential Low Noise Amplifier in 28-nm Bulk CMOS,CMOS,28,89,5.2,,,,,,,,,
+BCICTS,2018,11,Simsek,A 140 GHz MIMO Transceiver in 45 nm SOI CMOS,CMOS SOI,45,140,5.2,,,,,,,,,Simulated
+VLSI,2020,6,Pang,A 28-GHz CMOS Phased-Array Beamformer Supporting Dual-Polarized MIMO with Cross-Polarization Leakage Cancellation,CMOS,65,28,5.4,,,,,,,,,Bidirectional
+ISCAS,2021,4,Xu,A Ka-Band Quadrature-Hybrid LNA-PS with Gm- Boosting Technique in 40-nm CMOS,CMOS,40,32,5.4,,,,,,,,,
+MWCL,2022,1,Li,A 50–67-GHz Ultralow-Power LNA Using Double-Transformer-Coupling Technique and Self-Resonant Matching in 90-nm CMOS,CMOS,90,55,5.4,,,,,,,,,
+MWCL,2021,Early Access,Li,A 50-67-GHz Ultralow-Power LNA Using Double-Transformer-Coupling Technique and Self-Resonant Matching in 90-nm CMOS,CMOS,90,56,5.4,,,,,,,,,
+EuMA,2022,9,Naskas,Wideband mmWave Transceiver IC for 5G Radios,SiGe BiCMOS,130,27,5.5,,,,,,,,,System
+IMS,2022,6,Spasaro,Sub-mW 30GHz Variable-Gain LNA in 22nm FDSOI CMOS for LowPower Tapered mm-Wave 5G/6G Phased-Array Receivers ,CMOS SOI,22,30.1,5.5,,,,,,,,,
+ASSCC,2022,11,Li,A 32.2-38.2 GHz Broadband 4-Channel TRx Beamformer with Embedded 3-Winding Transformer Based PA/LNA FE and High Resolution Phase/Amplitude Control,CMOS,65,35,5.5,,,,,,,,,System
+TCS,2020,8,Shaheen,Millimeter-wave Frequency Reconfigurable Low Noise Amplifiers for 5G,CMOS SOI,45,39,5.5,,,,,,,,,
+EuMiC,2021,1,Londhe,34-42GHz CMOS Transceiver Frontend for Versatile Arrays,CMOS,130,40,5.5,,,,,,,,,
+RFIC,2022,6,Ravallec,A Compact 28-nm FD-SOI CMOS 76-81 GHz Automotive Band Receiver Path with Accurate 0.2° Phase Control Resolution,CMOS SOI,28,81,5.5,,,,,,,,,
+EuMC,2021,1,Li,A High Linearity W-Band LNA With 21-dB Gain and 5.5-dB NF in 0.13 μm SiGe BiCMOS,SiGe BiCMOS,130,85,5.5,,,,,,,,,
+MWCL,2015,1,Ulusoy,A SiGe D-Band Low-Noise Amplifier Utilizing Gain-Boosting Technique,SiGe BiCMOS,SG13G2,140,5.5,,,,,,,,,
+IMS,2020,8,Liang,A Tri (K/Ka/V)-Band Monolithic CMOS Low Noise Amplifier with Shared Signal Path and Variable Gains,CMOS,28,24,5.63,,,,,,,,,
+TCS,2020,9,Lee,Dual Q/V-Band SiGe BiCMOS Low Noise Amplifiers Using Q-Enhanced Metamaterial Transmission Lines,SiGe BiCMOS,180,44,5.7,,,,,,,,,
+MWCL,2022,5,Zhang,A 76.5–92.6 GHz CMOS LNA Using Two-Port k Q-Product Theory for Transformer Design,CMOS,40,90,5.7,,,,,,,,,
+MWCL,2022,4,Zhang,A 76.5–92.6 GHz CMOS LNA Using Two-Port k Q-Product Theory for Transformer Design,CMOS,40,91,5.7,,,,,,,,,
+EuMA,2022,9,Huang,A V-band Double-Transformer-Coupling and Current Steering VGLNA in 90-nm CMOS,CMOS,90,53,5.8,,,,,,,,,
+TCS,2020,9,Lee,Dual Q/V-Band SiGe BiCMOS Low Noise Amplifiers Using Q-Enhanced Metamaterial Transmission Lines,SiGe BiCMOS,180,60,5.8,,,,,,,,,
+TMTT,2020,1,Gao,Design of E- and W-Band Low-Noise Amplifiers in 22-nm CMOS FD-SOI,CMOS SOI,22,96,5.8,,,,,,,,,
+EuMA,2022,9,Hetterle,Design of a Low Voltage D-band LNA in 22 nm FDSOI,CMOS SOI,22,130,5.8,,,,,,,,,
+EuMA,2022,9,Li,A 79 GHz reconfigurable highly linear Low-Noise Amplifier for Civil-Automotive Short-Range-Radars in 22-nm FD-SOI CMOS,CMOS SOi,22,83,5.9,,,,,,,,,
+APMC,2018,11,Ustundag,Low-Noise Amplifiers for W-band and D-band Passive Imaging Systems in SiGe BiCMOS Technology ,SiGe BiCMOS,130,140,5.9,,,,,,,,,
+IMS,2020,8,Liang,A Tri (K/Ka/V)-Band Monolithic CMOS Low Noise Amplifier with Shared Signal Path and Variable Gains,CMOS,28,50,5.96,,,,,,,,,
+ESSCIRC,2022,9,Jin,An FDD Auxiliary Receiver with a Highly Linear Low Noise Amplifier,CMOS,28,2,6,,,,,,,,,
+CICC,2022,4,Deng,"A 3.8-dB NF, 23-40GHz Phased-Array Receiver with 14-Bit Phase & Gain Manager and Calibration-Free Dual-Mode  28-52dB Image Rejection Ratio for 5G NR",CMOS,40,40,6,,,,,,,,,
+MWSYM,2012,6,De-Ren,"A 75.5-to-120.5-GHz, High-gain CMOS Low-Noise Amplifier",CMOS,65,96,6,,,,,,,,,
+MWCL,2013,5,Bi,"A 19.2 mW, > 45 dB Gain and High-Selectivity 94 GHz LNA in 0.13 SiGe BiCMOS",SiGe BiCMOS,130,105,6,,,,,,,,,
+EuMiC,2021,1,Maiwald,A Full D-Band Low Noise Amplifier in 130 nm SiGe BiCMOS using Zero-Ohm Transmission Lines,SiGe BiCMOS,130,110,6,,,,,,,,,
+EuMIC,2021,1,Maiwald,A Full D-Band Low Noise Amplifier in 130 nm SiGe BiCMOS using Zero-Ohm Transmission Lines,SiGe BICMOS,130,120,6,,,,,,,,,
+ISSCC,2022,2,Shao,A 266μW Bluetooth Low-Energy (BLE) Receiver Featuring an  N-Path Passive Balun-LNA and a Pipeline Down-Mixing BB-Extraction Scheme Achieving 77dB SFDR and -3dBm OOB-B-1dB,CMOS,28,2.4,6.1,,,,,,,,,
+EuMIC,2021,1,Yishay,A 95-135 GHz Low Power Dicke Radiometer in SiGe BiCMOS Technology,SiGe BiCMOS,120,110,6.1,,,,,,,,,
+MWTL,2023,2,Mehta,A 140–220-GHz Low-Noise Amplifier With 6-dB Minimum Noise Figure and 80-GHz Bandwidth in 130-nm SiGe BiCMOS,SiGe BiCMOS,130,190,6.1,,,,,,,,,
+TCAS II,2023,5,Lee,A Compact 0.2-1.6 GHz 20 MHz-Bandwidth Passive-LNA Exploiting An N-Path 1:3 Transformer,CMOS,55,0.3,6.2,,,,,,,,,
+JSSC,2020,11,Tang,A 4TX/4RX Pulsed Chirping Phased-Array Radar Transceiver in 65-nm CMOS for X-Band Synthetic Aperture Radar Application,CMOS,65,10,6.2,,,,,,,,,Receiver Frontend
+ISCAS,2019,5,Yeh,A W-Band 6.8 mW Low-Noise Amplifier in 90 nm CMOS Technology Using Noise Measure,CMOS,90,99,6.2,,,,,,,,,
+EuMIC,2015,12,Yishay,Key components of a D-band Dicke-radiometer in 90 nm SiGe BiCMOS technology,SiGe BiCMOS,90,140,6.2,,,,,,,,,
+IMS,2022,6,Song,A 94GHz FMCW Radar Transceiver with  17dBm Output Power and 6.25dB NF in 65nm CMOS ,CMOS,65,94,6.25,,,,,,,,,
+MWCL,2019,6,Pan,A 60–90-GHz CMOS Double-Neutralized LNA Technology With 6.3-dB NF and −10 dBm P−1 dB,CMOS,65,88,6.3,,,,,,,,,
+ISSCC,2016,2,Vigilante,A 68.1-to-96.4GHz Variable-Gain Low-Noise Amplifier in 28nm CMOS,CMOS,28,89.5,6.4,,,,,,,,,
+RFIC,2020,6,Li,A 134-149 GHz IF Beamforming Phased-Array Receiver Channel with 6.4-7.5 dB NF Using CMOS 45nm RFSOI,CMOS SOI,45,144,6.4,,,,,,,,,
+JSSC,2022,2,Li,An Eight-Element 140-GHz Wafer-Scale IF Beamforming Phased-Array Receiver With 64-QAM Operation in CMOS RFSOI,CMOS SOI,45,144,6.4,,,,,,,,,Receiver Frontend
+ISCAS,2019,5,Yeh,A W-Band 6.8 mW Low-Noise Amplifier in 90 nm CMOS Technology Using Noise Measure,CMOS,90,97,6.5,,,,,,,,,
+TMTT,2018,3,Parveg,Design of a D-Band CMOS Amplifier Utilizing Coupled Slow-Wave Coplanar Waveguides,CMOS SOI,28,147,6.5,,,,,,,,,
+JSSC,2010,10,Tomkins,A Passive W-Band Imaging Receiver in 65-nm Bulk CMOS,CMOS,65,88,6.8,,,,,,,,,
+JSSC,2021,5,Arai,A 77-GHz 8RX3TX Transceiver for 250-m Long-Range Automotive Radar in 40-nm CMOS Technology,CMOS,40,76,6.9,,,,,,,,,
+JSSC,2021,5,Lu,A 16-Element Fully Integrated 28-GHz Digital RX Beamforming Receiver,CMOS,40,28,7,,,,,,,,,"16 Elements Array, Antenna to Digital"
+JSSC,2020,5,Wang,A 39-GHz 64-Element Phased-Array Transceiver With Built-In Phase and Amplitude Calibrations for Large-Array 5G NR in 65-nm CMOS,CMOS,65,39,7,,,,,,,,,
+IMS,2020,8,Alhamed,A Multi-Standard 15-57 GHz 4-Channel Receive Beamformer with 4.8 dB Midband NF for 5G Applications,SiGe BiCMOS,90,40,7,,,,,,,,,
+MWCL,2022,4,Zhang,A 76.5–92.6 GHz CMOS LNA Using Two-Port k Q-Product Theory for Transformer Design,CMOS,40,80,7,,,,,,,,,
+JSSC,2011,2,Zhou,A W-band CMOS Receiver Chipset for Millimeter-Wave Radiometer Systems,CMOS,65,90,7,,,,,,,,,
+JSSC,2021,10,Hamza,A Full-Duplex Rake Receiver Using RF Code-Domain Signal Processing for Multipath Environments,CMOS SOI,45,0.996,7.1,,,,,,,,,System
+JSSC,2020,8,Deng,An Energy-Efficient 10-Gb/s CMOS Millimeter-Wave Transceiver With Direct-Modulation Digital Transmitter and I/Q Phase-Coupled Frequency Synthesizer,CMOS,65,61,7.1,,,,,,,,,Receiver Frontend
+MWCL,2016,2,Feng,An 88.5–110 GHz CMOS Low-Noise Amplifier for Millimeter-Wave Imaging Applications,CMOS,65,104,7.2,,,,,,,,,
+MWCL,2016,2,Feng,An 88.5–110 GHz CMOS Low-Noise Amplifier for Millimeter-Wave Imaging Applications,CMOS,65,104,7.2,,,,,,,,,
+ISCAS,2021,5,Ryynänen,A Compact Low-Power 140-GHz Low-Noise Amplifier with 19-dB Gain and 7-dB NF,SiGe BiCMOS,130,120,7.2,,,,,,,,,Simulated
+MWTL,2023,Early Access,Moradinia,A SiGe HBT D-Band LNA Utilizing Asymmetric Broadside Coupled Lines,SiGe BiCMOS,90,139.8,7.2,,,,,,,,,
+MWTL,2023,Early Access,Qian,Millimeter-Wave CMOS Low-Noise Amplifier With High Gain and Compact Footprint,CMOS,180,24.8,7.3,,,,,,,,,
+MWCL,2023,Early Access,Kim,28-GHz Bidirectional RF CMOS Amplifier Employing Body-Effect Control,CMOS,65,28,7.3,,,,,,,,,
+ISSCC,2009,2,Sandstrom,W-band CMOS amplifiers achieving +10dBm saturated output oower and 7.5dB NF,CMOS,65,100,7.5,,,,,,,,,
+IMS,2022,6,Artz,AFully-Differential 146.6-157.4 GHz LNA Utilizing Back Gate Control to Adjust Gain in 22 nm FDSOI,CMOS SOI,22,153,7.5,,,,,,,,,
+TMTT,2021,7,Wang,A 24–44 GHz Broadband Transmit–Receive Front End in 0.13-μm SiGe BiCMOS for Multistandard 5G Applications,SiGe BiCMOS,130,31,7.6,,,,,,,,,Receiver Frontend
+TMTT,2019,2,Li,A Flip-Chip-Assembled W-Band Receiver in 90-nm CMOS and IPD Technologies,CMOS,90,90,7.8,,,,,,,,,
+ISSCC,2022,2,Park,A 26-to-39GHz Broadband Ultra-Compact High-Linearity Switchless Hybrid N/PMOS Bi-Directional PA/LNA Front-End for Multi-Band 5G Large-Scaled MIMO System,CMOS SOI,45,39,7.9,,,,,,,,,
+EuMiC,2021,1,Maiwald,A Full D-Band Low Noise Amplifier in 130 nm SiGe BiCMOS using Zero-Ohm Transmission Lines,SiGe BiCMOS,130,170,7.9,,,,,,,,,
+MWCL,2008,2,Zhang,80-GHz Tuned Amplifier in Bulk CMOS,CMOS,65,80,8,,,,,,,,,
+TMTT,2010,5,May,Design and Characterization of -Band SiGe RFICs for Passive Millimeter-Wave Imaging,SiGe BiCMOS,120,82,8,,,,,,,,,Simulated
+TMTT,2016,5,Heller,A 102–129-GHz 39-dB Gain 8.4-dB Noise Figure I/Q Receiver Frontend in 28-nm CMOS,CMOS,28,115,8.4,,,,,,,,,
+TMTT,2016,5,Haller,A 102–129-GHz 39-dB Gain 8.4-dB Noise Figure I/Q Receiver Frontend in 28-nm CMOS,CMOS,28,115,8.4,,,,,,,,,
+DCIS,2021,11,Urian,Design and Layout Considerations of a D-Band SiGe LNA for Radiometric Applications,SiGe BiCMOS,130,187.5,8.4,,,,,,,,,Simulated
+RFIC,2019,6,Farid,A Broadband Direct Conversion Transmitter/Receiver at D-band Using CMOS 22nm FDSOI,CMOS SOI,22,135,8.5,,,,,,,,,Simulated
+JSSC,2021,3,Kucharski,Monostatic and Bistatic G-Band BiCMOS Radar Transceivers With On-Chip Antennas and Tunable TX-to-RX Leakage Cancellation,SiGe BiCMOS,130,150,8.5,,,,,,,,,Simulated
+SSCL,2021,1,Karakuzulu,Full D-Band Transmit–Receive Module for Phased Array Systems in 130-nm SiGe BiCMOS,SiGe BiCMOS,130,120,9,,,,,,,,,
+RFIC,2021,6,Wang,A 2-Channel 136-156 GHz Dual Down-Conversion I/Q Receiver with 30 dB Gain and 9.5 dB NF Using CMOS 22nm FDSOI,CMOS SOI,22,140,9,,,,,,,,,
+JSSC,2023,Early Access,Li,A 220-GHz Sliding-IF Quadrature Transmitter and Receiver Chipset for High Data Rate Communication in 0.13-μm SiGe BiCMOS,SiGe BiCMOS,130,217,9,,,,,,,,,
+RFIC,2021,6,Tang,A 140 GHz T/R Front-End Module in 22 nm FD-SOI CMOS,CMOS SOI,22,140,9.2,,,,,,,,,
+JSSCC,2022,1,Tang,Design and Analysis of a 140-GHz T/R Front-End Module in 22-nm FD-SOI CMOS,CMOS SOI,22,140,9.2,,,,,,,,,
+RFIC,2022,6,Hamani,A 56.32 Gb/s 16-QAM D-band Wireless Link using RX-TX Systemsin-Package with Integrated Multi-LO Generators in 45nm RFSOI,CMOS SOI,45,140,10,,,,,,,,,
+TCS,2020,12,Pan,A 76–81-GHz Four-Channel Digitally Controlled CMOS Receiver for Automotive Radars,CMOS,65,78,11,,,,,,,,,
+SSCL,2021,1,Karakuzulu,Full D-Band Transmit–Receive Module for Phased Array Systems in 130-nm SiGe BiCMOS,SiGe BiCMOS,130,110,11,,,,,,,,,
+RFIC,2022,6,Yang, A Millimeter-Wave Mixer-First Receiver with Non-Uniform Time-Approximation Filter Achieving >45dB Blocker Rejection,CMOS,28,34,12,,,,,,,,,System
+SiRF,2021,3,Ciocoveanu,Low-Power 60GHz Receiver with an Integrated Analog Baseband for FMCW Radar Applications in 28nm CMOS Technology,CMOS,28,60.5,12,,,,,,,,,Receiver Frontend
+TMTT,2021,6,Amendola,Compact E-Band I/Q Receiver in SiGe BiCMOS for 5G Backhauling Applications,CMOS,55,72,13,,,,,,,,,
+MWCL,2022,2,Turkmen,A 225-265 GHz I-Q Receiver in 130-nm SiGe BiCMOS for FMCW Radar Applications,SiGe BiCMOS,130,240,13.2,,,,,,,,,
+MWCL,2022,2,Turkmen,A 225–265 GHz I-Q Receiver in 130-nm SiGe BiCMOS for FMCW Radar Applications,SiGe BiCMOS,130,240,13.2,,,,,,,,,
+MWCL,2022,2,Turkmen,A 225–265 GHz I-Q Receiver in 130-nm SiGe BiCMOS for FMCW Radar Applications,SiGe BiCMOS,130,260,13.5,,,,,,,,,
+JSSC,2021,6,Hosseinzadeh,A Distributed Low-Noise Amplifier for Broadband Linearization of a Silicon Photonic Mach–Zehnder Modulator,SiGe BiCMOS,130,9,13.6,,,,,,,,,
+MWCL,2022,1,Cheng,110-140-GHz Wide-IF-Band 65-nm CMOS Receiver Design for Fusion Plasma Diagnostics,CMOS,65,106,14,,,,,,,,,
+IMS,2022,6,Chen,A Flip-Chip 180-GHz Receiver in 40-nm CMOS ,CMOS,40,180,15.1,,,,,,,,,
+EuMA,2023,9,Landsberg,High Linearity 76-81 GHz LNA Using a 16 nm FinFET Technology for Phased Array Radar  Applications,CMOS FinFET,16,82,17,,,,,,,,,
+RFIC,2022,6,Pashaeifar,A Millimeter-Wave Front-End for FD/FDD Transceivers Featuring an Embedded PA and an N-Path Filter Based Circulator Receiver,CMOS,40,31,28.9,,,,,,,,,System
+MWTL,2025,5,Li,A 7.3–9.5-GHz Cryogenic LNA Based on Passive Noise Cancellation for Qubit State Readout,CMOS,28,8.4,0.5,8.4,0.5,26.7,-47.2,I,-38,2.2,4.05,
+MWTL,2025,5,Nguyen,A 140-GHz Low-Noise Amplifier in 45-nm RFSOI Based on a Joint-Noise-and-Gain-Optimized Embedding Network,RFSOI,45,138,5.32,138,5.32,30.75,-2.43,O ,,7.4,25,
+JSSC,2025,5,Afifi,A Multi-Band 5.3–18 GHz LNA for FR3 Bands Using Hybrid Switching With Sub-2 dB NF in FDSOI,CMOS SOI,22,"7,35/10,65/14,75/11,45","1,6/1,6/1,8/2,4","7,35/10,65/14,75/11,45","1,6/1,6/1,8/2,4","23/22,3/17,9/16,3","-22,2/-22,6/-18,1/-16",I,"-12,7/-12,3/-8,7/-7,3","4,1/4,7/6,5/9,7",20,
+MWTL,2025,5,Qi,A 110–150 GHz Broadband TDD Front End in SiGe BiCMOS,SiGe BiCMOS,130,129.5,9,129.5,9,20,-18,I,,37,42.9,Receiver Frontend
+IEEE ACCESS,2025,5,Zhang,A D-Band CMOS Linearity-Enhanced Low-Noise Amplifier Using Multiple-Gated Transistors Technique,CMOS,40,140/140,"8,8/9,5",,,"16,5/14,2",-18/-14,I,"-8,2/-3,2",35,42/43,NF available only at f>=140GHz
+IEEE ACCESS,2025,5,Lee,A 9.2–18-GHz Sub-3.5-dB NF CMOS Low Noise Amplifier Using Current-Reuse Stacked Inverter With Inductive Series Peaking,CMOS,65,13.6,2.3,13.6,2.3,25,-0.5,O ,,8.8,11.4,
+JSSC,2025,5,Zhou,A 200-GHz Modulable Transceiver With 35-dB Tx On–Off Isolation and 16-Gb/s Code Rate for MIMO Radar in 130-nm SiGe Process,SiGe BiCMOS,130,206,12,206,12,25,-27,I,,42,830,"Receiver Frontend, TRx chip consumption"
+TMTT,2025,4,Ozdol,Highly Linear Wideband Low-Noise Amplifiers for Sub-6 GHz Using Cascode and Diode-Connected Postdistortion Circuits,CMOS SOI,130,3.5,"0,85/0,85",3.5,"0,85/0,85","30,5/30,5","13,1/13,1",O,1/5,2.8,240,
+TMTT,2025,4,Zakir,Self-Identifying Amplify-and-Forward Relay for Localization Assistance,SiGe BiCMOS,130,30,5.2,30,5.2,25,8.5,O,,5.2,166,System
+MWTL,2025,4,Li,Low-Complexity DC-Offset-Cancellation Mechanism for 1-Mbps FM-UWB Receiver,CMOS,65,4,4,4,4,19,,,,0.5,1.8,Rx consumption
+TMTT,2025,4,Liang,A Compact Wideband Simultaneous Noise and Input Matching Method Based on Three-Coil Transformer With Capacitor Assistance for LNA Design,CMOS,55,5,1.6,5,1.6,24.6,-20.5,I,-13,4.8,9.1,IIP3 simulated
+MWTL,2025,4,Yoon,Wideband CMOS Low-Noise Amplifier Using RC Feedback and Inductor for Resonance,RFCMOS,65,30,1.92,30,1.92,18.3,-11,I,2.2,18.4,27.4,
+JSSC,2025,4,Elgaard,A Wideband Sub-6-GHz Transceiver Front End for 5G Base Stations in 22-nm FD-SOI CMOS,CMOS SOI,22,3.5,1.3,3.5,1.3,18,-5,I,5,3.25,124.5,"Receiver Frontend, Gain and IIP3 simulated"
+TCAS II,2025,3,Qian,A D-Band Low-Noise Amplifier With Gm-Boosting Technique Based on Asymmetric Coupling,CMOS,40,150,5.7,150,5.7,18.4,-17,I,,26.8,17.3,IIP3 simulated
+TMTT,2025,3,Chen,A Frequency Reconfigurable Transceiver Front-End With Enhanced Out-of-Band-Rejection and High Phase Resolution for 5G mm-Wave Phased Arrays,CMOS,65,26/39,"6,5/8,1",26/39,"6,5/8,1",16/15,"-21,3/-21,5",I,"-14,5/-12","3,5/4,5",58.8,Receiver Frontend
+TCAS II,2025,3,Zhang,A 4 × 4 Fully Integrated RF Transceiver in 6 GHz Frequency Band With Single-Channel Bandwidth of 400 MHz and PHY Data-Rate of 8.8 Gbps,CMOS,130,6.5,3.5,6.5,3.5,56,,,-13,0.4,303.2,Receiver Frontend
+TCAS II,2025,3,Li,A 59.2–83.3 GHz CMOS LNA With 18.1 dB Gain and 5.1 dB NF Using Gate-Drain Transformer,CMOS,40,73,5.1,76,6.5,18.1,-14.5,I,-4.9,24.1,26,
+TMTT,2025,3,Baek,"A Large-Scale, Low-Power, Compact 5G mm-Wave Phased-Array Transceiver in 45 nm RFSOI CMOS",RFSOI CMOS,45,27.3,3.2,27.3,3.2,61.5,,,,,48.8,Receiver Frontend
+JSSC,2025,3,Zhao,Design and Analysis of a 22.6-to-73.9 GHz Low-Noise Amplifier for 5G NR FR2 and NR-U Multiband/Multistandard Communications,SiGe,130,50,4.06,50,4.06,14.8,-18,I,-5.5,51.3,17.5,IIP3 @ 39GHz
+TMTT,2025,2,Myeong,A 27-GHz Full-Duplex Receiver With a Three-Port Dual-Polarized Antenna and High IIP3 Low-Noise Amplifier for Mobile Phased Array Systems,CMOS,28,25,5.5,25,5.5,11.8,-11,I,-1,6.2,75.6,Receiver Frontend
+JSSC,2025,2,Seok,"High-Sensitivity, Low-Power IR-UWB Radar Transceiver With Self-Interference Resistance for Child Presence Detection and Precision Positioning",CMOS,28,120,3.2,,,,,,,,222,Receiver Frontend
+TCAS II,2025,2,Chaubey,A 43.4-dB Gain 7.6-mW 197.5% Bandwidth Double Noise-Canceling Cryogenic LNA Using Gain Peaking Technique for Multiple Spin Qubit Readout,CMOS,28,"0,7/0,6","0,37/1,89","1,4/1,6","0,5/2,2","43,4/41,3",-/-38,I,-/-26,"3,18/2,83","7,6/10,2",T:4K/300K
+TCAS II,2025,2,Chen,A Compact RF Module With Hybrid Stacked Transformer and Integrated Transceiver Switch in 65 nm CMOS Technology,CMOS,65,38,4.8,38,4.8,26.8,,,,6.3,,Receiver Frontend
+TMTT,2025,2,Cheng,A 28/39 GHz Concurrent/Band-Switching LNA With Three-Winding Transformer and Common-Gate-Based Multiplexer Supporting Multistream and Multiband 5G FR2 Communication,CMOS,65,28/39/26/37,"4,97/4,9/3,6/3,8",28/39/26/37,"4,97/4,9/3,6/3,8","22,9/23/26,3/25,5",,,"-14,7/-12,4/-18,5/-16,4","8/10,9/8,5/12,5","38,4/38,4/19,2/19,2",
+JSSC,2025,1,Han,"A 1–21-GHz, 1.95–3.1-dB NF Ultra-Wideband LNA With Gm-Assisted-Feedback Noise Suppression Achieving 140-Gb/s Data Rate in 40-nm CMOS",CMOS,40,1,1.95,10,2.8,20.6,-22,I,-13.5,22.2,26,
+TCAS,2025,1,Wu,An Automated Circuit Topology Generation and Optimization Method for CMOS Low-Noise Amplifiers,CMOS,130,10,"1,37/1,42/1,58/1,74/1,72/1,63/1,14/1,36",,,"19,89/19,33/19,85/22,36/33,17/34,69/20,25/19,99",,,,"3,9/3,7/4/3,3/1,2/1,1/3,9/4","5,7/9,1/7,6/3,9/5,7/7/8,9/10",Simulated
+MWTL,2025,1,Tu,A 70–89.8-GHz LNA With Transformer-Based T-Shape Matching and Pole-Tuning Techniques,CMOS,40,73,5.96,73,5.96,10,-12.87,I,,19.8,18,
+TCAS,2025,1,Wang,A 26.5–29.5 GHz Doherty PA-LNA Implementation With Synthesized Transformer-Based Matching Network,CMOS,65,28.6,4.8,28.6,4.8,17,-18,I,,6,33,Receiver Frontend
+TCAS II,2025,1,Yan,A 0.2-3 GHz Inductor-Less LNA Using Noise-Canceling and Dual-Resistor Feedback Technique,CMOS,65,0.9,2.08,1.5,2.2,16.5,-19,I,-8.22,2.58,10.6,
+JSSC,2025,1,Chen,An E-Band FMCW Radar Receiver With Arbitrary-Path Spillover Cancellation,CMOS,65,72,5.7,72,5.7,18.9,-11.4,I,,,67.3,Receiver Frontend
+MWTL,2025,1,Zhang,A 78–106-GHz Current-Reuse LNA With 4-dB Minimum NF and 12.5-mW Power Consumption Based on 130-nm SiGe Technology,SiGe,130,92,4,92,4,20,-19,I,,28,12.5,
+MWTL,2025,1,Pu,A 0.2–3.2-GHz Active Balun-LNA With 1.4–2.18-dB NF Utilizing Asymmetric Current Distribution in 28-nm CMOS,CMOS,28,2.2,1.4,2.2,1.4,24.4,-15.8,I,-3.6,,17.4,Receiver Frontend
+MWTL,2025,1,Kim,A CMOS Linear Low-Noise Amplifier Using Transformer-Based Second-Harmonic Trap,CMOS,90,2.62,1.1,2.62,1.1,18.33,,,-5.9,1.38,11.76,
+TMTT,2025,1,Hwang,Compact Bi-Directional PA-LNA Using Stacked Power Amplifier Enhancing Linearity and Stability,CMOS,28,31,5.3,31,5.3,17.3,-10.3,I,0,8,63,
+MWTL,2024,12,Yang,A 6.5-GHz Power-Efficient Two-Stage Feedforward Self-Interference Cancellation Receiver,CMOS,180,6.7,4.8,6.7,4.8,45,,,-20,,23.8,Receiver Frontend
+JSSC,2024,12,Liu,A 640-Gb/s 4 × 4-MIMO D-Band CMOS Transceiver Chipset,CMOS,65,140,,,12,25/43,,,,,550/700,Receiver Frontend
+TMTT,2024,12,Zhang,Design of Compact Bidirectional Amplifier Utilizing Transformers-Stacking Technique,CMOS SOI,45,18.5,2.46,18.5,2.46,16.2,-21,I,,,36,
+TMTT,2024,12,Qian,A Compact High-Gain D-Band LNA With Lossy Gain-Boosting Core Based on Slow-Wave Feedback,CMOS,40,146,6.1,140,6.62,18.4,-17,I,-8,16.5,17.1,
+TCAS II,2024,11,Park,A Broadband Gm-Boosted Active Feedback CMOS Low-Noise Amplifier for Low- and Mid-Band 5G Applications,CMOS,130,0.9,1.1,0.9,1.1,21,,,-6,1.7,9.1,
+MWTL,2024,11,Song,W-Band Broadband CMOS LNA Using Partially Coupled Transformer and Large Transistor,CMOS,65,82.2,3.77,77,5,15,-14,I,,19.4,44.5,
+TCAS II,2024,11,Wang,A 220-GHz LNA With 9.7-dB Noise Figure and 24.6-dB Gain in 40-nm Bulk CMOS,CMOS,40,216,9.68,220,9.83,24.6,-3.6,O,,11,36.9,
+TMTT,2024,11,Lee,A 28/37-GHz Frequency-Reconfigurable Dual-Band 1-Channel Front-End IC for 5G Communication Radios,CMOS SOI,28,28/37,"4,4/4,9",28/37,"4,4/4,9","16,4/19,1","-23,8/-29,1",I,,,"62,7/53,9",Receiver Frontend
+TCAS II,2024,11,Yoo,A 120 GHz gm-boosting Low-Noise Amplifier in 40-nm CMOS,CMOS,40,123,5,123,5,23.8,-24.8,I,-17,10,26,IIP3 simulated
+MWTL,2024,10,Feng,A Compact Low-Loss High-Reliability Antenna T/R Switch Embedded in Power Combiner for 60-GHz Fully Differential PA and LNA,CMOS,65,61,6.4,61,6.4,25,,,,11,48,
+TCAS,2024,10,Urain,Area-Efficient SiGe BiCMOS LNA With Wideband Frequency Tuning Capability Across D and G Bands,SiGe,130,150/155/165/175/190,"9,9*/9,8*/9,5/9,4*/13,6",150/155/165/175/190,"9,9*/9,8*/9,5/9,4*/13,6","14,5/15/16,5/16,5/17","-17,89/-/-21,61/-/-24,12",I,,"7,5/18,5/30/16/16","97,5/97,5/87,9/69/59,8","IP1dB simulated, NF* simulated"
+TCAS II,2024,10,Zeng,Parasitic-Aware Analysis and Design of a Wideband gm-Boost Low Noise Amplifier at K-Band,CMOS,110,21,2.3,21,2.3,14,-10,I,,9.5,25.6,
+TCAS,2024,9,Wang,A 2–6 GHz Reconfigurable High Dynamic Range Receiver With Wideband Variable Gain LNA,CMOS,22,3,2.4,3,2.4,91.9,-17.2,I,-9.1,,51,Receiver Frontend
+TCAS,2024,9,Jo,IIP2-Calibration-Free 5G NR Cellular Receiver Front-End With Mixer-Sharing Global N-Path Notch Filter Feedback Achieving +72 dBm IIP2,CMOS,65,"1,805/1,93/2,11/2,62","3,67/3,72/3,75/3,77","1,805/1,93/2,11/2,62","3,67/3,72/3,75/3,77","44,4/44,5/44,7/44,3",-11/-10/-13/-12,I,"-2,3/-2,75/-3,15/-3,85",,13.83,Receiver Frontend
+TMTT,2024,9,Yun,A 2.7-dB NF 55-dBm IIP2 Blocker-Tolerant Receiver Front End Employing Dual RF and BB N-Path Filters for 5G New Radio Cellular Applications,CMOS,65,"1,805/1,93/2,11/2,62","3,36/3,2/2,95/2,7","1,805/1,93/2,11/2,62","3,36/3,2/2,95/2,7","42/42,7/42,8/43",,,"-7,75/-8,25/-9,6/-9,9",,14.41,Receiver Frontend
+TMTT,2024,9,Oh,A 54–64-GHz 4TXs-4RXs CMOS Transceiver With 10-GHz Bandwidth Single Chirp for FMCW Radar Applications,CMOS,65,60,11.6,60,11.6,80,,,,,731.3,Receiver Frontend
+TMTT,2024,9,Liu,A 2–18-GHz Reconfigurable Low-Noise Amplifier With 2.45–3.4-dB NF in 65-nm CMOS,CMOS,65,3/12,"2,8/2,45",3/12,"2,8/2,45","16,6/16","-16/-14,5",I,"-6/-5,5","8,1/13,5",11.9,
+JSSC,2024,8,Han,A 70–86-GHz Deep-Noise-Canceling LNA With Dual-Stage Noise Cancellation Using Asymmetric Compensation Transformer and 4-to-1 Hybrid-Phase Combiner,CMOS,40,73,4.8,73,4.8,16,-8.5,I,-0.7,16,25,IIP3 simulated
+TMTT,2024,8,Zhou,A 0.1-to-4.3-GHz Variable-Gain Balun LNA With Dual-Path Noise-Canceling Technique,CMOS,65,1.5,1.8,2.2,1.9,19,-13.5,I,-2.5,4.2,7.6,
+TMTT,2024,7,Hassan,An Eight-Channel 15–55 GHz Dual-Beam Receive Phased-Array Beamformer IC With 2.9–4.2 dB NF for Multiband 5G Operation,SiGe BiCMOS,90,17,"2,9/4",35,3.5,25/20,-31/-28,I,,,185/132,"System, Power per channel"
+APMC,2024,11,Das,A 18.4 dB Gain 0.95 dB NF Ku-Band LNA Design using 130 nm Bulk CMOS Technology,CMOS,130,13,0.95,11.8,1.1,18.4,-14.5,I ,-3,4,10.67,
+APMC,2024,11,Tian,Design of a W-Band Low-Noise Amplifier with High Gain and Large Bandwidth in 130 nm SiGe BiCMOS Technology,SiGe BiCMOS,130,80,3.9,94,4.6,23,,,,40,12.4,Simulated
+APMC,2024,11,Lu,A 140 GHz Low-Noise Amplifier with 22-dB Gain and 8.2-dB Noise Figure in 65-nm CMOS,CMOS,65,132,8.2,140,10,22,-27,I,,,17.3,
+APMC,2024,11,Wu,A 260–316 GHz Gain-Boosted Low Noise Amplifier Achieving 17-dB Gain and 10.5-dB Noise Figure in 130nm SiGe Process,SiGe,130,285,10.5,285,10.5,17.1,-0.5,O,,56,119.04,Simulated NF
+APMC,2024,11,Qian,A Compact D-Band Receiver with Low Power for Wireless Communication in 40 nm CMOS,CMOS,40,146,13.3,140,13.4,19.1,-23,I,,15,75.1,"Receiver, P1dB @ 141GHz"
+APMC,2024,11,Kumar,Innovative Approach: A 6-12 dB Noise Figure NB-IOT Based RF Receiver Front-end for Wideband Applications,CMOS,65,2.5,5.2,2.5,5.2,7,,,,,15.72,"Simulated, Receiver frontend"
+APMC,2024,11,Zeng,Design of V-Band Transmit-Receive Front-End in 28-nm Bulk CMOS,CMOS,28,50,4.8,50,4.8,17,-18,I,,17,23,"Receiver Frontend, NF measured up to 50GHz"
+APMC,2024,11,George,Analytical Synthesis of Absorptive Matching Network Applied to a Reflectionless LNA RFIC for Ku-Band AESA Receiver Using ST BiCMOS55X Technology,BiCMOS,55,11.2,1.7,11.2,1.7,25,-29,I,,2,24,Simulated
+APMC,2024,11,Liu,A 1-8-GHz Direct-Conversion Receiver Front End in 45-nm CMOS SOI for 5G Wireless Applications,CMOS,45,2.5,3.3,4.5,5,45,,,"-34,3/-14,5/-2,4",0.44,90,"Receiver Frontend, IIP3 @ 8GHz for gain=40/20/5 dB"
+APMC,2024,11,Chaubey,A 0.06-1.62 GHz 37.6-dB Gain Cryogenic LNA With Gm-Boosting and Noise Reduction for Large-Scale Quantum Computing Applications,CMOS,40,"0,8/0,9","3,6/1,38","0,8/0,9","3,6/1,38","35,5/36,5","-39,2/-",I,"-17,4/-","1,36/1,56",8.2,"T:300K/12K, Linearity @ 0,3GHz"
+TMTT,2024,12,Zhang,A 3-to-78-GHz Distributed Low-Noise Amplifier Incorporating High-Gain Differential gm Cells and Balanced Active Balun in a 65-nm CMOS,CMOS,65,20,5.9,40,7,13.9,5,O,,75,86.4,
+TMTT,2024,12,Bardeh,A Wideband Millimeter-Wave CMOS Receiver Using a Reconfigurable Low-Noise Amplifier With a 3-Winding Transformer Load,CMOS SOI,22,"31/26,5/29","2,9/3,1/2,9",27/24/29,"2,9/3,4/2,9","42/45,45/46,58","1,5/1,8/0,8",O,,11/5/5,35,
+JSSC,2024,12,Huynh,An Inductive Loading Simultaneous Noise and Input Matching Technique With Current Reuse for Low-Power LNA,CMOS,110,6.8,2.8,6.8,2.8,13.6,-18,I,-5.2,1.4,1.2,
+TCAS,2024,11,Lee,A 1.5–2.7 GHz 3-dB NF 32-dB Notch-Depth Channel-Selection Balun-LNA Employing Dual Feedback and Feedforward N -Path Filter Loops for Advanced Cellular Application,CMOS,65,"1,805/1,93/2,62","3,2/3/3,4","1,805/1,93/2,62","3,2/3/3,4","23,2/25,3/26,6",,,"-3,6/-5,7/-4,2","0,03/0,03/0,03",23.1,
+IEEE ACCESS,2024,11,Cho,A 120 GHz Hybrid Low Noise Amplifier in 40 nm CMOS,CMOS,40,129,4.7,120,5.5,27.5,-29.5,I,-22,11,27.4,IIP3 simulated
+BCICTS,2024,10,Vardarli,A 7.7-mW DC-to-62 GHz Ultra-Wideband Low-Noise Amplifier with ±2.1 ps Group Delay Variation and 3.3 dB NF in 0.13-μm SiGe:C BiCMOS,SiGe BiCMOS,130,25,3.1,30,3.3,11.2,-1.8,O,,62,7.7,
+BCICTS,2024,10,Serra,A Biasing Scheme for the Gain Compression Point Optimization of HBT Cascode D-Band LNAs,SiGe BiCMOS,55,150,5.2,170,5.5,17.5,4.2,O ,,>25,20,
+BCICTS,2024,10,Lee,140-GHz Transmit and Receive Front-end Circuits with 10.8-dBm Psat and 5.9-dB NF in a 45-nm BiCMOS SOI Process,BiCMOS SOI,45,144,4.5,140,5.8,10,,,,29,12,
+BCICTS,2024,10,Dolt,The Design of Wideband LNAs in 45nm SiGe BiCMOS,SiGe BiCMOS,45,27/20,"3,4/2,3",27/20,"3,4/2,3","13,1/19,9",,,-1/-6,"38,8/21","18/14,4",
+BCICTS,2024,10,Lasserre,A 5.6 dB NF Two-Stage 110 - 125 GHz LNA Gain-Boosted by RC-over-Neutralization for Radar Applications in 28 nm CMOS,CMOS,28,118,5.6,120,6,12,-17.3,I,,15,25.2,IP1dB @ 115GHz
+EuMIC,2024,9,Lee,An Over 100% Fractional Bandwidth Low Noise Amplifier with Gate-Drain Transformer-Feedback in 90-nm CMOS Process,CMOS,90,24,2.3,28,2.4,12,-12,I,-1.6,,11.7,
+EuMIC,2024,9,Snyder,A 225 GHz 90-nm SiGe Coupled-Line Coupler Gain-Boosted Low Noise Amplifier Operating Above fmax/2,SiGe BiCMOS,90,217/213,"14,8/13,3",225/220,"15,2/13,8","11,7/5",-16/-6,I,,14/24,"90,3/42,1",NF and IP1dB simulated
+EuMIC,2024,9,Yang,A Low Power Cascaded Eight-Channel D-Band Receiver using Single LO Mixer and On-Chip Feeder in 40-nm CMOS for Massive Array FMCW Radar,CMOS,40,123,9.5,120,10,48,,,,7,46.3,"Receiver frontend, NF simulated, Consumption per channel"
+EuMIC,2024,9,Jain,"A new 45nm RFSOI Technology Optimized for Low Power, High Performance mmWave Applications",RFSOI,45,20,"1,36/1,26",20,"1,36/1,26","11,93/12,81",-12/-15,I,"0,55/-5,8","6,1/5,5",12.6,
+EuMIC,2024,9,Guo,A mm-Wave Two-Stage CMOS LNA Using Noise Cancelling and Post-Distortion Techniques,CMOS,65,30,3.1,30,3.1,19,-18.2,I,-2,9,17.8,
+EuMIC,2024,9,Rack,A Low-Power 42 to 67 GHz Variable-Gain LNA in 22FDX® on Standard- and High-Resistivity Substrates with 3.4 dB Noise Figure,CMOS SOI,22,55,"3,8/3,4",55,"3,8/3,4",19/20,,,,25,13.7,
+EuMIC,2024,9,Fumagalli,SiGe Transmitter and Receiver with Integrated Mixers and LO Chains for K/Ka Band Phased Array Systems,SiGe BiCMOS,130,20,2.7,20,2.7,40,,,,,36,"Receiver Frontend, Power per channel"
+IEEE ACCESS,2024,9,Morath,Designing a Power and Speed Adaptive 60 GHz Receiver in 22 nm FD-SOI CMOS for Tactile Internet Applications,CMOS SOI,22,60,5,60,5,24,,,,7,15.3,"Simulated, Consumption at max data rate"
+MWTL,2024,9,Yang,A Cryogenic 2.9–8.6-GHz LNA With Bandwidth Extension Technique for Quantum Applications,CMOS,180,4/4,"2,24/0,6",4/4,"2,24/0,6","9,24/14,23",-9/-,I,-4/-,"4,9/5,7","10,4/10,3",T:300K/4K
+IEEE ACCESS,2024,9,Urain,A G-Band SiGe BiCMOS LNA With an Area Efficient Built-In Temperature Compensation Circuit and Robust to TID Radiation,SiGe BiCMOS,130,195,9,195,9,18.1,-19.5,I,,25,35,IP1dB simulated
+JSSC,2024,9,Bhat,A 7.6-mW IR-UWB Receiver Achieving −17-dBm Blocker Resilience With a Linear RF Front-End,CMOS SOI,22,6,6,8,6.6,51,,,10.25,0.25,7.6,"Receiver Frontend, IIP3 @ 10GHz"
+JSSC,2024,8,Lee,A Tri-Band Dual-Concurrent Wi-Fi 802.11be Transceiver Achieving −46 dB TX/RX EVM Floor at 7.1 GHz for a 4 K-QAM 320 MHz Signal,CMOS FinFet,14,"2,4/5/6","5/4,3/4,5",,,,*,,,,24/90/112,"Receiver Frontend, OIP3 > 31"
+IEEE ACCESS,2024,8,Xu,A 60 GHz Broadband LNA With Joined Variable Gain Control and Switching in 22 nm FD-SOI,CMOS SOI,22,55/55,"3,3/3,5",60/60,"3,6/4","20,2/13,1","-23,9/-14,3",I,,"18,5/19,2","8,1/5,5",
+JSSC,2024,8,Guan,A Fully Integrated QPSK/16-QAM D-Band CMOS Transceiver With Mixed-Signal Baseband Circuitry Realizing Digital Interfaces,CMOS,28,136.2,9.3,141,9.3,25.5,-37,I,,18,188,"Receiver Frontend, IP1dB @ 141,9GHz"
+IMS,2024,6,Puyal,Sub-10-GHz Cryo-CMOS LNAs Achieving Up to 0.07-dB Average NF Thanks to Back Biasing for Qubit Readout in 28-nm FD-SOI,CMOS SOI,28,"3,8/6/3/6,2/3/6/3/6","2,2/0,41(0,38)/1,6/0,19(0,17)/1,2/0,13(0,07)/2,6/0,54(0,53)","3,8/5/2,6/3,6/1,6/1,8/2,6/6,5","2,2/0,41(0,38)/1,6/0,19(0,17)/1,2/0,13(0,07)/2,6/0,54(0,53)",30/29/33/31/33/34/31/29,,,,"7,6/10,1/5,2/7,2/3,2/3,6/11,2/13","17,8/23,2/21,9/31,4/26,8/40,1/15/20,7","T:300K/4,2K(4Κ)"
+IMS,2024,6,Hassan,"A Power-Efficient, F-Band, 6.5-dB NF, Staggered-Tuned, Inverter-Based CMOS LNA for 6G Receivers",CMOS SOI,22,100,6.5,110,7.2,14.2,1,I,,,7.5,IP1dB simulated
+IMS,2024,6,Lepkowski,"A 6.8 - 9.4 GHz LNA Achieving 36.5 dB Peak Gain, Consuming 4.28 mW with an Adjustable Threshold Limiter for IR-UWB Applications",CMOS SOI,45,9,4.85,9,4.85,36.5,-5.5,O,,2.6,4.28,
+IMS,2024,6,Mayeda,A K/Ka-Band Satellite Terminal Beamforming Front-End-Module Utilizing Dual-Band Self-Diplexing Antennas,CMOS,65,29,4.5,29,4.5,6.3,-14.1,I,,5.6,17,Receiver Frontend
+IMS,2024,6,Liu,Compact KiKa-Band Frontend PA and LNA in 16nm FinFET for Next Generation Digitally Intensive Arrays,CMOS FinFet,16,27,2.2,27,2.2,8,,,0.87,7.5,10.4,
+IMS,2024,6,Elazar,A 5.6 dB Noise-Figure X-Band to W-Band CMOS Frequency-Extender Receiver Frontend,CMOS,65,95,5.6,91,6.5,16,-15,I,,8.5,180,Receiver Frontend
+IMS,2024,6,Chen,A 240-GHz Wideband LNA with Dual −Peak−Gmax Cores and Customized High-Speed Transistors in 40-nm CMOS,CMOS,40,240,11.5,220,12.5,16.2,-5.3,O,,15,34.7,NF Simulation
+IMS,2024,6,Chaubey,A Gm-Boosting Inductorless Noise-Canceling Low Noise Amplifier in 40-nm CMOS for Quantum Applications,CMOS,40,"0,51/0,64","2,36/0,41","0,51/0,64","2,36/0,41","40,8/42,7",-31/-,I,-20/-,"1,51/2,09","10,7/5,3",T:300K/4K
+IMS,2024,6,Yang,A 5.2-GHz Area-Efficient RF Front-End with 2.79x PAE Enhancement at 7.7-dB Power Back-Off,CMOS,90,5.2,3.8,5.2,3.8,15.9,,,,,20.5,
+IMS,2024,6,Yang,A Ku-Band +2 dBm IIP3 Transformer-Based LNA with Loop-Gain-Enhanced Capacitive Negative Feedback,CMOS,180,10.2,4.4,12,5,17.1,-8.5,I,2,3.6,28.8,Linearity @ 10.7GHz
+IMS,2024,6,Tsai,High Isolation CMOS TDD RF Front-End using Sandwich-Type Concentric Vortical Transformer and Leakage Elimination Technique,CMOS,90,2.6,3.46,2.6,3.46,12.4,,,,,8.2,Receiver Frontend
+IMS,2024,6,Chien,Design of a W-Band Transformer-Based Switchless Bidirectional PALNA in 65-nm CMOS Process,CMOS,65,81,7,80,7.8,18,-14,I,,21,53,
+RFIC,2024,6,Qian,A High-Gain D-Band LNA with Compact Gm-Boosting Core Based on Slow-Wave Feedback Achieving 6.1 dB NF in 40 nm CMOS,CMOS,40,146,6.1,140,6.62,18.4,-16.7,I,,16.5,17.1,
+RFIC,2024,6,Cheng,A Compact 28/39 GHz Dual-Band Concurrent/Band-Switching LNA for 5G Multi-Band Multi-Stream Applications,CMOS,65,30/37/26/37,"4,97/4,9/3,6/3,8","28,2/37/28/39","5/5/3,7/4","21/21/26,3/25",,,"-14,7/-12,4/-18,5/-16,4","8/10,9/8,5/12,5","38,4/38,4/19,2/19,2",
+RFIC,2024,6,Mohin,A Blocker-Tolerant mm-Wave MIMO Receiver with Spatial Notch Filtering Using Non-Reciprocal Phase-Shifters for 5G Applications,CMOS SOI,45,29,5.4,29,5.4,30,-7.8,I,,,62.8,Receiver Frontend
+RFIC,2024,6,Chaubey,A 46.7-dB Gain 9.3-K Noise Temperature 5.8-mW Two-Fold Current Reuse Dual Noise-Canceling LNA in 28-nm CMOS for Qubit Readout,CMOS,28,"0,5/0,6","1,37/0,136","0,7/1,1","1,4/0,15",44/46,-39/-,I,-23/-,"1,38/2,19","9,7/5,8",
+RFIC,2024,6,Chou,A 200 GHz Wideband and Compact Differential LNA Leveraging an Active Balun Input Stage in 16nm FinFET Technology,CMOS FinFet,16,190,8.3,200,9,12,-1.6,O ,,48,28,
+RFIC,2024,6,Fu,A 4.4-mW 19–46-GHz Low-Noise Amplifier with Pole-Converging Gain Flattening and Triple-Resonance Input Matching,CMOS,40,24,3.39,32,3.8,11,-15.5,I,,27,4.4,
+RFIC,2024,6,Zhang,A Reconfigurable Ultra Compact Bi-directional Amplifier with a Build-in-Self Notch Filter for K/Ka-band Satellite Communication,CMOS SOI,45,20,2.46,19,2.5,16.2,,,,,,"Receiver Frontend, Gain noted @ fc=20GHz"
+RFIC,2024,6,Hwang,A Compact Ka-Band Bi-Directional PA-LNA with 17.4-dBm Psat Using Three-Stack Power Amplifier in 28-nm CMOS,CMOS,28,31,5.3,31,5.3,17.3,-10.3,I,0,8,63,
+RFIC,2024,6,Chen,A Frequency Reconfigurable Phased-Array Front-End with Enhanced Image-Rejection and High-Resolution LO Phase Shifter for 5G FR2 n258/n260/n261 Bands,CMOS,65,27/37,"6,5/8,1",26/38,"6,8/8,8",16/15,-20/-22,I,,"3,5/4,5",58.8,Receiver Frontend
+TCAS II,2024,7,Zhang,"0.78–1.22° RMS Phase Error, 0.14–0.32 dB RMS Gain Error, K-Band 4-Channel Phased Array Receiver IC for Satcom on the Move (SOTM)",CMOS,40,20,3.4,20,3.4,22,-28,I,,6.7,62,"Receiver Frontend, Power consumption per channel"
+TCAS II,2024,7,Han,A 60-GHz Current-Reused Cascode Noise-Canceling Low Noise Amplifier,CMOS,40,52.5,4.4,60,4.6,16.5,-13,I,,16.4,33,
+IEEE ACCESS,2024,7,Lee,A 131.5–137.5 GHz Low-Power Sub-Harmonic Receiver Using a 65-nm CMOS Technology,CMOS,65,133.5,12,133.5,12,40.4,-1.8,O ,,6,77.4,"Receiver Frontend, OP1dB @ 135GHz"
+TMTT,2024,6,Chang,Design and Analysis of 28 GHz CMOS LNA and VGA Using Gain-Linearity-Boosting and Body Floating Techniques,CMOS,90,26.5,1.98,28,2.5,21.8,-19.6,I,-10,7.2,9.5,
+TCAS,2024,6,Liu,"A 0.6 V, 1.74 mW, 2.9 dB NF Inductorless Wideband LNA in 28-nm CMOS Exploiting Noise Cancellation and Current Reuse",CMOS,28,1.7,2.9,1.7,2.9,18.5,-21,I ,-12.3,2.65,1.74,IIP3 @ 1GHz
+TMTT,2024,6,Kim,Channel-Selection LNA Using High-Order N-Path Feedforward Blocker Cancellation Path With Complex Poles for Advanced 5G NR FDD RX,CMOS,65,"1,48/1,805/1,93/2,35/2,62","4,48/4,44/4,4/4,6/4,4","1,48/1,805/1,93/2,35/2,62","4,48/4,44/4,4/4,6/4,4","16,2/18,5/19,5/21,1/22,6",,,"4,8/4,95/5,2/5,4/5,8",54/55/50/48/56,21.2,
+TCAS II,2024,5,Huang,A 3.3-V Ku-Band Front-End Module With 2.6-dB NF and 18.9-dBm OP1dB in 65-nm CMOS,CMOS,65,11.5,2.6,11.5,2.6,25,,,,3.7,,Receiver Frontend
+MWTL,2024,5,Cheng,A Reconfigurable LNA With Compact Magnetic-Capacitive Coupling Transformer Networks for 5G 28-/39-GHz Applications,CMOS,65,28/39,"4,06/4,46",28/39,"4,06/4,46","16,6/15","-12,1/-16,5",I,-1/-6,"7,5/7,5",26.4,
+TMTT,2024,5,Filippi,D-Band RX Front-End With a 0°–360° Phase Shifter Based on Programmable Passive Networks in SiGe-BiCMOS,SiGe BiCMOS,55,150,6.8,150,6.8,20,-22.5,I,,40,80,
+JSSC,2024,5,Ding,A 23-GHz TX/LNA Front-End Module for Inter-Satellite Links With 27.8% Peak Efficiency in the TX Path and 3.1-dB NF in the RX Path,SiGe BiCMOS,130,23,3.1,23,3.1,19.3,-19.4,I,,4.9,10,Receiver Frontend
+TCAS,2024,5,Huang,28 GHz Compact LNAs With 1.9 dB Minimum NF Using Folded Three-Coil Transformer and Dual-Feedforward Techniques for Phased Array Systems,CMOS,65,"29,1/26,8","1,9/2,51","27,8/27,4","2,2/2,8","16,7/11,7","-12/-11,2",I,"-3,9/-3,5","4,3/4,9","13,2/3,6",IIP3 @28GHz
+IEEE ACCESS,2024,5,Song,A Single-Ended-to-Differential Low-Noise Amplifier With Transformer-Based Feedback Network for 3–5 GHz UWB Applications,CMOS,180,3.5,3.3,4,3.4,12.6,-15,I,-5,4,9.9,
+JSSC,2024,5,Sun,A Compact Millimeter-Wave Reconfigurable Dual-Band LNA With Image-Rejection in 28-nm Bulk CMOS for 5G Applications,CMOS,28,32/36,"2,5/2,8",28/38,"3,1/3,5","18,1/18,9","-17/-18,5",I,"-8,5/-11","9,7/7",14,
+IEEE ACCESS,2024,4,Jeong,Blocker-Tolerant Broadband CMOS Low-Noise Amplifier Employing N-Path Filter-Based Load,CMOS,65,"1,84/1,96/2,14/2,66","1,93/1,92/1,78/1,5","1,84/1,96/2,14/2,66","1,93/1,92/1,78/1,5","36,4/37,8/39,2/40,4","-35,6/-35,3/-38,3/-40,6",I,"-28,8/-27,1/-29,6/-27,5","0,03/0,02",37.7,"System, MB=[1.7-2.2GHz] (Bands 1/n1, 2/n2, 3/n3), HB=[2,6-2,7GHz]"
+TCAS II,2024,4,Cheng,A Ku-Band Broadband High-IF Receiver With Wide Input Dynamic Range in 65-nm CMOS,CMOS,65,14.5,5.7,14.5,5.7,24,-21.7,I,-16.1,,355.5,Receiver Frontend
+TCAS,2024,4,Mahmood,"A 0.1–4.2 GHz, 960-μW Inductor-Less and Negative Shunt Feedback LNA With Simultaneous Noise and Distortion Cancellation and Bandwidth Extension",CMOS,65,2,4.45,2,4.45,15.6,,,-16,4.2,0.96,
+JSSC,2024,4,Lee,A 24 to 30-GHz Phased Array Transceiver Front End With 2.8 to 3.1-dB RX NF and 22 to 24% TX Peak Efficiency,SiGe BiCMOS,130,28,2.8,28,2.8,19.5,-31.2,I,,14,48,Receiver Frontend
+TMTT,2024,3,Choi,A D-Band Low-Noise and High-Gain Receiver Front-End Adopting Gmax-Driven Active Mixer,CMOS,65,153,7.5,153,7.5,28,-32,I,,4.5,21.8,Receiver Frontend
+TMTT,2024,3,Bardeh,A mm-Wave Concurrent Dual-Band Dual-Beam Phased Array Receiver Front-End in 22-nm CMOS SOI,CMOS SOI,22,28/37,6/7,28/39,"6/8,5","20,5/18","-18,5/-21",I,,7,54.8,Receiver Frontend
+TCAS II,2024,3,Wang,A Broadband Variable-Gain Low-Noise Amplifier With Low NF and Dual Phase Compensation,CMOS,65,24,3,32,3.5,15,-18,I,,26,17,
+TCAS II,2024,3,Liu,A 28/39 GHz Tri-Mode Frequency-Reconfigurable LNA for Multiband 5G Communications,CMOS,55,31/38/34,"3/4/3,7",28/39/34,"3,25/4,1/3,7","23,5/22,9/20","-23,5/-24,2/-17,7",I,"-14,8/-15/-9,1","7,4/8,3/20,2","19,8/23,6/43,4",
+TMTT,2024,3,Wang,A Low-Power 23–25.5-GHz FMCW Radar Transceiver in 65-nm CMOS for AIOT Applications,CMOS,65,24,5.7,24,24,54.2,-37,I,-27,,113,"Receiver Frontend, Linearity @ 42 dB gain, Consumption for TRX"
+TCAS II,2024,3,Chaubey,A 0.01-to-2.6-GHz Two-Fold Current Reuse Dual Noise-Canceling LNA Achieving 6.8-K Noise Temperature for Quantum Applications,CMOS,40,"0,4/0,6","1,16/0,1","1/1,3","1,3/0,2",28/29,-30/-,I,-18/-,"1,89/2,59","17,6/8,6",
+JSSC,2024,3,Lee,A 300-μW 2.4-GHz PVT-Insensitive Subthreshold Reference-Based LNA,CMOS,130,2.35,4.51,2.4,5,13.96,-23,I,-16.6,,0.276,
+MWTL,2024,3,Chen,A 60-GHz Phase-Invariant Variable Gain LNA With T/R Switch and Gain Interpolation Techniques in 65-nm CMOS,CMOS,65,53,6.3,60,7.5,20,-15.6,I,,13.5,38.4,
+MWTL,2024,3,Zhang,A 58–110 GHz 4.2 dB Minimum NF CMOS LNA With Broadband Simultaneous Noise and Impedance Matching,CMOS,40,63,4.2,80.5,5.9,15,,,,21,20.7,
+MWTL,2024,2,Thangarasu,A Ku-Band Fully Differential Current-Reuse Stacked Low-Noise Amplifier in 0.18-μm SiGe BiCMOS Technology,SiGe BiCMOS,180,13,3,13,3,18,-14,I,,5.9,11.5,
+TMTT,2024,2,Peng,A 0.32×0.12 mm2 Cryogenic BiCMOS 0.1–8.8 GHz Low Noise Amplifier Achieving 4 K Noise Temperature for SNWD Readout,SiGe BiCMOS,130,6,0.8,6,0.8,36,-5,O,*,8.7,8.2,"T:3,6K, *OIP3=4dBm"
+TMTT,2024,2,Chaubey,Ultracompact Inductorless Noise-Canceling LNAs in 40-nm CMOS Achieving 2.2-K Noise Temperature for Qubit Readout,CMOS,40,"2/1,8/0,5/1,4","0,63/0,033/1,16/0,29","0,8/1/1,3/1,2","0,95/0,35/1,5/0,35","25,6/29/27/30,2",-18/-/-27/-,I,"-6/-/-20,4/-","2,69/2,99/3,75/3,98","43,4/19,4/22,6/10,8",T:300K/4K/300K/4K
+TMTT,2024,1,Kim,Ultralow Noise Figure and Broadband CMOS LNA With Three-Winding Transformer and Large Transistor,CMOS,65,36,2.2,38,2.5,19.2,,,-7.6,20,22,
+TMTT,2024,1,Hu,A 16-Channel 3.1–25.5-GHz Phased-Array Receive Beamformer IC With Two Simultaneous Beams and 2.0–2.4-dB NF for C/X/Ku/Ka-Band SATCOM,SiGe BiCMOS,90,6,1.8,14,2.7,26.6,-48.5,I,,22.4,112.5,System
+JSSC,2024,1,Zhao,A Band-Shifting Millimeter-Wave T/R Front-End Using Inductance-Mutation Transformer Technique for Multiband Phased-Array Transceivers,CMOS,28,"25,3/37","5,1/5,8","25,3/37","5,1/5,8","21,3/18,3",,,"-10,8/-10,1","11,4/13,6","26,2/19,8",
+TCAS II,2024,1,Sun,A 2.77-dB NF K-Band Four-Element Dual-Beam Phased-Array Receiver With 39-dB Tx-Band Rejection for SATCOM Applications,CMOS SOI,65,19.5,2.42,19.5,2.42,15.5,,,,3.5,482.4,Receiver Frontend
+TMTT,2024,1,Khyalia,A 22–33-GHz Gm-Boosting Low-Power Noise-Canceling LNA in 40-nm CMOS Process,CMOS,40,23.3,2.8,28,3.5,12.3,-7.7,I,2,11.8,8.5,
+JSSC,2024,1,Ke,A 52–73-GHz LNA With Tri-Coupled Transformer for Gm Boosting and Enhanced Noise Canceling,CMOS,40,68.5,3.78,63,4,22.4,-11,I,,22.1,26,
+MWTL,2024,1,Gurol,Highly Linear Low-Noise Amplifier With Novel Two-Mode Feedback Control Method,CMOS SOI,130,24,2.75,25,3.07,13.2,-10,I,6,6,32.67,
+MWTL,2024,1,Baek,A Low-Power High-IP1dB Low-Noise Amplifier Using Large-Transistor and Class-AB Mode,CMOS,65,13,1.94,13,1.94,17.6,-7.8,I,,5,10,
+TCAS II,2024,1,Wang,A 1–27 GHz SiGe Low Noise Amplifier With 27-dB Peak Gain and 2.85±1.45 dB NF,SiGe BiCMOS,130,4.2,1.4,14,2.2,26,-18,I ,-9,26,85,
+APMC,2023,12,Lai,A CMOS Low Noise Amplifier with Gm-boosting Technique for Multi-band 5G Systems,CMOS,90,35,3.2,,,,,,,,,
+APMC,2023,12,Huang,A 36-42 GHz 0.18-μm CMOS Amplifier Using Cascode-Cascade Matching Topology for Millimeter-wave Broadband Applications,CMOS,180,39,7.3,,,,,,,,,
+APMC,2023,12,Mollaalipouramir,"Low Power and High Linear, Low Noise Amplifier Designed in 22nm FDSOI Technology for 5G Wireless Systems",CMOS SOI,22,28,2.2,,,,,,,,,
+APMC,2023,12,Li,A 7-19 GHz CMOS Low Power LNA Using Body Bias and Current-Reuse Technique,CMOS,55,10,3,,,,,,,,,
+APMC,2023,12,Chen,A Low Power Wideband Receiver Front End for C/X Band 5G Applications in 90 nm CMOS Technology,CMOS,90,5,2.47,,,,,,,,,Receiver Frontend
+APMC,2023,12,Cheng,An Antenna-in-Packaged CMOS Transceiver Array for MU-MIMO Communications,CMOS,90,50,6.8,,,,,,,,,Receiver Frontend
+APMC,2023,12,Yoon,A Wideband Low-Noise Amplifier Using High-Pass Filter Structure with Diode Linearizer,CMOS,65,29,2.7,,,,,,,,,
+APMC,2023,12,Chen,A Broadband Transmit-Receive Front-End with Three-λ/4-line-based T/R Switch for 5G FR2 Bands,CMOS,65,31,4.61,,,,,,,,,
+IEEE ACCESS,2023,12,Song,275 GHz Quadrature Receivers for THz-Band 6G Indoor Network in 130-nm SiGe Technology,SiGe BiCMOS,130,20,20.1,,,,,,,,,Receiver Frontend
+IEEE ACCESS,2023,11,Kim,CMOS Variable-Gain Low-Noise Amplifier Adopting Transformer-Based Noise Cancelling Technique for 5G NR FR2 Applications,CMOS,65,27,3.55,,,,,,,,,
+BCICTS,2023,10,Gauthier,Low-Noise Si/SiGe HBT for LEO Satellite User Terminals in Ku-Ka Bands,Si/SiGe BiCMOS,55,1.13,1.13,,,,,,,,,Receiver Frontend
+BCICTS,2023,10,Hassan,A Wideband Ultra-Low Noise 15–55 GHz Dual-Beam Receive Phased-Array Beamformer with 2.9-4.2 dB NF,SiGe BiCMOS,90,17.5,2.9,,,,,,,,,
+BCICTS,2023,10,Vanukuru,Analog/mmWave Circuit Demonstrations in State-of-the-Art SiGe BiCMOS Process for 5G and Optical Transceivers,SiGe BiCMOS,90,18.6,1.32,,,,,,,,,
+EuMIC,2023,9,Colzani,K-band Receiver on SiGe BiCMOS Technology for SatCom Phased Array Systems,SiGe BiCMOS,130,18,2.7,,,,,,,,,Receiver Frontend
+EuMIC,2023,9,Rack,A Compact 120 GHz LNA in 22 nm FD-SOI with Back-Gate Controllable Variable-Gain,CMOS SOI,22,116,6.1,,,,,,,,,
+EuMIC,2023,9,Filippi,A D-Band Low-Noise-Amplifier in SiGe BiCMOS with Broadband Multi-Resonance Matching Networks,SiGe BiCMOS,55,135,5.2,,,,,,,,,
+EuMIC,2023,9,Gupta,A Broadband LNA and Sub-Harmonic Mixer Based Multi-Mode RX in 22nm CMOS,CMOS,22,20/29,5/12,,,,,,,,,Receiver Frontend
+EuMIC,2023,9,Simoncini,Fully Integrated Built-In Self Test of Millimeter-Wave LNA based on Avalanche Noise Diodes in 130 nm SiGe BiCMOS Technology,SiGe BiCMOS,130,25,3.8,,,,,,,,,
+MWTL,2023,10,Jin,A Current-Reused Ultralow-Power IoT LNA With a Robust Linearization Technique,CMOS,65,2.4,3.5,,,,,,,,,
+MWTL,2023,10,Liang,High Gain and Low Power K-Band LNA With Reversed Current-Reuse Topology,CMOS,55,22.6,4.04,,,,,,,,,
+JSSC,2023,10,Agrawal,A 128-Gb/s D-Band Receiver With Integrated PLL and ADC Achieving 1.95-pJ/b Efficiency in 22-nm FinFET,CMOS FinFET,22,2.5,12.4,,,,,,,,,"Simulation, Receiver Frontend"
+JSSC,2023,10,Kim,A Fully Integrated IEEE 802.15.4/4z-Compliant UWB System-on-Chip RF Transceiver Supporting Precision Positioning in a CMOS 28-nm Process,CMOS,28,40,3.5,,,,,,,,,Receiver Frontend
+JSSC,2023,10,Fu,A Low-Power 256-Element Ka-Band CMOS Phased-Array Receiver With On-Chip Distributed Radiation Sensors for Small Satellite Constellations,CMOS,65,29,3.6,,,,,,,,,Receiver Frontend
+MWTL,2023,9,Kim,A 131–162-GHz Wideband CMOS LNA Using Asymmetric Frequency Responses of Triple-Coupled Transformers,RF CMOS,40,150,6.2,,,,,,,,,
+VLSI,2023,9,Huang,A 24–30-GHz Four-Element Phased Array Transceiver With Low Insertion Loss Compact T/R Switch and Bidirectional Phase Shifter for 5G Communication,CMOS,65,26,5.1,,,,,,,,,Receiver Frontend
+IMS,2023,6,Urain,A G-Band SiGe BiCMOS LNA With an On-Chip and Compact Temperature Compensation Biasing Circuit,SiGe BiCMOS,130,195,9,,,,,,,,,
+IMS,2023,6,Chaubey,A Miniature 10MHz-3GHz Sub 1-dB NF Cryogenic Inductorless Noise-Canceling Low-Noise Amplifier for Qubit Readout,CMOS,40,1.8,0.63,,,,,,,,,
+IMS,2023,6,Ghadiri-Sadrabadi,Ku/K-Band Low Power Dual-Channel LNAs With Less Than 1.4dB NF for SATCOM Phased Array Applications,RFSOI,45,"22/11,5","1,4/1,3",,,,,,,,,
+IMS,2023,6,Zou,A 74.8-88.8 GHz Wideband CMOS LNA Achieving +4.73 dBm OP1dB and 6.39 dB Minimum NF,CMOS,55,89,6.39,,,,,,,,,
+IMS,2023,6,Kim,A 115.7–139.7 GHz Amplifier with 19.7 dB Peak Gain and 7.9 dB NF in 40-nm CMOS,CMOS,40,137,7.9,,,,,,,,,
+IMS,2023,6,Moody,A Low Power V-Band LNA with Wide Supply Voltage Range Exploiting Complementary Current Reuse and Power Efficient Bias Point,RFSOI,45,61,4.2,,,,,,,,,
+IMS,2023,6,Yuan,A CMOS Low Power K-band FMCW Radar Transceiver Front-End for AIOT Application,CMOS,65,24.5,6.7,,,,,,,,,Receiver Frontend
+RFIC,2023,6,Dong,A 140GHz RF Beamforming Phased-Array Receiver Supporting >20dB IRR with 8GHz Channel Bandwidth at Low IF in 22nm FDSOI CMOS,CMOS SOI,22,140,7.5,,,,,,,,,Receiver Frontend
+RFIC,2023,6,Andree,A D-Band to J-Band Low-Noise Amplifier with High Gain-Bandwidth Product in an Advanced 130 nm SiGe BiCMOS Technology,SiGe BiCMOS,130,155,8.4,,,,,,,,,
+RFIC,2023,6,Landsberg,High-Linearity 76-81 GHz Radar Receiver with an Intermodulation Distortion Cancellation and High-Power Limiter,CMOS FinFET,16,78.5,5.5,,,,,,,,,
+RFIC,2023,6,Zhao,A Band-Shifting Millimeter-Wave T/R Front-End with Enhanced Imaging and Interference Rejection Covering 5G NR FR2 n257/n258/n259/n260/n261 Bands,CMOS,28,25/35,"5,1/5,8",,,,,,,,,
+RFIC,2023,6,Hu,"A Quad-Band RX Phased-Array Receive Beamformer with Two Simultaneous Beams, Polarization Diversity, and 2.1–2.3 dB NF for C/X/Ku/Ka-Band SATCOM",SiGe BiCMOS,90,10,2.1,,,,,,,,,
+RFIC,2023,6,Filippi,A SiGe BiCMOS D-Band LNA with Gain Boosted by Local Feedback in Common-Emitter Transistors,SiGe BiCMOS,55,150,5,,,,,,,,,Beamformer
+RFIC,2023,6,Kim,High-Performance Broadband CMOS Low-Noise Amplifier with a Three-Winding Transformer for Broadband Matching,CMOS,65,38,2.2,,,,,,,,,
+RFIC,2023,6,Myeong,A 28-GHz 12-dBm IIP3 Low-Noise Amplifier Using Source-Sensed Derivative Superposition of Cascode for Full-Duplex Receivers,CMOS,28,25,3.3,,,,,,,,,
+RFIC,2023,6,Kooshkaki,A 0.75 mW Receiver Front-end For NB-IoT,CMOS,65,0.8103,2,,,,,,,,,
+RFIC,2023,6,Bardeh,A mm-Wave Wideband/Reconfigurable LNA Using a 3-Winding Transformer Load in 22-nm CMOS SOI,CMOS SOI,22,35,2.3,,,,,,,,,
+RFIC,2023,6,Zolkov,A mm-Wave Blocker-Tolerant Receiver Achieving <4 dB NF and −3.5 dBm B1dB in 65-nm CMOS,CMOS,65,26,3.4,,,,,,,,,Receiver Frontend
+TCAS,2023,7,Wang,A 2.85-mm2 Wideband RF Transceiver in 40-nm CMOS for IoT Micro-Hub Applications,CMOS,40,5.5,1.3,,,,,,,,,Receiver Frontend
+MWTL,2023,7,Chen,Ka-/K-Band Frequency-Reconfigurable Single-Input Differential-Output Low-Noise Amplifier for 5G Applications,CMOS,65,27,2.8,,,,,,,,,
+TCAS II,2023,6,Spasaro,0.52-mW 30-GHz LNA in 22-nm FDSOI CMOS,CMOS SOI,22,31,5.8,,,,,,,,,
+MWTL,2023,6,Hu,A 27.5–46.2-GHz Broadband Low Noise Amplifier With IP3 Enhancement,CMOS SOI,45,27.8,2.1,,,,,,,,,
+MWTL,2023,6,Smirnova,Ultralow-Power W-Band Low-Noise Amplifier Design in 130-nm SiGe BiCMOS,SiGe BiCMOS,130,100,4,,,,,,,,,
+VLSI,2023,6,Pu,A Tri-Mode Reconfigurable Receiver for GNSS/NB-IoT/BLE With 68-dB HR3 and 60-dB IMRR in 28-nm CMOS,CMOS,28,"0,8/1,2/1,6/2,4","2,8/3,1/3,3/3,9",,,,,,,,,Receiver Frontend
+MWTL,2023,5,Feng,A 0.5-V 0.88-mW Low Noise Amplifier With Active and Passive Gm Enhancements in Sub-6 GHz Band,CMOS,180,5.8,3.2,,,,,,,,,
+TCAS II,2023,5,Wang,A 1.46–1.96-dB-NF 2.1–5.2-GHz Wideband Passive Balun LNA in 22-nm CMOS,CMOS,22,4,1.46,,,,,,,,,
+VLSI,2023,5,Rena,"0.4-1 GHz Subsampling Mixer-First RF Front-End With 50-dB HRR, +10-dBm IB-IIP3 in 65-nm CMOS",CMOS,65,0.65,6.5,,,,,,,,,Receiver Frontend
+MWTL,2023,5,Dong,A 0.4-to-30 GHz CMOS Low Noise Amplifier With Input-Referred Noise Reduction and Coupled-Inductive-Peaking Technique,CMOS,55,5,2.5,,,,,,,,,
+TCAS,2023,5,Zou,A 6–12 GHz Wideband Low-Noise Amplifier With 0.8–1.5 dB NF and ±0.75 dB Ripple Enabled by the Capacitor Assisting Triple-Winding Transformer,CMOS SOI,130,8.5,0.8,,,,,,,,,
+MWTL,2023,5,Lim,An In-Band Full-Duplex Low Noise Amplifier Integrated With an Electrical Balance Duplexer Without Explicit Matching,CMOS,65,15,5.33,,,,,,,,,
+JSSC,2023,4,Singh,Design Aspects of Single-Ended and Differential SiGe Low-Noise Amplifiers Operating Above fmax/2in Sub-THz/THz Frequencies,SiGe BiCMOS,130,235,11,,,,,,,,,
+IEEE ACCESS,2023,3,Najmussadat,220-240-GHz High-Gain Phase Shifter Chain and Power Amplifier for Scalable Large Phased-Arrays,SiGe BiCMOS,130,237,11.7,,,,,,,,,
+VLSI,2023,3,Shams,An OOK and Binary FSK Reconfigurable Dual-Band Noncoherent IR-UWB Receiver Supporting Ternary Signaling,CMOS,130,2.8,5.9,,,,,,,,,
+JSSC,2023,1,Li,A 220-GHz Sliding-IF Quadrature Transmitter and Receiver Chipset for High Data Rate Communication in 0.13-µm SiGe BiCMOS,SiGe BiCMOS,130,212,9,,,,,,,,,Receiver Frontend
+TCAS II,2023,1,Kim,A 2.4 GHz Reconfigurable Cascode/Folded-Cascode Inductive Source Degenerated LNA With Enhanced OP1dB and OIP3 Over Gain Reduction,CMOS,130,2.3,1.11,,,,,,,,,
+JSSC,2023,1,Li,A 39-GHz CMOS Bidirectional Doherty Phased- Array Beamformer Using Shared-LUT DPD With Inter-Element Mismatch Compensation Technique for 5G Base Station,CMOS,65,40,4.8,,,,,,,,,
+TCAS II,2023,1,Lim,Bulk CMOS Low Noise Amplifier With Two Stage HPF Noise Matching Structure,CMOS,180,3.95,2.23,,,,,,,,,
+MWTL,2023,1,Lee,Frequency-Reconfigurable Dual-Band Low-Noise Amplifier With Interstage Gm-Boosting for Millimeter-Wave 5G Communication,CMOS,65,28.5,2.79,,,,,,,,,
