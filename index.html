@@ -269,6 +269,7 @@
                 <p class="placeholder">👆 Click on a data point to view details and access the paper link</p>
             </div>
             <button class="btn" onclick="clearSelection()">✕ Clear Selection</button>
+            <button class="btn" onclick="resetZoom()">🔍 Reset Zoom</button>
             <label class="toggle-label">
                 <input type="checkbox" id="minor-grid-toggle" onchange="updateCharts()"> Minor Grid
             </label>
@@ -301,6 +302,9 @@
         let selectedId = null;
         let selectedIds = [];
         let hiddenTraces = [];
+        let sharedXRange = null; // Shared x-axis range for linked zooming
+        let isUpdatingZoom = false; // Prevent recursive zoom updates
+        const freqChartIds = ['nf-chart', 'gain-chart', 'power-chart', 'iip3-chart', 'fom-chart'];
 
         // Color and symbol maps
         const COLOR_MAP = {
@@ -557,18 +561,24 @@
             }
 
             const freqTicks = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+            const xaxisConfig = {
+                title: 'Frequency (GHz)',
+                type: 'log',
+                tickvals: freqTicks,
+                ticktext: freqTicks.map(String),
+                showgrid: true,
+                gridwidth: 1,
+                gridcolor: 'rgba(128,128,128,0.3)',
+                minor: showMinorGrid ? { showgrid: true, gridwidth: 0.5, gridcolor: 'rgba(128,128,128,0.15)' } : {}
+            };
+            // Apply shared x-axis range if set
+            if (sharedXRange) {
+                xaxisConfig.range = sharedXRange;
+                xaxisConfig.autorange = false;
+            }
             const layout = {
                 title: title,
-                xaxis: {
-                    title: 'Frequency (GHz)',
-                    type: 'log',
-                    tickvals: freqTicks,
-                    ticktext: freqTicks.map(String),
-                    showgrid: true,
-                    gridwidth: 1,
-                    gridcolor: 'rgba(128,128,128,0.3)',
-                    minor: showMinorGrid ? { showgrid: true, gridwidth: 0.5, gridcolor: 'rgba(128,128,128,0.15)' } : {}
-                },
+                xaxis: xaxisConfig,
                 yaxis: {
                     title: yTitle,
                     showgrid: true,
@@ -580,7 +590,7 @@
                 height: 400,
                 showlegend: true,
                 template: 'plotly_white',
-                dragmode: 'select',
+                dragmode: 'zoom',
                 legend: { bgcolor: 'rgba(255,255,255,0.85)', bordercolor: '#ccc', borderwidth: 1 }
             };
 
@@ -590,6 +600,22 @@
             };
 
             Plotly.react(container, traces, layout, config);
+
+            // Relayout handler for linked zooming
+            container.removeAllListeners?.('plotly_relayout');
+            container.on('plotly_relayout', function(eventData) {
+                if (isUpdatingZoom) return;
+                
+                // Check for zoom/pan changes
+                if (eventData['xaxis.range[0]'] !== undefined && eventData['xaxis.range[1]'] !== undefined) {
+                    sharedXRange = [eventData['xaxis.range[0]'], eventData['xaxis.range[1]']];
+                    syncZoomToOtherCharts(containerId);
+                } else if (eventData['xaxis.autorange'] === true) {
+                    // Reset zoom
+                    sharedXRange = null;
+                    syncZoomToOtherCharts(containerId);
+                }
+            });
 
             // Click handler
             container.removeAllListeners?.('plotly_click');
@@ -742,6 +768,29 @@
             });
         }
 
+        // Sync zoom to other frequency-based charts
+        function syncZoomToOtherCharts(sourceChartId) {
+            isUpdatingZoom = true;
+            freqChartIds.forEach(chartId => {
+                if (chartId !== sourceChartId) {
+                    const container = document.getElementById(chartId);
+                    if (container && container.data) {
+                        if (sharedXRange) {
+                            Plotly.relayout(container, {
+                                'xaxis.range': sharedXRange,
+                                'xaxis.autorange': false
+                            });
+                        } else {
+                            Plotly.relayout(container, {
+                                'xaxis.autorange': true
+                            });
+                        }
+                    }
+                }
+            });
+            setTimeout(() => { isUpdatingZoom = false; }, 100);
+        }
+
         // Update all charts
         function updateCharts() {
             filterData();
@@ -787,6 +836,22 @@
             selectedId = null;
             selectedIds = [];
             updateSelection();
+        }
+
+        // Reset zoom on all charts
+        function resetZoom() {
+            sharedXRange = null;
+            freqChartIds.forEach(chartId => {
+                const container = document.getElementById(chartId);
+                if (container && container.data) {
+                    Plotly.relayout(container, { 'xaxis.autorange': true, 'yaxis.autorange': true });
+                }
+            });
+            // Also reset Gain vs NF chart
+            const gainNfChart = document.getElementById('gain-nf-chart');
+            if (gainNfChart && gainNfChart.data) {
+                Plotly.relayout(gainNfChart, { 'xaxis.autorange': true, 'yaxis.autorange': true });
+            }
         }
 
         // Manual points
