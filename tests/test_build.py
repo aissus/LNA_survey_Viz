@@ -87,9 +87,10 @@ def test_caveats_reach_the_points(lna):
     assert [p.get("temp_k") for p in pts] == [300, 4.2] * 4
     assert [p.get("flags", []) for p in pts] == [[], ["cryogenic"]] * 4
     # individually simulated values are listed on the entry, not as a point flag
-    sim_entries = [e for p in lna["papers"] for e in p["entries"] if e.get("sim_metrics")]
+    sim_entries = [e for p in lna["papers"] for e in p["entries"] if e.get("metric_flags")]
     assert len(sim_entries) == 13
-    assert set().union(*(e["sim_metrics"] for e in sim_entries)) == {"nf", "nfmin", "gain", "iip3", "p1db"}
+    assert all(set(e["metric_flags"]) == {"simulated"} for e in sim_entries)
+    assert set().union(*(e["metric_flags"]["simulated"] for e in sim_entries)) == {"nf", "nfmin", "gain", "iip3", "p1db"}
 
 
 def test_cli_writes_json(tmp_path, capsys):

@@ -86,8 +86,8 @@ const cavCfg = {
 };
 const cavJson = {
   papers: [
-    { id: 'aaaaaaaa', entries: [{ group: 'G', n_bands: 2, sim_metrics: ['iip3'] }] },
-    { id: 'bbbbbbbb', entries: [{ group: 'G', n_bands: 1, sim_metrics: ['gain'] }] },
+    { id: 'aaaaaaaa', entries: [{ group: 'G', n_bands: 2, metric_flags: { simulated: ['iip3'] } }] },
+    { id: 'bbbbbbbb', entries: [{ group: 'G', n_bands: 1, metric_flags: { simulated: ['gain'] } }] },
     { id: 'cccccccc', entries: [{ group: 'G', n_bands: 2 }] },
   ],
   points: [

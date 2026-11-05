@@ -22,6 +22,7 @@ import hashlib
 import json
 import re
 import sys
+import urllib.request
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,7 +32,8 @@ import openpyxl
 
 from caveats import Caveats, parse_caveats
 from parsing import Parsed, align_bands, classify, clean_text, parse_bands
-from survey_sources import SURVEYS, SurveySource
+from registry import SURVEYS
+from survey_sources import RowContext, SurveySource
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUT = ROOT / "site" / "data"
@@ -39,6 +41,26 @@ DEFAULT_OUT = ROOT / "site" / "data"
 
 class BuildError(RuntimeError):
     pass
+
+
+def ensure_source(src: SurveySource, root: Path = ROOT) -> Path:
+    """Path of the survey spreadsheet; downloads it first when it is fetched at build time."""
+    path = root / src.source
+    if not path.exists() and src.url:
+        print(f"[{src.id}] downloading {src.url}", file=sys.stderr)
+        req = urllib.request.Request(src.url, headers={"User-Agent": "survey-viz-build"})
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = resp.read()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if src.sha256 and hashlib.sha256(data).hexdigest() != src.sha256:
+            raise BuildError(f"{src.id}: downloaded file does not match the pinned sha256; "
+                             "the survey was probably updated, check it and update the pin")
+        path.write_bytes(data)
+    if not path.exists():
+        raise BuildError(f"{src.id}: source spreadsheet not found: {path}")
+    if src.sha256 and hashlib.sha256(path.read_bytes()).hexdigest() != src.sha256:
+        raise BuildError(f"{src.id}: {path.name} does not match the pinned sha256")
+    return path
 
 
 def read_rows(path: Path, sheet: str) -> list[tuple[int, dict[str, Any]]]:
@@ -147,7 +169,7 @@ def _parse_entry(src: SurveySource, row: dict[str, Any], warn) -> tuple[int, dic
 
 def build_survey(src: SurveySource, root: Path = ROOT) -> dict[str, Any]:
     """Read one survey spreadsheet and return the JSON-ready dataset."""
-    path = root / src.source
+    path = ensure_source(src, root)
     rows = read_rows(path, src.sheet)
 
     papers: dict[str, dict[str, Any]] = {}  # insertion-ordered by first appearance
@@ -199,30 +221,45 @@ def build_survey(src: SurveySource, root: Path = ROOT) -> dict[str, Any]:
             for note in cav.notes:
                 warn(src.entry_fields.get(rules.text_field, rules.text_field), fields.get(rules.text_field), note, "note")
 
+        ctx = RowContext(
+            row=excel_row,
+            raw=row,
+            fields=fields,
+            values={k: aligned[k] for k in (*src.band_metrics, *src.info_metrics)},
+            n_bands=n,
+            metric_flags={"simulated": set(cav.sim_metrics)} if cav.sim_metrics else {},
+        )
+        if src.adjust:
+            src.adjust(ctx)
+            for column, note in ctx.notes:
+                warn(column, row.get(column), note, "note")
+
         entry_idx = len(paper["entries"])
         entry: dict[str, Any] = {
             "row": excel_row,
-            **{k: fields[k] for k in src.entry_fields},
-            "group": classify(fields.get(src.group_field), src.group_rules, src.group_default),
+            **{k: v for k, v in ctx.fields.items() if k not in src.paper_fields},
+            "group": classify(ctx.fields.get(src.group_field), src.group_rules, src.group_default),
             "n_bands": n,
             "sources": sources,
             "raw": raw,
         }
-        if cav.sim_metrics:
-            entry["sim_metrics"] = sorted(cav.sim_metrics)
+        metric_flags = {f: sorted(ms) for f, ms in sorted(ctx.metric_flags.items()) if ms}
+        if metric_flags:
+            entry["metric_flags"] = metric_flags
         paper["entries"].append(entry)
         entries_out += 1
 
+        freq = [p.value if p else None for p in ctx.values[src.band_key]]
         for i in range(n):
             if freq[i] is None:
                 continue
             point: dict[str, Any] = {"paper": pid, "entry": entry_idx, "band": i}
             for key in (*src.band_metrics, *src.info_metrics):
-                p = aligned[key][i]
+                p = ctx.values[key][i]
                 point[key] = p.value if p else None
             if cav.temps_k and cav.temps_k[i] is not None:
                 point["temp_k"] = cav.temps_k[i]
-            flags = cav.band_flags(i)
+            flags = sorted(set(cav.band_flags(i)) | ctx.flags)
             if flags:
                 point["flags"] = flags
             points.append(point)
@@ -246,6 +283,11 @@ def build_survey(src: SurveySource, root: Path = ROOT) -> dict[str, Any]:
             "points_out": len(points),
             "warning_counts": dict(Counter(w["severity"] for w in warnings)),
             "flag_counts": dict(Counter(f for pt in points for f in pt.get("flags", []))),
+            # points whose entry has a caveat on some of its values only
+            "metric_flag_counts": dict(Counter(
+                f for pt in points
+                for f in papers[pt["paper"]]["entries"][pt["entry"]].get("metric_flags", {})
+            )),
         },
         "papers": list(papers.values()),
         "points": points,

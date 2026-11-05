@@ -31,6 +31,20 @@ for (const [id, entry] of Object.entries(SURVEYS)) {
       if (m.ticks) assert.equal(m.scale, 'log', `${id}: ${k} has ticks but is not log`);
       for (const d of m.dependsOn ?? []) assert.ok(metrics.has(d), `${id}: ${k} depends on unknown metric ${d}`);
     }
+    const symbolCats = Object.values(cfg.categories ?? {}).filter((c) => c.symbols);
+    assert.ok(symbolCats.length <= 1, `${id}: only one category may set marker symbols`);
+    for (const [k, c] of Object.entries(cfg.categories ?? {})) {
+      assert.ok(c.label && c.field && c.order?.length, `${id}: category ${k} needs label, field and order`);
+      assert.ok(!metrics.has(k), `${id}: category ${k} clashes with a metric of the same name`);
+      for (const v of Object.keys(c.symbols ?? {})) assert.ok(c.order.includes(v), `${id}: ${k} symbol for unknown value ${v}`);
+    }
+    for (const panel of cfg.panels) {
+      for (const ref of panel.refs ?? []) {
+        assert.ok(ref.label && typeof ref.y === 'function', `${id}: reference line on ${panel.x}/${panel.y} needs label and y()`);
+        const y = ref.y(10);
+        assert.ok(y === null || Number.isFinite(y), `${id}: reference line "${ref.label}" returned ${y}`);
+      }
+    }
     for (const [k, c] of Object.entries(cfg.caveats ?? {})) {
       assert.ok(c.label && c.short && c.description, `${id}: caveat ${k} needs label, short and description`);
     }

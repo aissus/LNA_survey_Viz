@@ -165,3 +165,12 @@ def test_whitespace_collapses_and_plain_text_is_untouched():
 ])
 def test_lna_process_groups(process, group):
     assert classify(process, LNA.group_rules, LNA.group_default) == group
+
+
+@pytest.mark.parametrize("raw", ["#VALUE!", "#REF!", "#DIV/0!", "#N/A", " #div/0! "])
+def test_excel_errors_are_missing_with_an_error(raw):
+    p = parse_number(raw)
+    assert p.value is None and "Excel error" in p.error
+    # "#DIV/0!" contains the band separator but is one broken cell, not two bands
+    bands = parse_bands(raw)
+    assert len(bands) == 1 and bands[0].value is None and "Excel error" in bands[0].error

@@ -9,3 +9,7 @@ __pycache__/
 
 # Node (only used for type checking and JS tests)
 node_modules/
+
+# Survey spreadsheets downloaded at build time (SurveySource.url); not republished
+sources/phased_array/
+sources/pa/
