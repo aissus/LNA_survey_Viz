@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survey Visualizer</title>
+  <meta name="description" content="Interactive plots of published IC block surveys (LNA, more to come).">
+  <link rel="stylesheet" href="css/app.css">
+  <!-- Plotly is vendored (scripts/fetch_vendor.py), never loaded from a CDN. -->
+  <script src="vendor/plotly-cartesian-3.7.0.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-text">
+      <h1 id="survey-title">Survey Visualizer</h1>
+      <p id="survey-subtitle" class="subtitle"></p>
+      <p id="survey-source" class="source"></p>
+    </div>
+    <label id="survey-picker" class="survey-picker" hidden>Survey <select id="survey-select"></select></label>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="Filters and your design points">
+      <details class="card collapsible" open>
+        <summary><h2>Filters</h2></summary>
+        <div id="filters"></div>
+      </details>
+      <details class="card collapsible" open>
+        <summary><h2>Your design points</h2></summary>
+        <div id="manual"></div>
+      </details>
+    </aside>
+
+    <main class="content">
+      <div class="toolbar" role="toolbar" aria-label="Plot tools">
+        <button type="button" id="clear-selection" class="btn">Clear selection</button>
+        <button type="button" id="reset-zoom" class="btn">Reset zoom</button>
+        <label class="toggle"><input type="checkbox" id="minor-grid"> Minor grid</label>
+        <span class="toolbar-group">
+          <label for="export-which" class="visually-hidden">Export</label>
+          <select id="export-which" aria-label="What to export"></select>
+          <select id="export-format" aria-label="Image format">
+            <option value="svg">SVG</option>
+            <option value="png">PNG</option>
+          </select>
+          <button type="button" id="export-btn" class="btn">Download</button>
+        </span>
+        <button type="button" id="copy-link" class="btn">Copy link</button>
+        <span id="flash" class="flash" role="status"></span>
+      </div>
+      <p class="status"><span id="status" role="status">Loading survey data…</span>
+        <span id="hint" class="hint"> · Click a point or a table row to pin its details. Box or lasso selects several papers.</span></p>
+
+      <section class="card figure-card" aria-label="Linked plots">
+        <div id="linked-figure" class="figure"></div>
+      </section>
+
+      <section class="card figure-card" aria-labelledby="explorer-heading">
+        <h2 id="explorer-heading">Explore any two metrics</h2>
+        <div class="explorer-controls">
+          <label>X <select id="ex-x"></select></label>
+          <label>Y <select id="ex-y"></select></label>
+          <label>Colour <select id="ex-color"></select></label>
+          <label class="toggle"><input type="checkbox" id="ex-logx"> log X</label>
+          <label class="toggle"><input type="checkbox" id="ex-logy"> log Y</label>
+        </div>
+        <div id="explorer-figure" class="figure"></div>
+      </section>
+
+      <section class="card" aria-labelledby="table-heading">
+        <h2 id="table-heading">Data</h2>
+        <div id="table"></div>
+      </section>
+    </main>
+  </div>
+
+  <aside id="detail-card" class="detail-card" aria-label="Paper details" aria-live="polite" hidden></aside>
+
+  <footer class="site-footer">
+    <p><strong>Please cite the original survey:</strong> <span id="citation"></span></p>
+    <p id="build-info" class="muted"></p>
+    <details id="import-notes" class="data-notes"></details>
+  </footer>
+</body>
+</html>
