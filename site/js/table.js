@@ -2,7 +2,7 @@
 /** Data table: every filtered point, sortable, linked to the selection. */
 
 import { fmt, h, metricLabel } from './format.js';
-import { sortBy } from './model.js';
+import { metricFlagsOf, sortBy } from './model.js';
 
 /** @typedef {import('./types.js').SurveyConfig} SurveyConfig */
 /** @typedef {import('./types.js').AppState} AppState */
@@ -32,10 +32,14 @@ export function createTable(root, { cfg, store, papers }) {
       const text = f === 'cryogenic' && p.tempK != null ? `${c?.short ?? f} ${p.tempK} K` : c?.short ?? f;
       return h('span', { class: 'badge', title: c?.description ?? f }, text);
     });
-    const sim = (p.simMetrics?.length ? p.simMetrics : p.maskedSim ?? []).filter((/** @type {string} */ k) => !cfg.metrics[k]?.dependsOn && k !== 'nfmin');
-    if (sim.length && !p.flags?.includes('simulated')) {
-      out.push(h('span', { class: 'badge', title: cfg.caveats?.simulated?.description ?? '' },
-        `${cfg.caveats?.simulated?.short ?? 'sim'} ${sim.map((/** @type {string} */ k) => cfg.metrics[k]?.short ?? cfg.metrics[k]?.label ?? k).join(', ')}`));
+    // caveats on single values, named by their measured inputs (not the FOMs derived from them)
+    const valueFlags = { ...(p.masked ?? {}), ...metricFlagsOf(p) };
+    for (const [f, ms] of Object.entries(valueFlags)) {
+      const inputs = ms.filter((k) => !cfg.metrics[k]?.dependsOn);
+      if (!inputs.length || p.flags?.includes(f)) continue;
+      const c = cfg.caveats?.[f];
+      out.push(h('span', { class: 'badge', title: c?.description ?? f },
+        `${c?.short ?? f} ${inputs.map((k) => cfg.metrics[k]?.short ?? cfg.metrics[k]?.label ?? k).join(', ')}`));
     }
     return out.length ? h('span', { class: 'badges' }, out) : null;
   };
@@ -69,6 +73,9 @@ export function createTable(root, { cfg, store, papers }) {
     },
     { key: 'year', label: 'Year', numeric: true, value: (p) => p.year, cell: (p) => String(p.year ?? '') },
     { key: 'group', label: cfg.groups.label ?? 'Group', value: (p) => p.group, cell: (p) => p.group },
+    ...Object.entries(cfg.categories ?? {}).map(([key, cat]) => /** @type {Column} */ ({
+      key, label: cat.label, value: (p) => p[key], cell: (p) => String(p[key] ?? ''),
+    })),
     {
       key: 'link',
       label: 'Link',
@@ -80,6 +87,8 @@ export function createTable(root, { cfg, store, papers }) {
     },
   ];
   const sortable = new Set(columns.filter((c) => c.key !== 'link').map((c) => c.key));
+  // text columns sort A-Z first, numbers largest first
+  const textKeys = new Set(['title', 'group', ...Object.keys(cfg.categories ?? {})]);
 
   const table = h('table', { class: 'data-table' });
   const caption = h('p', { class: 'table-caption' });
@@ -94,7 +103,7 @@ export function createTable(root, { cfg, store, papers }) {
 
   /** @param {string} key */
   const sortOn = (key) => store.set((s) => ({
-    sort: { key, dir: s.sort.key === key ? /** @type {1|-1} */ (-s.sort.dir) : key === 'title' || key === 'group' ? 1 : -1 },
+    sort: { key, dir: s.sort.key === key ? /** @type {1|-1} */ (-s.sort.dir) : textKeys.has(key) ? 1 : -1 },
   }));
 
   return {

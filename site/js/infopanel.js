@@ -8,7 +8,7 @@
 
 import { caveatText } from './charts.js';
 import { fmt, h, metricLabel } from './format.js';
-import { isNum } from './model.js';
+import { caveatsOf, isNum, metricFlagsOf } from './model.js';
 
 /** @typedef {import('./types.js').SurveyConfig} SurveyConfig */
 /** @typedef {import('./types.js').AppState} AppState */
@@ -90,15 +90,19 @@ export function createDetailCard(card, { cfg, store, papers, byPaper, warnings }
         metricKeys.map((k) => h('tr', null,
           h('th', { scope: 'row', title: cfg.metrics[k].description ?? null }, metricLabel(cfg.metrics[k])),
           pts.map((p) => {
-            const sim = p.simMetrics?.includes(k);
-            return h('td', { class: sim ? 'num is-sim' : 'num', title: sim ? 'simulated' : null }, fmt(p[k], cfg.metrics[k].digits ?? 2));
+            // italic: this value carries a caveat of its own (e.g. simulated)
+            const on = Object.entries(metricFlagsOf(p)).filter(([, ms]) => ms.includes(k)).map(([f]) => cfg.caveats?.[f]?.label ?? f);
+            return h('td', { class: on.length ? 'num is-sim' : 'num', title: on.length ? on.join(', ') : null }, fmt(p[k], cfg.metrics[k].digits ?? 2));
           }))),
+        Object.entries(cfg.categories ?? {}).map(([key, cat]) => h('tr', null,
+          h('th', { scope: 'row' }, cat.label),
+          pts.map((p) => h('td', { title: cat.descriptions?.[p[key]] ?? null }, String(p[key] ?? '–'))))),
         hasTemp ? h('tr', null, h('th', { scope: 'row' }, 'Temperature (K)'),
           pts.map((p) => h('td', { class: 'num' }, isNum(p.tempK) ? String(p.tempK) : '–'))) : null,
         hasCaveats ? h('tr', { class: 'caveat-row' }, h('th', { scope: 'row' }, 'Caveats'),
           pts.map((p) => h('td', { class: 'caveat-cell' }, caveatCell(p) || '–'))) : null));
 
-    const flagsHere = new Set(pts.flatMap((p) => [...(p.flags ?? []), ...(p.simMetrics?.length ? ['simulated'] : [])]));
+    const flagsHere = new Set(pts.flatMap(caveatsOf));
     const caveatNotes = [...flagsHere].filter((f) => cfg.caveats?.[f]).map((f) => {
       const c = /** @type {import('./types.js').Caveat} */ (cfg.caveats?.[f]);
       return h('li', null, h('strong', null, c.label), ': ', c.description);

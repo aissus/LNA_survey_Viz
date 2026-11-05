@@ -69,6 +69,8 @@
  *   point flag covers the whole point, an entry's metric_flags only some of its values. Flagged
  *   points / values are drawn hollow and can be excluded.
  * @property {{fields: ManualField[]}} manual
+ * @property {string} [strictLabel]            label of the link that hides every caveat (default "None")
+ * @property {boolean} [webgl]                 draw with WebGL (thousands of points); exports stay vector
  *
  * A plotted point: one band of one entry of one paper (or a user-added point).
  * @typedef {Record<string, any> & {id: string, paperId: (string|null), group: string, manual: boolean}} Point
@@ -84,6 +86,7 @@
  * @property {string} survey
  * @property {string[]|null} groups               enabled groups; null = all
  * @property {string[]} exclude                   caveat flags hidden from plots and table
+ * @property {Record<string, string[]>} cats      category -> enabled values; only narrowed categories
  * @property {Record<string, [number, number]>} ranges   only narrowed ranges are present
  * @property {string[]} selected                  paper ids (box / lasso selection)
  * @property {string|null} focus                  paper id shown in the info panel

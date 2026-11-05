@@ -66,10 +66,10 @@ export function joinData(json, cfg) {
       flags: raw.flags ?? [],
       tempK: raw.temp_k ?? null,
       metricFlags,
-      simMetrics: metricFlags.simulated ?? [],
       manual: false,
     };
     for (const f of cfg.paperFields ?? []) p[f] = paper[f];
+    for (const [key, cat] of Object.entries(cfg.categories ?? {})) p[key] = categoryValue(entry[cat.field]);
     return applyDerived(p, cfg);
   });
 
@@ -93,25 +93,82 @@ export function joinData(json, cfg) {
 export function withDependents(metrics, cfg) {
   if (!metrics.length) return [];
   const out = new Set(metrics);
-  for (const [key, m] of Object.entries(cfg.metrics ?? {})) {
-    if (m.dependsOn?.some((d) => out.has(d))) out.add(key);
+  // repeat until stable: a derived metric may itself be the input of another one
+  for (let grew = true; grew;) {
+    grew = false;
+    for (const [key, m] of Object.entries(cfg.metrics ?? {})) {
+      if (!out.has(key) && m.dependsOn?.some((d) => out.has(d))) {
+        out.add(key);
+        grew = true;
+      }
+    }
   }
   return [...out];
 }
 
+/** Category value shown for an entry that has none. */
+export const NOT_REPORTED = 'Not reported';
+
+/** @param {unknown} v */
+const categoryValue = (v) => (v == null || v === '' ? NOT_REPORTED : String(v));
+
 /**
- * Is this point a caveat on a plot of x vs y? Flagged points always are;
- * individually simulated values only on the plots that show them.
- * @param {Point} p @param {string[]} keys metric keys shown
+ * Values of each configured category present in the data: config order first,
+ * values not in the config after, A-Z.
+ * @param {Point[]} points @param {SurveyConfig} cfg
+ * @returns {Record<string, string[]>}
  */
-export function hasCaveat(p, keys) {
-  return (p.flags?.length ?? 0) > 0 || keys.some((k) => p.simMetrics?.includes(k));
+export function categoriesInData(points, cfg) {
+  /** @type {Record<string, string[]>} */
+  const out = {};
+  for (const [key, cat] of Object.entries(cfg.categories ?? {})) {
+    const present = new Set(points.map((p) => p[key]));
+    const extra = [...present].filter((v) => !cat.order.includes(v)).sort((a, b) => Number(a === NOT_REPORTED) - Number(b === NOT_REPORTED) || a.localeCompare(b));
+    out[key] = [...cat.order.filter((v) => present.has(v)), ...extra];
+  }
+  return out;
 }
 
 /**
- * Drop points carrying an excluded flag. Excluding "simulated" also blanks
- * individually simulated values (and what is derived from them) on points
- * that are otherwise measured, so "measured only" really means that.
+ * Points whose value of every narrowed category is enabled.
+ * @param {Point[]} points
+ * @param {Record<string, string[]>} cats  category -> enabled values; a missing key = all
+ */
+export function filterByCategories(points, cats) {
+  const cs = Object.entries(cats ?? {}).map(([k, vals]) => /** @type {[string, Set<string>]} */ ([k, new Set(vals)]));
+  if (cs.length === 0) return points;
+  return points.filter((p) => cs.every(([k, on]) => on.has(p[k])));
+}
+
+/**
+ * The caveats that apply to some metrics only, as caveat -> metric keys.
+ * @param {Point} p @returns {Record<string, string[]>}
+ */
+export const metricFlagsOf = (p) => p.metricFlags ?? {};
+
+/**
+ * Is this point a caveat on a plot of the given metrics? Flagged points always
+ * are; a caveat on single values only on the plots that show those values.
+ * @param {Point} p @param {string[]} keys metric keys shown
+ */
+export function hasCaveat(p, keys) {
+  if ((p.flags?.length ?? 0) > 0) return true;
+  return Object.values(metricFlagsOf(p)).some((ms) => keys.some((k) => ms.includes(k)));
+}
+
+/**
+ * Caveats (flags and value-level) present on a point, including values hidden by a filter.
+ * @param {Point} p @returns {string[]}
+ */
+export function caveatsOf(p) {
+  return [...new Set([...(p.flags ?? []), ...Object.keys(metricFlagsOf(p)), ...Object.keys(p.masked ?? {})])];
+}
+
+/**
+ * Drop points carrying an excluded flag. An excluded caveat that covers only
+ * some values (e.g. a simulated IIP3) blanks those values, and what is derived
+ * from them, on points that are otherwise kept: "measured only" really means
+ * that. Blanked values are listed in `masked` (caveat -> metrics).
  * @param {Point[]} points
  * @param {string[]} exclude
  */
@@ -122,14 +179,19 @@ export function excludeCaveats(points, exclude) {
   const out = [];
   for (const p of points) {
     if (p.flags?.some((/** @type {string} */ f) => ex.has(f))) continue;
-    if (ex.has('simulated') && p.simMetrics?.length) {
-      /** @type {Point} */
-      const q = { ...p, simMetrics: [], maskedSim: p.simMetrics };
-      for (const k of p.simMetrics) q[k] = null;
-      out.push(q);
-    } else {
+    const hit = Object.entries(metricFlagsOf(p)).filter(([f, ms]) => ex.has(f) && ms.length);
+    if (!hit.length) {
       out.push(p);
+      continue;
     }
+    /** @type {Point} */
+    const q = { ...p, metricFlags: { ...metricFlagsOf(p) }, masked: { ...(p.masked ?? {}) } };
+    for (const [f, ms] of hit) {
+      delete q.metricFlags[f];
+      q.masked[f] = ms;
+      for (const k of ms) q[k] = null;
+    }
+    out.push(q);
   }
   return out;
 }

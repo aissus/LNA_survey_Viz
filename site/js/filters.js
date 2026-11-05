@@ -1,8 +1,11 @@
 // @ts-check
-/** Sidebar filters: group checkboxes and one dual-range slider per configured metric. */
+/**
+ * Sidebar filters: group checkboxes, one checkbox list per category, the
+ * caveats, and one dual-range slider per configured metric.
+ */
 
 import { fmt, h, metricLabel } from './format.js';
-import { extent } from './model.js';
+import { extent, metricFlagsOf } from './model.js';
 
 /** @typedef {import('./types.js').SurveyConfig} SurveyConfig */
 /** @typedef {import('./types.js').AppState} AppState */
@@ -42,9 +45,9 @@ export function symbolIcon(symbol, color) {
 
 /**
  * @param {HTMLElement} root
- * @param {{cfg: SurveyConfig, store: Store, points: Point[], groups: string[]}} opts
+ * @param {{cfg: SurveyConfig, store: Store, points: Point[], groups: string[], catValues: Record<string, string[]>}} opts
  */
-export function createFilters(root, { cfg, store, points, groups }) {
+export function createFilters(root, { cfg, store, points, groups, catValues }) {
   /** @type {Record<string, number>} */
   const counts = {};
   for (const p of points) counts[p.group] = (counts[p.group] ?? 0) + 1;
@@ -73,6 +76,44 @@ export function createFilters(root, { cfg, store, points, groups }) {
       h('button', { type: 'button', class: 'link', onclick: () => setGroups(groups) }, 'All'),
       h('button', { type: 'button', class: 'link', onclick: () => setGroups([]) }, 'None')));
 
+  // --- categories ---------------------------------------------------------------
+  /** @type {Array<{key: string, boxes: Map<string, HTMLInputElement>}>} */
+  const catControls = [];
+  const catSets = Object.entries(cfg.categories ?? {}).map(([key, cat]) => {
+    const values = catValues[key] ?? [];
+    if (values.length < 2) return null; // nothing to choose between
+    /** @type {Record<string, number>} */
+    const n = {};
+    for (const p of points) n[p[key]] = (n[p[key]] ?? 0) + 1;
+    /** @type {Map<string, HTMLInputElement>} */
+    const catBoxes = new Map();
+    const setCat = (/** @type {string[]} */ on) => store.set((s) => {
+      const cats = { ...s.cats };
+      if (on.length === values.length) delete cats[key];
+      else cats[key] = on;
+      return { cats };
+    });
+    catControls.push({ key, boxes: catBoxes });
+    return h('fieldset', { class: 'filter' },
+      h('legend', { class: 'filter-label' }, cat.label),
+      h('div', { class: 'check-list' }, values.map((v) => {
+        const input = /** @type {HTMLInputElement} */ (h('input', {
+          type: 'checkbox',
+          value: v,
+          onchange: () => setCat(values.filter((x) => catBoxes.get(x)?.checked)),
+        }));
+        catBoxes.set(v, input);
+        return h('label', { class: 'check', title: cat.descriptions?.[v] ?? null },
+          input,
+          cat.symbols ? symbolIcon(cat.symbols[v] ?? 'circle', '#52514e') : null,
+          h('span', { class: 'check-label' }, v),
+          h('span', { class: 'count', title: `${n[v] ?? 0} points in the survey` }, String(n[v] ?? 0)));
+      })),
+      h('div', { class: 'link-row' },
+        h('button', { type: 'button', class: 'link', onclick: () => setCat(values) }, 'All'),
+        h('button', { type: 'button', class: 'link', onclick: () => setCat([]) }, 'None')));
+  }).filter((x) => x != null);
+
   // --- caveats ("Include") ----------------------------------------------------
   const caveatKeys = Object.keys(cfg.caveats ?? {});
   /** @type {Map<string, HTMLInputElement>} */
@@ -83,7 +124,8 @@ export function createFilters(root, { cfg, store, points, groups }) {
     h('div', { class: 'check-list' }, caveatKeys.map((k) => {
       const c = /** @type {import('./types.js').Caveat} */ (cfg.caveats?.[k]);
       const flagged = points.filter((p) => p.flags?.includes(k)).length;
-      const values = k === 'simulated' ? points.filter((p) => p.simMetrics?.length && !p.flags?.includes(k)).length : 0;
+      // points kept whole, with only some values under this caveat (e.g. a simulated IIP3)
+      const values = points.filter((p) => metricFlagsOf(p)[k]?.length && !p.flags?.includes(k)).length;
       const input = /** @type {HTMLInputElement} */ (h('input', {
         type: 'checkbox',
         value: k,
@@ -95,23 +137,32 @@ export function createFilters(root, { cfg, store, points, groups }) {
         input,
         symbolIcon('circle-open', '#52514e'),
         h('span', { class: 'check-label' }, c.label),
-        h('span', { class: 'count', title: values ? `${flagged} points, plus ${values} points with individual simulated values` : `${flagged} points` }, count));
+        h('span', { class: 'count', title: values ? `${flagged} points, plus ${values} points with some values ${c.label.toLowerCase()}` : `${flagged} points` }, count));
     })),
     h('div', { class: 'link-row' },
       h('button', { type: 'button', class: 'link', onclick: () => setExclude([]) }, 'All'),
-      h('button', { type: 'button', class: 'link', title: 'Hide every simulated, system-level and cryogenic value', onclick: () => setExclude(caveatKeys) }, 'Measured standalone only'))) : null;
+      h('button', {
+        type: 'button',
+        class: 'link',
+        title: `Hide every ${caveatKeys.map((k) => cfg.caveats?.[k]?.label.toLowerCase() ?? k).join(', ')} point or value`,
+        onclick: () => setExclude(caveatKeys),
+      }, cfg.strictLabel ?? 'None'))) : null;
 
   // --- ranges ---------------------------------------------------------------
   const sliders = cfg.filters.map((key) => rangeControl(key, cfg, store, points)).filter((s) => s != null);
 
-  root.replaceChildren(groupSet, ...(caveatSet ? [caveatSet] : []), ...sliders.map((s) => s.el),
-    h('button', { type: 'button', class: 'btn btn-quiet', onclick: () => store.set({ groups: null, ranges: {}, exclude: [] }) }, 'Reset filters'));
+  root.replaceChildren(groupSet, ...catSets, ...(caveatSet ? [caveatSet] : []), ...sliders.map((s) => s.el),
+    h('button', { type: 'button', class: 'btn btn-quiet', onclick: () => store.set({ groups: null, cats: {}, ranges: {}, exclude: [] }) }, 'Reset filters'));
 
   return {
     /** @param {AppState} state */
     render(state) {
       const on = new Set(state.groups ?? groups);
       for (const [g, box] of boxes) box.checked = on.has(g);
+      for (const { key, boxes: catBoxes } of catControls) {
+        const enabled = state.cats[key];
+        for (const [v, box] of catBoxes) box.checked = !enabled || enabled.includes(v);
+      }
       for (const [k, box] of caveatBoxes) box.checked = !state.exclude.includes(k);
       for (const s of sliders) s.render(state);
     },

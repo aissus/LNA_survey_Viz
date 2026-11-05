@@ -5,6 +5,7 @@
  *   s=lna            survey (omitted for the default survey)
  *   g=SiGe,CMOS SOI  enabled groups (omitted = all, empty = none)
  *   x=simulated      excluded caveat flags
+ *   c.type=TX,RX     enabled values of a narrowed category (empty = none)
  *   r.freq=1~100     narrowed range per metric
  *   sel=ab12cd34,..  selected paper ids      f=ab12cd34  focused paper
  *   minor=1          minor grid              only=1      table: selected only
@@ -38,6 +39,7 @@ export function encodeState(s, d) {
   if (s.survey !== d.survey) q.set('s', s.survey);
   if (s.groups) q.set('g', s.groups.join(','));
   if (s.exclude.length) q.set('x', s.exclude.join(','));
+  for (const [k, vals] of Object.entries(s.cats ?? {})) q.set(`c.${k}`, vals.join(','));
   for (const [k, [lo, hi]] of Object.entries(s.ranges)) q.set(`r.${k}`, `${num(lo)}${SEP}${num(hi)}`);
   if (s.selected.length) q.set('sel', s.selected.join(','));
   if (s.focus) q.set('f', s.focus);
@@ -56,7 +58,7 @@ export function encodeState(s, d) {
  * malformed is ignored, so an old or hand-edited link never breaks the page.
  * @param {string} search
  * @param {AppState} d defaults
- * @param {{metrics: Set<string>, sortKeys: Set<string>, colorKeys: Set<string>, caveats?: Set<string>}} known
+ * @param {{metrics: Set<string>, sortKeys: Set<string>, colorKeys: Set<string>, caveats?: Set<string>, categories?: Map<string, Set<string>>}} known
  * @returns {AppState}
  */
 export function decodeState(search, d, known) {
@@ -68,6 +70,10 @@ export function decodeState(search, d, known) {
   if (q.has('s')) s.survey = /** @type {string} */ (q.get('s'));
   if (q.has('g')) s.groups = list('g');
   s.exclude = list('x').filter((k) => known.caveats?.has(k));
+  s.cats = {};
+  for (const [k, values] of known.categories ?? []) {
+    if (q.has(`c.${k}`)) s.cats[k] = list(`c.${k}`).filter((v) => values.has(v));
+  }
   for (const [k, v] of q) {
     if (!k.startsWith('r.') || !known.metrics.has(k.slice(2))) continue;
     const [lo, hi] = v.split(SEP).map(Number);

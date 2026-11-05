@@ -135,6 +135,8 @@ const lna = {
     },
   },
 
+  strictLabel: 'Measured standalone only',
+
   manual: {
     fields: [
       { metric: 'freq', required: true, placeholder: '28' },
