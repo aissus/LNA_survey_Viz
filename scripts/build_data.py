@@ -23,8 +23,9 @@ import json
 import re
 import sys
 import urllib.request
+import warnings as pywarnings  # "warnings" is the import-notes list below
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import date, datetime, time, timezone
 from pathlib import Path
 from typing import Any
 
@@ -63,18 +64,45 @@ def ensure_source(src: SurveySource, root: Path = ROOT) -> Path:
     return path
 
 
-def read_rows(path: Path, sheet: str) -> list[tuple[int, dict[str, Any]]]:
-    """Return (excel_row_number, {header: value}) for every non-empty data row."""
-    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+def _load_workbook(path: Path) -> Any:
+    # not read_only: merged ranges are only available on a fully loaded sheet
+    with pywarnings.catch_warnings():  # charts and shapes are not needed
+        pywarnings.filterwarnings("ignore", message="DrawingML support is incomplete")
+        return openpyxl.load_workbook(path, data_only=True)
+
+
+def _sheet_rows(ws: Any, aliases: dict[str, str] | None = None) -> list[tuple[int, dict[str, Any]]]:
+    """Return (excel_row_number, {header: value}) for every non-empty data row.
+
+    ``aliases`` renames this sheet's headers. When a header repeats, the first
+    column wins (later copies are typically formula helper columns). A cell
+    merged over several rows applies to each of them, as it does on screen.
+    """
+    merged: dict[tuple[int, int], Any] = {}  # (row, col) -> value of the merged range
+    for rng in ws.merged_cells.ranges:
+        top = ws.cell(rng.min_row, rng.min_col).value
+        for r in range(rng.min_row + 1, rng.max_row + 1):
+            merged[(r, rng.min_col)] = top
+    rows = ws.iter_rows(values_only=True)
+    header = [str(h).strip() if h is not None else "" for h in next(rows)]
+    header = [(aliases or {}).get(h, h) for h in header]
+    out = []
+    for excel_row, values in enumerate(rows, start=2):
+        values = [merged.get((excel_row, c), v) for c, v in enumerate(values, start=1)]
+        if all(v is None or (isinstance(v, str) and not v.strip()) for v in values):
+            continue
+        row: dict[str, Any] = {}
+        for h, v in zip(header, values):
+            row.setdefault(h, v)
+        out.append((excel_row, row))
+    return out
+
+
+def read_rows(path: Path, sheet: str, aliases: dict[str, str] | None = None) -> list[tuple[int, dict[str, Any]]]:
+    """Rows of one sheet; see ``_sheet_rows``."""
+    wb = _load_workbook(path)
     try:
-        rows = wb[sheet].iter_rows(values_only=True)
-        header = [str(h).strip() if h is not None else "" for h in next(rows)]
-        out = []
-        for excel_row, values in enumerate(rows, start=2):
-            if all(v is None or (isinstance(v, str) and not v.strip()) for v in values):
-                continue
-            out.append((excel_row, dict(zip(header, values))))
-        return out
+        return _sheet_rows(wb[sheet], aliases)
     finally:
         wb.close()
 
@@ -85,6 +113,9 @@ def _clean_field(value: Any) -> tuple[Any, list[str]]:
         return (text or None), notes
     if isinstance(value, float) and value.is_integer():
         return int(value), []
+    if isinstance(value, (date, time)):  # Excel read a typed range such as "8-12" as a date
+        text = value.date().isoformat() if isinstance(value, datetime) else value.isoformat()
+        return text, [f"Excel stored this cell as the date/time {text}; what was typed is lost"]
     return value, []
 
 
@@ -170,32 +201,47 @@ def _parse_entry(src: SurveySource, row: dict[str, Any], warn) -> tuple[int, dic
 def build_survey(src: SurveySource, root: Path = ROOT) -> dict[str, Any]:
     """Read one survey spreadsheet and return the JSON-ready dataset."""
     path = ensure_source(src, root)
-    rows = read_rows(path, src.sheet)
+    sheets = (src.sheet,) if isinstance(src.sheet, str) else tuple(src.sheet)
+    multi = len(sheets) > 1  # then entries and warnings record their sheet
+    wb = _load_workbook(path)
+    try:
+        rows = [
+            (sheet.strip(), excel_row, row)  # recorded without stray spaces (" Multipliers")
+            for sheet in sheets
+            for excel_row, row in _sheet_rows(wb[sheet], src.header_aliases.get(sheet))
+        ]
+    finally:
+        wb.close()
 
     papers: dict[str, dict[str, Any]] = {}  # insertion-ordered by first appearance
     points: list[dict[str, Any]] = []
     warnings: list[dict[str, Any]] = []
-    dropped_rows: set[int] = set()
+    dropped_rows: set[tuple[str | None, int]] = set()  # (sheet if multi, row)
     entries_out = 0
 
-    for excel_row, row in rows:
+    for sheet, excel_row, row in rows:
         fields: dict[str, Any] = {}
         text_notes: list[tuple[str, str]] = []
         for key, header in (*src.paper_fields.items(), *src.entry_fields.items()):
             fields[key], notes = _clean_field(row.get(header))
             text_notes += [(header, n) for n in notes]
+        if multi:
+            fields["sheet"] = sheet
 
         pid = _paper_id(_paper_key(fields, src.id_fields))
 
         def warn(column: str, raw: Any, issue: str, severity: str) -> None:
-            warnings.append(_warn(pid, excel_row, column, raw, issue, severity))
+            w = _warn(pid, excel_row, column, raw, issue, severity)
+            if multi:
+                w["sheet"] = sheet
+            warnings.append(w)
 
         for header, note in text_notes:
             warn(header, row.get(header), note, "note")
 
         n, aligned, sources, freq = _parse_entry(src, row, warn)
         if n == 0:
-            dropped_rows.add(excel_row)
+            dropped_rows.add((sheet if multi else None, excel_row))
             continue
 
         paper = papers.get(pid)
@@ -233,6 +279,8 @@ def build_survey(src: SurveySource, root: Path = ROOT) -> dict[str, Any]:
             src.adjust(ctx)
             for column, note in ctx.notes:
                 warn(column, row.get(column), note, "note")
+            if not paper["entries"]:  # this row starts the paper: keep the hook's fixes
+                paper.update({k: ctx.fields[k] for k in src.paper_fields})
 
         entry_idx = len(paper["entries"])
         entry: dict[str, Any] = {
@@ -267,9 +315,9 @@ def build_survey(src: SurveySource, root: Path = ROOT) -> dict[str, Any]:
     rows_in = len(rows)
     if rows_in != entries_out + len(dropped_rows):
         raise BuildError(f"{src.id}: {rows_in} rows in, {entries_out} emitted + {len(dropped_rows)} dropped")
-    flagged = {w["row"] for w in warnings if w["severity"] == "dropped"}
+    flagged = {(w.get("sheet"), w["row"]) for w in warnings if w["severity"] == "dropped"}
     if flagged != dropped_rows:
-        raise BuildError(f"{src.id}: dropped rows without a warning: {sorted(dropped_rows - flagged)}")
+        raise BuildError(f"{src.id}: dropped rows without a warning: {sorted(dropped_rows - flagged, key=str)}")
 
     return {
         "meta": {
@@ -320,7 +368,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         for w in data["warnings"]:
             if w["severity"] != "note" or args.verbose:
-                print(f"  row {w['row']:>4} [{w['severity']}] {w['column']}: {w['raw']!r} -> {w['issue']}")
+                where = f"{w['sheet']} row {w['row']}" if "sheet" in w else f"row {w['row']:>4}"
+                print(f"  {where} [{w['severity']}] {w['column']}: {w['raw']!r} -> {w['issue']}")
     return 0
 
 
