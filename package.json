@@ -1,0 +1,13 @@
+{
+  "name": "survey-viz",
+  "private": true,
+  "type": "module",
+  "description": "Type checking and unit tests for the static viewer in site/. Nothing here is shipped.",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"tests/js/*.test.mjs\""
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}
