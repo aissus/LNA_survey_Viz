@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from source_phased_array import PHASED_ARRAY
 from survey_sources import LNA, SurveySource
 
-SURVEYS: dict[str, SurveySource] = {s.id: s for s in (LNA,)}
+SURVEYS: dict[str, SurveySource] = {s.id: s for s in (LNA, PHASED_ARRAY)}

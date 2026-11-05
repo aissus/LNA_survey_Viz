@@ -9,6 +9,7 @@
 /** @type {Record<string, {label: string, load: () => Promise<{default: import('../js/types.js').SurveyConfig}>}>} */
 export const SURVEYS = {
   lna: { label: 'LNA', load: () => import('./lna.js') },
+  phased_array: { label: 'Phased array', load: () => import('./phased_array.js') },
 };
 
 export const DEFAULT_SURVEY = 'lna';
