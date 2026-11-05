@@ -140,7 +140,7 @@ async function main() {
   const explorerEl = $('#explorer-figure');
   const cardEl = $('#detail-card');
   const filters = createFilters($('#filters'), { cfg, store, points: model.points, groups, catValues });
-  const table = createTable($('#table'), { cfg, store, papers: model.papers });
+  const table = createTable($('#table'), { cfg, store, papers: model.papers, multiBand: model.points.some((p) => p.nBands > 1) });
   const card = createDetailCard(cardEl, { cfg, store, papers: model.papers, byPaper: model.byPaper, warnings: model.warnings });
   const manual = createManualPoints($('#manual'), { cfg, onChange: () => store.set((s) => ({ manualRev: s.manualRev + 1 })) });
 

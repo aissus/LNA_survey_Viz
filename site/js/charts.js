@@ -306,8 +306,10 @@ export function panelTraces(spec, ctx, axes, showlegend) {
 
   if (anyHollow && showlegend && cfg.caveats) {
     // Legend key only: explains the hollow markers.
-    const names = Object.values(cfg.caveats).map((c) => c.label.toLowerCase());
-    const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} or ${names.at(-1)}` : names[0];
+    // lower-case only plain words ("Simulated" -> "simulated", but keep "DC", "ICs")
+    const names = Object.values(cfg.caveats).map((c) => c.label.replace(/^[A-Z](?=[a-z])/, (ch) => ch.toLowerCase()));
+    const list = names.length > 3 ? 'a caveat applies (see Include)'
+      : names.length > 1 ? `${names.slice(0, -1).join(', ')} or ${names.at(-1)}` : names[0];
     traces.push({
       type: 'scatter', mode: 'markers', x: [null], y: [null], ...axes, hoverinfo: 'skip',
       name: `Hollow: ${list}`, legendgroup: CAVEAT_KEY, showlegend: true, legendrank: 2000,

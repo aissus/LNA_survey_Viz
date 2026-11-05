@@ -20,9 +20,9 @@ import { metricFlagsOf, sortBy } from './model.js';
 
 /**
  * @param {HTMLElement} root
- * @param {{cfg: SurveyConfig, store: Store, papers: Map<string, any>}} opts
+ * @param {{cfg: SurveyConfig, store: Store, papers: Map<string, any>, multiBand?: boolean}} opts
  */
-export function createTable(root, { cfg, store, papers }) {
+export function createTable(root, { cfg, store, papers, multiBand = true }) {
   const paper = (/** @type {Point} */ p) => papers.get(/** @type {string} */ (p.paperId));
 
   /** Small caveat badges ("sim", "system", "cryo 4 K", "sim IIP3"). @param {Point} p */
@@ -64,13 +64,13 @@ export function createTable(root, { cfg, store, papers }) {
         cell: (p) => fmt(p[key], m.digits ?? 2),
       });
     }),
-    {
+    ...(multiBand ? [/** @type {Column} */ ({
       key: 'band',
       label: 'Band',
       numeric: true,
       value: (p) => (p.nBands > 1 ? p.band + 1 : null),
       cell: (p) => (p.nBands > 1 ? `${p.band + 1}/${p.nBands}` : ''),
-    },
+    })] : []),
     { key: 'year', label: 'Year', numeric: true, value: (p) => p.year, cell: (p) => String(p.year ?? '') },
     { key: 'group', label: cfg.groups.label ?? 'Group', value: (p) => p.group, cell: (p) => p.group },
     ...Object.entries(cfg.categories ?? {}).map(([key, cat]) => /** @type {Column} */ ({

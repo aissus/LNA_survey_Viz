@@ -132,12 +132,12 @@ export function createFilters(root, { cfg, store, points, groups, catValues }) {
         onchange: () => setExclude(caveatKeys.filter((x) => !caveatBoxes.get(x)?.checked)),
       }));
       caveatBoxes.set(k, input);
-      const count = values ? `${flagged} + ${values}` : String(flagged);
+      const count = values ? (flagged ? `${flagged} + ${values}` : String(values)) : String(flagged);
       return h('label', { class: 'check', title: c.description },
         input,
         symbolIcon('circle-open', '#52514e'),
         h('span', { class: 'check-label' }, c.label),
-        h('span', { class: 'count', title: values ? `${flagged} points, plus ${values} points with some values ${c.label.toLowerCase()}` : `${flagged} points` }, count));
+        h('span', { class: 'count', title: values ? `${flagged} points, plus ${values} points where only some values have this caveat` : `${flagged} points` }, count));
     })),
     h('div', { class: 'link-row' },
       h('button', { type: 'button', class: 'link', onclick: () => setExclude([]) }, 'All'),
