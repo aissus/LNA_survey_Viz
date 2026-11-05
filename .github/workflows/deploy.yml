@@ -21,6 +21,15 @@ jobs:
 
       # --- data pipeline (Python) ---------------------------------------------
       - uses: astral-sh/setup-uv@v10.3.1
+      # Survey spreadsheets that are not committed are downloaded by the build
+      # (SurveySource.url, checked against a pinned sha256). Cache them, keyed
+      # on the source definitions, so each run does not fetch them from ETH.
+      - uses: actions/cache@v6
+        with:
+          path: |
+            sources/phased_array
+            sources/pa
+          key: survey-sources-${{ hashFiles('scripts/source_*.py') }}
       - name: Test the data pipeline
         run: uv run pytest
       - name: Build site/data/*.json from the survey spreadsheets
