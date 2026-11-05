@@ -288,7 +288,7 @@ const phasedArray = {
         TX: 'triangle-up',
         RX: 'triangle-down',
         TRX: 'diamond',
-        Oscillator: 'star',
+        Oscillator: 'pentagon',
         Relay: 'square',
       },
       descriptions: {

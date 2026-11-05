@@ -115,7 +115,7 @@ export function createDetailCard(card, { cfg, store, papers, byPaper, warnings }
         .map(([metric, source]) => cfg.sourceNotes?.[metric]?.[/** @type {string} */ (source)])
         .filter(Boolean);
       return h('div', { class: 'entry' },
-        multiEntry ? h('h3', { class: 'entry-title' }, `Row ${e.row} of the survey`) : null,
+        multiEntry ? h('h3', { class: 'entry-title' }, e.sheet ? `Sheet "${e.sheet}", row ${e.row}` : `Row ${e.row} of the survey`) : null,
         details.length ? h('dl', { class: 'details' }, details.map(([k, v]) => [h('dt', null, k), h('dd', null, v)])) : null,
         notes.length ? h('p', { class: 'muted small' }, notes.join(' ')) : null);
     });

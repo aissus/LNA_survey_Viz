@@ -4,7 +4,7 @@
  * in this file; how the spreadsheet is read lives in scripts/source_pa.py.
  */
 
-import { NEUTRAL, PROCESS_COLORS } from './palette.js';
+import { FAMILY_COLORS, NEUTRAL } from './palette.js';
 
 const FREQ_TICKS = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 100, 300, 1000];
 
@@ -123,19 +123,14 @@ const pa = {
 
   // Colour by technology family; the exact process (GaN / GaAs / InP within
   // III-V) is told apart by marker shape, through the "technology" category.
+  // ~6,100 points: WebGL keeps zoom, filters and selection smooth (exports stay vector)
+  webgl: true,
+
   groups: {
-    label: 'Technology',
-    order: ['CMOS Bulk', 'CMOS SOI', 'FinFET', 'SiGe', 'III-V', 'LDMOS', 'Other'],
-    colors: PROCESS_COLORS,
-    symbols: {
-      'CMOS Bulk': 'circle',
-      SiGe: 'diamond',
-      'CMOS SOI': 'square',
-      FinFET: 'triangle-up',
-      'III-V': 'cross',
-      LDMOS: 'hexagon',
-      Other: 'x',
-    },
+    label: 'Technology family',
+    order: ['CMOS', 'SiGe', 'III-V', 'LDMOS', 'Other'],
+    colors: FAMILY_COLORS,
+    symbols: { CMOS: 'circle', SiGe: 'diamond', 'III-V': 'triangle-down', LDMOS: 'hexagon', Other: 'x' },
     fallbackColor: NEUTRAL,
   },
   categories: {
@@ -151,7 +146,7 @@ const pa = {
         SiGe: 'diamond',
         GaN: 'triangle-down',
         GaAs: 'pentagon',
-        InP: 'star',
+        InP: 'cross',
         LDMOS: 'hexagon',
         Other: 'x',
       },

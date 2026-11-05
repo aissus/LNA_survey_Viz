@@ -333,3 +333,7 @@ select, input[type="text"], input[type="number"] {
 
 .explorer-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 13px; margin-bottom: 4px; }
 .explorer-controls label { display: inline-flex; gap: 6px; align-items: center; }
+
+/* "Show more" under a long table */
+.table-more { display: flex; gap: 12px; align-items: center; padding-top: 10px; }
+.table-more:empty { display: none; }

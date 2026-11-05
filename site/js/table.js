@@ -1,5 +1,11 @@
 // @ts-check
-/** Data table: every filtered point, sortable, linked to the selection. */
+/**
+ * Data table: every filtered point, sortable, linked to the selection. Rows are
+ * drawn a page at a time (sorting and filtering still cover every point), so a
+ * survey with thousands of points stays responsive.
+ */
+
+const PAGE = 200;
 
 import { fmt, h, metricLabel } from './format.js';
 import { metricFlagsOf, sortBy } from './model.js';
@@ -92,6 +98,10 @@ export function createTable(root, { cfg, store, papers, multiBand = true }) {
 
   const table = h('table', { class: 'data-table' });
   const caption = h('p', { class: 'table-caption' });
+  let limit = PAGE;
+  /** @type {(() => void) | null} */
+  let rerender = null;
+  const more = h('div', { class: 'table-more' });
   const onlySelected = /** @type {HTMLInputElement} */ (h('input', {
     type: 'checkbox',
     onchange: () => store.set({ onlySelected: onlySelected.checked }),
@@ -99,6 +109,7 @@ export function createTable(root, { cfg, store, papers, multiBand = true }) {
   root.replaceChildren(
     h('div', { class: 'table-tools' }, caption, h('label', { class: 'toggle' }, onlySelected, ' Only selected papers')),
     h('div', { class: 'table-wrap' }, table),
+    more,
   );
 
   /** @param {string} key */
@@ -120,7 +131,17 @@ export function createTable(root, { cfg, store, papers, multiBand = true }) {
       const col = columns.find((c) => c.key === state.sort.key) ?? columns[0];
       const sorted = sortBy(rows, col.value, state.sort.dir);
       const nPapers = new Set(sorted.map((p) => p.paperId)).size;
-      caption.textContent = `${sorted.length} points from ${nPapers} papers`;
+      // keep the focused paper's rows drawn even when they sort past the current page
+      const focusAt = state.focus ? sorted.findIndex((p) => p.paperId === state.focus) : -1;
+      const shown = Math.min(sorted.length, Math.max(limit, focusAt + 1));
+      caption.textContent = shown < sorted.length
+        ? `${sorted.length} points from ${nPapers} papers; first ${shown} shown`
+        : `${sorted.length} points from ${nPapers} papers`;
+      rerender = () => this.render(points, state);
+      more.replaceChildren(...(shown < sorted.length ? [
+        h('button', { type: 'button', class: 'btn btn-quiet', onclick: () => { limit = shown + PAGE; rerender?.(); } }, `Show ${Math.min(PAGE, sorted.length - shown)} more`),
+        h('button', { type: 'button', class: 'link', onclick: () => { limit = sorted.length; rerender?.(); } }, `Show all ${sorted.length}`),
+      ] : []));
 
       const head = h('tr', null, columns.map((c) => {
         const active = c.key === state.sort.key;
@@ -132,7 +153,7 @@ export function createTable(root, { cfg, store, papers, multiBand = true }) {
       }));
 
       const body = document.createDocumentFragment();
-      for (const p of sorted) {
+      for (const p of sorted.slice(0, shown)) {
         const id = /** @type {string} */ (p.paperId);
         const cls = [selected.has(id) ? 'is-selected' : '', state.focus === id ? 'is-focus' : ''].filter(Boolean).join(' ');
         body.append(h('tr', {

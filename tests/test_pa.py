@@ -316,9 +316,11 @@ def test_unreadable_and_implausible_values_are_blanked_with_a_note(pa):
 def test_groups_and_categories(pa):
     E = [e for p in pa["papers"] for e in p["entries"]]
     assert Counter(e["circuit"] for e in E) == {"PA": 5539, "Multiplier": 264, "PA product": 168, "Oscillator": 103}
-    assert {e["group"] for e in E} == {"CMOS Bulk", "CMOS SOI", "FinFET", "SiGe", "III-V", "LDMOS", "Other"}
+    assert {e["group"] for e in E} == {"CMOS", "SiGe", "III-V", "LDMOS", "Other"}
     assert {e["group"] for e in E if e["technology"] in ("GaN", "GaAs", "InP")} == {"III-V"}
-    assert one(pa, sheet="SiGe", row=459)[1]["group"] == "CMOS Bulk"  # "Bulk_CMOS" on the SiGe sheet
+    assert {e["group"] for e in E if e["technology"] in ("CMOS Bulk", "CMOS SOI", "FinFET")} == {"CMOS"}
+    _, e, _ = one(pa, sheet="SiGe", row=459)  # "Bulk_CMOS" on the SiGe sheet
+    assert (e["technology"], e["group"]) == ("CMOS Bulk", "CMOS")
     assert one(pa, sheet="GaN", row=451)[1]["technology"] == "LDMOS"  # "AFT20S015N MoSFET"
     assert all(e["pa_type"] == "Not stated" for e in E if e["circuit"] != "PA")
     assert not [e for e in E if None in e.values()]  # empty text fields are left out

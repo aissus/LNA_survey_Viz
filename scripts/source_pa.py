@@ -52,9 +52,15 @@ TECHNOLOGY_RULES: list[tuple[str, str]] = [
     ("GaAs", r"gaas|ingap|phemt|mhemt|ingaas|hfet|hjfet|bihemt|mesfet"),
 ]
 # technology -> colour group (family); anything else is "Other"
+# Colour = technology family; the exact technology (bulk / SOI / FinFET, GaN /
+# GaAs / InP) is the "technology" category, which picks the marker shape.
+# Only three hues stay distinct for colour-blind readers in a scatter, and
+# CMOS, SiGe and III-V together are 89% of the points.
 GROUP_RULES: list[tuple[str, str]] = [
+    ("CMOS", r"^(CMOS Bulk|CMOS SOI|FinFET)$"),
+    ("SiGe", r"^SiGe$"),
     ("III-V", r"^(GaN|GaAs|InP)$"),
-    *((g, rf"^{g}$") for g in ("CMOS Bulk", "CMOS SOI", "FinFET", "SiGe", "LDMOS")),
+    ("LDMOS", r"^LDMOS$"),
 ]
 
 # UTF-8 decoded as Windows-1252 ("â€“", "Ã—", "Â±") or Mac Roman ("‚Äì", "‚Äô")

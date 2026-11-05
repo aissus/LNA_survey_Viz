@@ -65,11 +65,12 @@ function renderImportNotes(warnings) {
   for (const w of warnings) counts[/** @type {'dropped'|'nulled'|'note'} */ (w.severity)] += 1;
   const summary = `Import notes: ${counts.dropped} rows not plotted, ${counts.nulled} values not plotted, ${counts.note} annotations`;
   const order = { dropped: 0, nulled: 1, note: 2 };
-  const sorted = [...warnings].sort((a, b) => order[/** @type {'note'} */ (a.severity)] - order[/** @type {'note'} */ (b.severity)] || a.row - b.row);
+  const sorted = [...warnings].sort((a, b) => order[/** @type {'note'} */ (a.severity)] - order[/** @type {'note'} */ (b.severity)] ||
+    String(a.sheet ?? '').localeCompare(String(b.sheet ?? '')) || a.row - b.row);
   $('#import-notes').replaceChildren(
     h('summary', null, summary),
     h('ul', null, sorted.map((w) => h('li', null,
-      h('span', { class: `sev sev-${w.severity}` }, w.severity), ` row ${w.row}`, w.column ? `, ${w.column}` : '', ': ',
+      h('span', { class: `sev sev-${w.severity}` }, w.severity), w.sheet ? ` ${w.sheet} row ${w.row}` : ` row ${w.row}`, w.column ? `, ${w.column}` : '', ': ',
       w.raw ? [h('code', null, w.raw), ' → '] : '', w.issue))));
 }
 
