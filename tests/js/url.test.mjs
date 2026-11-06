@@ -7,6 +7,7 @@ const defaults = {
   survey: 'lna',
   groups: null,
   exclude: [],
+  cats: {},
   ranges: {},
   selected: [],
   focus: null,
@@ -22,6 +23,7 @@ const known = {
   sortKeys: new Set(['title', 'year', 'fom']),
   colorKeys: new Set(['group', 'year', 'freq']),
   caveats: new Set(['simulated', 'system', 'cryogenic']),
+  categories: new Map([['type', new Set(['TX', 'RX', 'TRX FE', 'Not reported'])]]),
 };
 
 test('default state encodes to an empty query', () => {
@@ -33,6 +35,7 @@ test('round trip of every shareable field', () => {
     ...defaults,
     groups: ['SiGe', 'CMOS SOI'],
     exclude: ['simulated', 'cryogenic'],
+    cats: { type: ['TX', 'TRX FE', 'Not reported'] },
     ranges: { freq: [5.338537, 105.4361], year: [2019, 2025] },
     selected: ['458217fb', '0290225f'],
     focus: '458217fb',
@@ -44,6 +47,7 @@ test('round trip of every shareable field', () => {
   const back = decodeState(`?${encodeState(s, defaults)}`, defaults, known);
   assert.deepEqual(back.groups, s.groups);
   assert.deepEqual(back.exclude, s.exclude);
+  assert.deepEqual(back.cats, s.cats);
   assert.deepEqual(back.ranges.year, [2019, 2025]);
   assert.ok(Math.abs(back.ranges.freq[0] - 5.338537) < 1e-4);
   assert.deepEqual(back.selected, s.selected);
@@ -68,6 +72,12 @@ test('malformed or unknown values are ignored, never thrown', () => {
   assert.equal(s.focus, null);
   assert.deepEqual(s.explorer, { x: 'power', y: 'nf', color: 'group', logX: true, logY: null });
   assert.deepEqual(s.sort, defaults.sort);
+});
+
+test('a category narrowed to nothing stays empty; unknown categories and values are dropped', () => {
+  const s = decodeState('?c.type=&c.nope=TX&c.type2=RX', defaults, known);
+  assert.deepEqual(s.cats, { type: [] });
+  assert.deepEqual(decodeState('?c.type=TX,Bogus', defaults, known).cats, { type: ['TX'] });
 });
 
 test('decode does not mutate the defaults', () => {

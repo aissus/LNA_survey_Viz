@@ -29,12 +29,20 @@ Milestone 1 is implemented on branch `refactor/static-modular-viewer` (see READM
   draws them hollow and can exclude them (`x=` in the URL). Derived metrics declare `dependsOn` so a
   FOM built from a simulated value counts as simulated.
 - Paper details live in a floating card (`site/js/infopanel.js`) that stays until the next click.
+- PA (ETH PA-Survey-v11, ~6.1k points, 10 sheets) and phased array (ETH v3, 151 points) are added on
+  branch `surveys/phased-array-and-pa` (kept off `main` until ETH answers the republishing question).
+  Their xlsx are downloaded at build time (`SurveySource.url` + pinned `sha256`), not committed.
+- LNA too (branch `lna/source-download`, based on main): its xlsx is no longer committed. ETH updated
+  LNA_Survey_v3.0.xlsx in place (561 rows: release 3.0's 472 + 89 from 2025-26); tests download it.
+  Per-survey rules live in `scripts/source_<id>.py` (`adjust(ctx)` hook); registry in `scripts/registry.py`.
+- Viewer config also has `categories` (filters; one may set marker shape), `refs` (reference curves on
+  panels), value-level caveats (`entry.metric_flags`) and `webgl` (PA: scattergl + gl2d bundle; exports
+  redraw as SVG). Only 3 hues validate for an all-pairs scatter: more groups = grey + shape.
 - Shell gotcha on this machine: the Bash tool collapses `\\` in heredocs, so write files containing
   backslashes (regexes, CSS escapes) with the file tools, not `cat <<EOF`.
-- Roadmap agreed with the owner (2026-11-05): pinned card + caveats (done) -> PA survey (ETH
-  PA-Survey-v11.xlsx, ~6.2k points; needs WebGL scatter and colour-by-technology-family) ->
-  publication export dialog (IEEE sizes, paper style, PDF, "This work" labels, numbered refs) ->
-  overlays (SOTA envelope) and polish. Phased-array survey: no public file; owner to provide.
+- Roadmap agreed with the owner (2026-11-05): pinned card + caveats (done) -> phased array + PA (done
+  on the branch above) -> publication export dialog (IEEE sizes, paper style, PDF, "This work" labels,
+  numbered refs) -> overlays (SOTA envelope) and polish.
 
 ## Known bugs (verified) — all fixed in milestone 1
 1. **Multi-band values are mis-parsed on the live site.** 44 of 472 rows contain values like

@@ -12,7 +12,7 @@
  */
 
 import { escapeHtml, fmtWithUnit, metricLabel } from './format.js';
-import { hasCaveat, isNum } from './model.js';
+import { extent, hasCaveat, isNum, metricFlagsOf } from './model.js';
 
 /** @typedef {import('./types.js').SurveyConfig} SurveyConfig */
 /** @typedef {import('./types.js').AppState} AppState */
@@ -29,6 +29,8 @@ import { hasCaveat, isNum } from './model.js';
  * @property {string[]} groups       every group in the data, display order
  * @property {Set<string>} enabled   groups switched on
  * @property {Set<string>} selected  selected paper ids
+ * @property {Record<string, string[]>} [catValues]  values of each category present in the data
+ * @property {boolean} [gl]          draw data with WebGL (scattergl); false for exports
  */
 
 /** @typedef {PanelSpec & {logX?: boolean, logY?: boolean, color?: string}} PanelDraw */
@@ -51,6 +53,9 @@ const SIZE = { base: 9, focus: 15, manual: 16 };
 const OPACITY = { normal: 0.85, dimmed: 0.15 };
 export const MANUAL_GROUP = '__manual';
 const CAVEAT_KEY = '__caveats';
+/** legendgroup prefix of the shape legend entries: `${CAT_PREFIX}${category}:${value}` */
+export const CAT_PREFIX = '__cat:';
+const REF_SAMPLES = 96;
 
 /** @param {SurveyConfig} cfg @param {string} key */
 export const defaultLog = (cfg, key) => cfg.metrics[key]?.scale === 'log';
@@ -83,14 +88,15 @@ function hoverText(p, ctx) {
   const lines = [];
   for (let i = 0; i < parts.length; i += 3) lines.push(parts.slice(i, i + 3).join(' · '));
   const notes = caveatText(p, cfg);
-  const text = `${head}<br>${lines.join('<br>')}${p.manual ? '' : `<br>${escapeHtml(p.group)}`}` +
+  const kinds = [p.group, ...Object.keys(cfg.categories ?? {}).map((k) => p[k])].filter(Boolean).join(' · ');
+  const text = `${head}<br>${lines.join('<br>')}${p.manual ? '' : `<br>${escapeHtml(kinds)}`}` +
     (notes ? `<br><i>${escapeHtml(notes)}</i>` : '');
   hoverCache.set(p, text);
   return text;
 }
 
 /**
- * "Simulated IIP3, FOM · Cryogenic (4 K)" for a point, or "" when it has no caveats.
+ * "Simulated: IIP3, FOM · Cryogenic (4 K)" for a point, or "" when it has no caveats.
  * @param {Point} p @param {SurveyConfig} cfg
  */
 export function caveatText(p, cfg) {
@@ -98,13 +104,39 @@ export function caveatText(p, cfg) {
     const label = cfg.caveats?.[f]?.label ?? f;
     return f === 'cryogenic' && isNum(p.tempK) ? `${label} (${p.tempK} K)` : label;
   });
-  const sim = p.simMetrics?.length ? p.simMetrics : p.maskedSim;
-  if (sim?.length && !p.flags?.includes('simulated')) {
-    const names = sim.filter((/** @type {string} */ k) => k !== 'nfmin' || !sim.includes('nf'))
-      .map((/** @type {string} */ k) => cfg.metrics[k]?.short ?? cfg.metrics[k]?.label ?? k);
-    parts.push(`Simulated ${names.join(', ')}${p.maskedSim ? ' (hidden)' : ''}`);
-  }
+  const name = (/** @type {string} */ k) => cfg.metrics[k]?.short ?? cfg.metrics[k]?.label ?? k;
+  /** @param {Record<string, string[]>} flags @param {boolean} hidden */
+  const values = (flags, hidden) => {
+    for (const [f, ms] of Object.entries(flags)) {
+      if (!ms.length || p.flags?.includes(f)) continue;
+      parts.push(`${cfg.caveats?.[f]?.label ?? f}: ${ms.map(name).join(', ')}${hidden ? ' (hidden)' : ''}`);
+    }
+  };
+  values(metricFlagsOf(p), false);
+  values(p.masked ?? {}, true);
   return parts.join(' · ');
+}
+
+/**
+ * The category whose values pick the marker shape, if the survey has one.
+ * @param {SurveyConfig} cfg
+ * @returns {[string, import('./types.js').Category] | null}
+ */
+export function symbolCategory(cfg) {
+  return Object.entries(cfg.categories ?? {}).find(([, c]) => c.symbols) ?? null;
+}
+
+/**
+ * Marker shape of a point: its symbol-category value's shape, else its group's.
+ * @param {SurveyConfig} cfg @returns {(p: Point) => string}
+ */
+export function symbolOf(cfg) {
+  const sc = symbolCategory(cfg);
+  if (sc) {
+    const [key, cat] = sc;
+    return (p) => cat.symbols?.[p[key]] ?? 'circle';
+  }
+  return (p) => cfg.groups.symbols[p.group] ?? 'circle';
 }
 
 /**
@@ -112,10 +144,10 @@ export function caveatText(p, cfg) {
  * are hollow ("-open" symbol, drawn as an outline in the group colour); the
  * focused paper is larger with a dark outline; a selection dims the rest.
  * @param {Point[]} pts @param {RenderCtx} ctx
- * @param {string} symbol group symbol @param {string[]} keys metrics on this plot
+ * @param {(p: Point) => string} shape marker symbol of a point @param {string[]} keys metrics on this plot
  * @param {string} stroke outline colour for hollow markers
  */
-function markerStyle(pts, ctx, symbol, keys, stroke) {
+function markerStyle(pts, ctx, shape, keys, stroke) {
   const focus = ctx.state.focus;
   const hasSelection = ctx.selected.size > 0;
   /** @type {string[]} */ const sym = [];
@@ -126,6 +158,7 @@ function markerStyle(pts, ctx, symbol, keys, stroke) {
   for (const p of pts) {
     const isFocus = focus != null && p.paperId === focus;
     const hollow = hasCaveat(p, keys);
+    const symbol = shape(p);
     sym.push(hollow ? `${symbol}-open` : symbol);
     size.push(isFocus ? SIZE.focus : SIZE.base);
     opacity.push(isFocus || !hasSelection ? (isFocus ? 1 : OPACITY.normal) : ctx.selected.has(/** @type {string} */ (p.paperId)) ? 1 : OPACITY.dimmed);
@@ -169,6 +202,41 @@ function colorScale(key, ctx) {
 }
 
 /**
+ * Reference curves of a panel (e.g. a scaling law), drawn behind the data.
+ * They span the data's x range and are cut where they leave the data's y range
+ * (with a margin), so they never stretch the autoscaled axes.
+ * @param {PanelDraw} spec @param {RenderCtx} ctx @param {{xaxis?: string, yaxis?: string}} axes
+ */
+function refTraces(spec, ctx, axes) {
+  if (!spec.refs?.length) return [];
+  const all = [...ctx.points, ...ctx.manual];
+  const xe = extent(all, spec.x, spec.logX);
+  const ye = extent(all, spec.y, spec.logY);
+  if (!xe || !ye) return [];
+  const [a, b] = spec.logX ? [Math.log10(xe[0]), Math.log10(xe[1])] : xe;
+  const xs = Array.from({ length: REF_SAMPLES }, (_, i) => {
+    const t = a + (i / (REF_SAMPLES - 1)) * (b - a);
+    return spec.logX ? 10 ** t : t;
+  });
+  const pad = 0.15 * (ye[1] - ye[0] || Math.abs(ye[0]) || 1);
+  const [ylo, yhi] = spec.logY ? [ye[0] / 3, ye[1] * 3] : [ye[0] - pad, ye[1] + pad];
+  return spec.refs.map((ref) => {
+    const ys = xs.map((x) => {
+      const y = ref.y(x);
+      return isNum(y) && y >= ylo && y <= yhi && (!spec.logY || y > 0) ? y : null;
+    });
+    let last = -1;
+    ys.forEach((y, i) => { if (y != null) last = i; });
+    return {
+      type: 'scatter', mode: 'lines+text', ...axes, x: xs, y: ys, name: ref.label, showlegend: false, legendgroup: '__ref',
+      line: { color: THEME.text2, width: 1, dash: ref.dash ?? 'dash' },
+      text: ys.map((_, i) => (i === last ? ref.label : '')), textposition: 'top left', textfont: { size: 10, color: THEME.text2 },
+      hovertemplate: `${escapeHtml(ref.label)}<extra></extra>`,
+    };
+  });
+}
+
+/**
  * Traces of one panel: one per group (+ user points). Disabled groups stay in
  * the legend as "legendonly" so they can be clicked back on.
  * @param {PanelDraw} spec
@@ -185,35 +253,63 @@ export function panelTraces(spec, ctx, axes, showlegend) {
   const traces = [];
 
   const keys = [x, y, ...(scale ? [/** @type {string} */ (spec.color)] : [])];
+  const type = ctx.gl ? 'scattergl' : 'scatter';
+  const shape = symbolOf(cfg);
+  const symCat = symbolCategory(cfg);
+  // With a shape category, a group's markers have mixed shapes: its legend entry is a separate plain circle.
+  const groupLegend = showlegend && !symCat;
+  traces.push(...refTraces(spec, ctx, axes));
   let anyHollow = false;
   for (const g of ctx.groups) {
     const pts = ctx.points.filter((p) => p.group === g && ok(p));
-    const base = { type: 'scatter', mode: 'markers', legendgroup: g, visible: ctx.enabled.has(g) ? true : 'legendonly', ...axes };
-    const symbol = cfg.groups.symbols[g] ?? 'circle';
+    const visible = ctx.enabled.has(g) ? true : 'legendonly';
+    const base = { type, mode: 'markers', legendgroup: g, visible, ...axes };
     if (ctx.enabled.has(g)) anyHollow ||= pts.some((p) => hasCaveat(p, keys));
+    const color = cfg.groups.colors[g] ?? cfg.groups.fallbackColor;
+    if (symCat && showlegend) {
+      traces.push({
+        type: 'scatter', mode: 'markers', x: [null], y: [null], ...axes, hoverinfo: 'skip', name: g, legendgroup: g, visible, showlegend: true,
+        marker: { symbol: 'circle', size: SIZE.base, color: scale ? THEME.text2 : color, line: { width: 1, color: THEME.surface } },
+      });
+    }
     if (!scale) {
-      const color = cfg.groups.colors[g] ?? cfg.groups.fallbackColor;
-      traces.push({ ...base, name: g, showlegend, ...xy(pts, x, y, ctx), marker: { color, ...markerStyle(pts, ctx, symbol, keys, color) } });
+      traces.push({ ...base, name: g, showlegend: groupLegend, ...xy(pts, x, y, ctx), marker: { color, ...markerStyle(pts, ctx, shape, keys, color) } });
       continue;
     }
     const coloured = pts.filter((p) => scale.value(p) != null);
     const missing = pts.filter((p) => scale.value(p) == null);
     traces.push({
-      ...base, name: g, showlegend, ...xy(coloured, x, y, ctx),
-      marker: { color: coloured.map(scale.value), colorscale: SEQUENTIAL, cmin: scale.cmin, cmax: scale.cmax, showscale: false, ...markerStyle(coloured, ctx, symbol, keys, THEME.text2) },
+      ...base, name: g, showlegend: groupLegend, ...xy(coloured, x, y, ctx),
+      marker: { color: coloured.map(scale.value), colorscale: SEQUENTIAL, cmin: scale.cmin, cmax: scale.cmax, showscale: false, ...markerStyle(coloured, ctx, shape, keys, THEME.text2) },
     });
     if (missing.length) {
       traces.push({
         ...base, name: `${g}, no ${scale.label}`, showlegend: false, ...xy(missing, x, y, ctx),
-        marker: { color: THEME.missing, ...markerStyle(missing, ctx, symbol, keys, THEME.missing) },
+        marker: { color: THEME.missing, ...markerStyle(missing, ctx, shape, keys, THEME.missing) },
+      });
+    }
+  }
+
+  if (symCat && showlegend) {
+    // Legend key for the shapes; clicking a shape toggles that value like the filter does.
+    const [key, cat] = symCat;
+    const on = ctx.state.cats?.[key];
+    for (const v of ctx.catValues?.[key] ?? []) {
+      traces.push({
+        type: 'scatter', mode: 'markers', x: [null], y: [null], ...axes, hoverinfo: 'skip',
+        name: v, legendgroup: `${CAT_PREFIX}${key}:${v}`, showlegend: true, legendrank: 1500,
+        visible: !on || on.includes(v) ? true : 'legendonly',
+        marker: { symbol: cat.symbols?.[v] ?? 'circle', size: SIZE.base, color: THEME.text2, line: { width: 1, color: THEME.surface } },
       });
     }
   }
 
   if (anyHollow && showlegend && cfg.caveats) {
     // Legend key only: explains the hollow markers.
-    const names = Object.values(cfg.caveats).map((c) => c.label.toLowerCase());
-    const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} or ${names.at(-1)}` : names[0];
+    // lower-case only plain words ("Simulated" -> "simulated", but keep "DC", "ICs")
+    const names = Object.values(cfg.caveats).map((c) => c.label.replace(/^[A-Z](?=[a-z])/, (ch) => ch.toLowerCase()));
+    const list = names.length > 3 ? 'a caveat applies (see Include)'
+      : names.length > 1 ? `${names.slice(0, -1).join(', ')} or ${names.at(-1)}` : names[0];
     traces.push({
       type: 'scatter', mode: 'markers', x: [null], y: [null], ...axes, hoverinfo: 'skip',
       name: `Hollow: ${list}`, legendgroup: CAVEAT_KEY, showlegend: true, legendrank: 2000,
@@ -232,7 +328,7 @@ export function panelTraces(spec, ctx, axes, showlegend) {
   const mine = ctx.manual.filter(ok);
   if (mine.length) {
     traces.push({
-      type: 'scatter', mode: 'markers', name: 'Your points', legendgroup: MANUAL_GROUP, showlegend, ...axes,
+      type, mode: 'markers', name: 'Your points', legendgroup: MANUAL_GROUP, showlegend, ...axes,
       ...xy(mine, x, y, ctx),
       marker: { symbol: 'star', size: SIZE.manual, color: THEME.text, line: { width: 1.5, color: THEME.surface } },
     });

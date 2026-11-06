@@ -27,7 +27,9 @@ class RowContext:
     row: int  # Excel row number
     raw: dict[str, Any]  # header -> cell value, untouched
     # cleaned paper + entry fields; keys the hook adds become entry fields too
-    # (e.g. a derived category such as "type_family")
+    # (e.g. a derived category such as "type_family"). A source with several
+    # sheets also has "sheet". The hook may fix paper fields as well; they are
+    # kept from the row that starts the paper.
     fields: dict[str, Any]
     # metric key -> one value per band (None = missing); band_metrics + info_metrics
     values: dict[str, list[Parsed | None]]
@@ -43,7 +45,9 @@ class RowContext:
 class SurveySource:
     id: str
     source: str  # path relative to the repo root
-    sheet: str
+    # One sheet, or several read in order as one table (each entry and import
+    # note then records its "sheet", since row numbers repeat across sheets).
+    sheet: str | tuple[str, ...]
     # output key -> spreadsheet header. A paper may span several rows (older survey
     # versions list one row per band); rows with the same id_fields are one paper.
     paper_fields: dict[str, str]  # bibliographic, taken from the paper's first row
@@ -73,6 +77,9 @@ class SurveySource:
     sha256: str | None = None
     # Survey-specific rules, run on every row after parsing (see RowContext).
     adjust: Callable[[RowContext], None] | None = None
+    # sheet -> {that sheet's header: header used above}, for sheets that name
+    # the same column differently
+    header_aliases: dict[str, dict[str, str]] = field(default_factory=dict)
 
 
 LNA = SurveySource(

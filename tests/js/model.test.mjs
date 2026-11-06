@@ -2,7 +2,20 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  applyDerived, excludeCaveats, extent, filterByGroups, filterByRanges, groupsInData, hasCaveat, joinData, sortBy, withDependents,
+  NOT_REPORTED,
+  applyDerived,
+  categoriesInData,
+  caveatsOf,
+  excludeCaveats,
+  extent,
+  filterByCategories,
+  filterByGroups,
+  filterByRanges,
+  groupsInData,
+  hasCaveat,
+  joinData,
+  sortBy,
+  withDependents,
 } from '../../site/js/model.js';
 
 const cfg = {
@@ -125,6 +138,50 @@ test('excludeCaveats drops flagged points and blanks individually simulated valu
   assert.equal(measured[0].gain, 20);
   assert.equal(measured[2].gain, null);
   assert.equal(measured[2].fom, null);
-  assert.deepEqual(measured[0].maskedSim, ['iip3']);
+  assert.deepEqual(measured[0].masked, { simulated: ['iip3'] });
   assert.equal(points[0].iip3, -5, 'the source points are not mutated');
+});
+
+// --- categories and caveats on single values ------------------------------------
+
+const catCfg = {
+  paperFields: [],
+  metrics: { pdc: {}, eirp: {}, eff: { dependsOn: ['pdc', 'eirp'] }, effPerArea: { dependsOn: ['eff'] } },
+  derived: {},
+  categories: { type: { label: 'Type', field: 'type_family', order: ['TX', 'RX', 'TRX'] } },
+};
+const catJson = {
+  papers: [
+    { id: 'aaaaaaaa', entries: [{ group: 'G', n_bands: 1, type_family: 'RX' }, { group: 'G', n_bands: 1, type_family: 'TX', metric_flags: { scope: ['pdc'] } }] },
+    { id: 'bbbbbbbb', entries: [{ group: 'G', n_bands: 1 }] },
+  ],
+  points: [
+    { paper: 'aaaaaaaa', entry: 0, band: 0, pdc: 1, eirp: 30 },
+    { paper: 'aaaaaaaa', entry: 1, band: 0, pdc: 2, eirp: 40 },
+    { paper: 'bbbbbbbb', entry: 0, band: 0, pdc: 3, eirp: 20 },
+  ],
+};
+
+test('categories: values come from the entry, missing ones are "Not reported", config order first', () => {
+  const { points } = joinData(catJson, catCfg);
+  assert.deepEqual(points.map((p) => p.type), ['RX', 'TX', NOT_REPORTED]);
+  assert.deepEqual(categoriesInData(points, catCfg), { type: ['TX', 'RX', NOT_REPORTED] });
+  assert.deepEqual(filterByCategories(points, { type: ['TX', NOT_REPORTED] }).map((p) => p.id), ['aaaaaaaa.1.0', 'bbbbbbbb.0.0']);
+  assert.deepEqual(filterByCategories(points, { type: [] }), []);
+  assert.equal(filterByCategories(points, {}), points);
+});
+
+test('any caveat can cover single values, and reaches derived metrics of derived metrics', () => {
+  const { points } = joinData(catJson, catCfg);
+  assert.deepEqual(points[1].metricFlags.scope.sort(), ['eff', 'effPerArea', 'pdc']);
+  assert.equal(hasCaveat(points[1], ['freq', 'eirp']), false);
+  assert.equal(hasCaveat(points[1], ['freq', 'effPerArea']), true);
+  assert.deepEqual(caveatsOf(points[1]), ['scope']);
+  const kept = excludeCaveats(points, ['scope']);
+  assert.equal(kept.length, 3, 'a value-level caveat never drops the point');
+  assert.equal(kept[1].pdc, null);
+  assert.equal(kept[1].eirp, 40);
+  assert.deepEqual(kept[1].masked.scope.sort(), ['eff', 'effPerArea', 'pdc']);
+  assert.deepEqual(caveatsOf(kept[1]), ['scope'], 'a hidden value still shows its caveat');
+  assert.equal(points[1].pdc, 2);
 });

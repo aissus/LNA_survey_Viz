@@ -1,23 +1,32 @@
 # IC Survey Visualizer
 
 Interactive plots of published IC block surveys, served as a static site on
-GitHub Pages. Today: **LNA**. The viewer is generic, so a new survey (PA, phased
-array, ...) is its spreadsheet plus two small config files.
+GitHub Pages: **LNA**, **PA** and **phased arrays**, picked from the header. The
+viewer is generic, so a new survey is its spreadsheet plus two small config files.
 
 **[Open the visualizer →](https://aissus.github.io/LNA_survey_Viz/)**
 
-## Data source and citation
+## Data sources and citation
 
-The LNA data is the survey compiled by **ETH Zürich Integrated Devices,
-Electronics, And Systems (IDEAS)**:
-[ideas.ethz.ch/Surveys/lna-survey.html](https://ideas.ethz.ch/Surveys/lna-survey.html).
-The spreadsheet is not stored in this repository: the build downloads it from
-ETH and checks it against a pinned sha256. If you use the data, please cite it
-as the survey asks:
+All three surveys are compiled by **ETH Zürich Integrated Devices, Electronics,
+And Systems (IDEAS)**. If you use them, please cite them as the surveys ask:
 
-> Hua Wang, Argyro Kamperi, Boce Lin, Basem Abdelaziz Abdelmagid Ali, "Low Noise
-> Amplifier Noise Figure Survey 2018-present," [Online]. Available:
-> https://ideas.ethz.ch/Surveys/lna-survey.html
+- **LNA** ([ideas.ethz.ch/Surveys/lna-survey.html](https://ideas.ethz.ch/Surveys/lna-survey.html)):
+  Hua Wang, Argyro Kamperi, Boce Lin, Basem Abdelaziz Abdelmagid Ali, "Low Noise
+  Amplifier Noise Figure Survey 2018-present," [Online]. Available:
+  https://ideas.ethz.ch/Surveys/lna-survey.html
+- **PA**, the "ETH PA Survey" (v11, 14.08.2026;
+  [ideas.ethz.ch/Surveys/pa-survey.html](https://ideas.ethz.ch/Surveys/pa-survey.html)):
+  Hua Wang et al., "Power Amplifiers Performance Survey 2000-Present," [Online].
+  Available: https://ideas.ethz.ch/Surveys/pa-survey.html
+- **Phased arrays** (v3.0, 2024-01-17;
+  [ideas.ethz.ch/Surveys/phased-array-survey.html](https://ideas.ethz.ch/Surveys/phased-array-survey.html)):
+  Hua Wang, Yuqi Liu, Naga Sasikanth Mannem, "Phased Array Survey 2010-Present,"
+  [Online]. Available: https://ideas.ethz.ch/Surveys/phased-array-survey.html
+
+None of the spreadsheets is stored in this repository: the build downloads them
+from ETH and checks them against a pinned sha256 (ETH's copyright notice asks for
+written consent before its documents are stored on other servers).
 
 ## What the site does
 
@@ -81,21 +90,71 @@ at build time:
   reason. The page footer lists all import notes, and the build fails if a row
   goes missing.
 
+### PA survey
+
+- The workbook has one sheet per technology (CMOS, SiGe, GaN, GaAs, InP, LDMOS,
+  Others) plus product datasheets, frequency multipliers and THz oscillators.
+  They are read as one table of about 6,100 points; each point records its
+  sheet. Sheet headers that differ in spelling are mapped to one name, and
+  vertically merged cells are filled down.
+- Colour is the technology family (CMOS, SiGe, III-V; LDMOS and others in grey).
+  Marker shape is the exact technology: bulk, SOI or FinFET CMOS; GaN, GaAs or
+  InP.
+- Efficiencies that the survey reports as drain, collector or system
+  efficiency rather than PAE are marked "Not PAE", and so is any FOM computed
+  from them. Other caveats come from the notes: system-level, off-chip output
+  network, pulsed, estimated and simulated.
+- Impossible values, such as a positive EVM in dB or a 2065 dB gain, are left
+  out and listed in the import notes. So are datasheets whose band exists only
+  in a text note.
+- ITRS FOM = Psat[W]·G·PAE·f²[GHz²], with gain linear and PAE as a fraction.
+  Power density = Psat / PA core area (W/mm²).
+- With thousands of points the plots are drawn with WebGL, and the table shows
+  200 rows at a time. Exports are redrawn as SVG.
+
+### Phased-array survey
+
+- Each spreadsheet row (an array, or one of its TX/RX modes, bands or sizes) is
+  one point.
+- Types such as "TX FE" are split into the type (TX / RX / TRX / oscillator /
+  relay; the marker shape) and "front-end only" (a filter).
+- An RX Pdc of 0 next to a TX Pdc means the two were reported together (the
+  survey's Readme 6.4): the zero is left out and TX Pdc is marked.
+- For passive reflectarrays and RIS, the survey's "TX conversion gain" and "TX
+  efficiency" are antenna gain (dBi) and aperture efficiency, shown as their own
+  metrics.
+- Elements are the survey's TX + RX count; passive relays, which have no TX/RX
+  chains, count their unit cells.
+- The Note column marks passive arrays, commercial beamformer ICs, non-silicon
+  parts and cryogenic operation, plus, on the affected values only, DC power
+  that covers more than the array, TX power that includes RX, and array results
+  taken from another paper.
+- Aperture area, area per antenna and thermal densities are recomputed in the
+  viewer from the sheet's inputs (they match the sheet exactly). EIRP/Pdc and
+  Pout/Pdc follow the survey's Readme 6.9. Reference lines show the (λ/2)² grid
+  cell and 20·log₁₀N EIRP scaling.
+- Cells with spreadsheet errors (#VALUE!, #REF!, #DIV/0!) are read as missing
+  and listed in the import notes.
+
 ## Repository layout
 
 ```
-sources/lna/                       survey spreadsheet, downloaded at build time (gitignored)
-scripts/parsing.py                 pure parsing helpers (decimal commas, bands, text)
+sources/<id>/                      survey spreadsheets, downloaded at build time (gitignored)
+scripts/parsing.py                 pure parsing helpers (decimal commas, bands, text, Excel errors)
 scripts/caveats.py                 simulated / system-level / cryogenic notes -> flags
-scripts/survey_sources.py          how to read each survey's spreadsheet
+scripts/survey_sources.py          SurveySource + RowContext, and the LNA source
+scripts/source_<id>.py             how to read each further survey (+ its adjust hook)
+scripts/registry.py                every survey the build knows
 scripts/build_data.py              xlsx -> site/data/<survey>.json
-scripts/fetch_vendor.py            reproduce / upgrade the vendored Plotly bundle
+scripts/fetch_vendor.py            reproduce / upgrade the vendored Plotly bundles
 tests/                             pytest (pipeline) and tests/js (viewer, node:test)
 site/                              everything that is published
   index.html, css/app.css
   js/                              generic viewer (ES modules, no bundler)
-  surveys/index.js, surveys/lna.js survey registry + the LNA display config
-  vendor/plotly-cartesian-*.min.js pinned Plotly bundle (scatter only)
+  surveys/index.js                 survey registry (the picker in the header)
+  surveys/<id>.js                  one display config per survey
+  surveys/palette.js               process colours shared by every survey
+  vendor/plotly-*.min.js           pinned Plotly bundles: cartesian (SVG) and gl2d (WebGL)
   data/                            generated, not committed
 ```
 
@@ -124,15 +183,29 @@ npm test               # viewer unit tests + survey config consistency
 
 ## Adding a survey
 
-1. Point the build at the spreadsheet: give its `url` and `sha256` (it is then
-   downloaded at build time and cached in CI), or commit it under `sources/<id>/`.
-2. Describe how to read it in `scripts/survey_sources.py`: sheet, columns,
-   fallbacks, which columns are multi-band, and process grouping rules.
+1. Describe how to read the spreadsheet in `scripts/source_<id>.py` (a
+   `SurveySource`): sheet, columns, fallbacks, which columns are multi-band,
+   and process grouping rules. Either commit the file under `sources/<id>/`, or
+   give its `url` and `sha256`: the build then downloads it (and CI caches it)
+   instead of republishing it in the repository. Add one line to
+   `scripts/registry.py`.
+2. Rules the generic parser cannot know go in the source's `adjust(ctx)` hook,
+   which sees every parsed row: a unit that differs on some rows, a zero that
+   means "included elsewhere", caveats written in a notes column. A caveat can
+   cover a whole point (`ctx.flags`) or only some values (`ctx.metric_flags`).
 3. Describe how to show it in `site/surveys/<id>.js`: metrics with units and
-   scales, derived metrics such as FOMs, filters, panels, table columns, and
-   group colours. Register it in `site/surveys/index.js`.
+   scales, derived metrics such as FOMs (with `dependsOn`), filters, panels
+   (optionally with reference curves, `refs`), categories (each gets a filter;
+   one can pick the marker shape), table columns, caveats, and group colours
+   from `site/surveys/palette.js`. Set `webgl: true` for thousands of points.
+   Register it in `site/surveys/index.js`.
 4. Run `uv run pytest`, `npm test` and the local server. The config test fails
-   if the config references a metric it does not define.
+   if the config references a metric or category value it does not define.
+
+Colours: only three hues stay distinct for colour-blind readers when every
+pair can sit next to each other in a scatter (checked with the palette
+validator). Further groups share a neutral grey and are told apart by marker
+shape, the hover text, the table and the filters.
 
 ## Deployment
 

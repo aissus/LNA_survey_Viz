@@ -1,8 +1,14 @@
 // @ts-check
-/** Data table: every filtered point, sortable, linked to the selection. */
+/**
+ * Data table: every filtered point, sortable, linked to the selection. Rows are
+ * drawn a page at a time (sorting and filtering still cover every point), so a
+ * survey with thousands of points stays responsive.
+ */
+
+const PAGE = 200;
 
 import { fmt, h, metricLabel } from './format.js';
-import { sortBy } from './model.js';
+import { metricFlagsOf, sortBy } from './model.js';
 
 /** @typedef {import('./types.js').SurveyConfig} SurveyConfig */
 /** @typedef {import('./types.js').AppState} AppState */
@@ -20,9 +26,9 @@ import { sortBy } from './model.js';
 
 /**
  * @param {HTMLElement} root
- * @param {{cfg: SurveyConfig, store: Store, papers: Map<string, any>}} opts
+ * @param {{cfg: SurveyConfig, store: Store, papers: Map<string, any>, multiBand?: boolean}} opts
  */
-export function createTable(root, { cfg, store, papers }) {
+export function createTable(root, { cfg, store, papers, multiBand = true }) {
   const paper = (/** @type {Point} */ p) => papers.get(/** @type {string} */ (p.paperId));
 
   /** Small caveat badges ("sim", "system", "cryo 4 K", "sim IIP3"). @param {Point} p */
@@ -32,10 +38,14 @@ export function createTable(root, { cfg, store, papers }) {
       const text = f === 'cryogenic' && p.tempK != null ? `${c?.short ?? f} ${p.tempK} K` : c?.short ?? f;
       return h('span', { class: 'badge', title: c?.description ?? f }, text);
     });
-    const sim = (p.simMetrics?.length ? p.simMetrics : p.maskedSim ?? []).filter((/** @type {string} */ k) => !cfg.metrics[k]?.dependsOn && k !== 'nfmin');
-    if (sim.length && !p.flags?.includes('simulated')) {
-      out.push(h('span', { class: 'badge', title: cfg.caveats?.simulated?.description ?? '' },
-        `${cfg.caveats?.simulated?.short ?? 'sim'} ${sim.map((/** @type {string} */ k) => cfg.metrics[k]?.short ?? cfg.metrics[k]?.label ?? k).join(', ')}`));
+    // caveats on single values, named by their measured inputs (not the FOMs derived from them)
+    const valueFlags = { ...(p.masked ?? {}), ...metricFlagsOf(p) };
+    for (const [f, ms] of Object.entries(valueFlags)) {
+      const inputs = ms.filter((k) => !cfg.metrics[k]?.dependsOn);
+      if (!inputs.length || p.flags?.includes(f)) continue;
+      const c = cfg.caveats?.[f];
+      out.push(h('span', { class: 'badge', title: c?.description ?? f },
+        `${c?.short ?? f} ${inputs.map((k) => cfg.metrics[k]?.short ?? cfg.metrics[k]?.label ?? k).join(', ')}`));
     }
     return out.length ? h('span', { class: 'badges' }, out) : null;
   };
@@ -60,15 +70,18 @@ export function createTable(root, { cfg, store, papers }) {
         cell: (p) => fmt(p[key], m.digits ?? 2),
       });
     }),
-    {
+    ...(multiBand ? [/** @type {Column} */ ({
       key: 'band',
       label: 'Band',
       numeric: true,
       value: (p) => (p.nBands > 1 ? p.band + 1 : null),
       cell: (p) => (p.nBands > 1 ? `${p.band + 1}/${p.nBands}` : ''),
-    },
+    })] : []),
     { key: 'year', label: 'Year', numeric: true, value: (p) => p.year, cell: (p) => String(p.year ?? '') },
     { key: 'group', label: cfg.groups.label ?? 'Group', value: (p) => p.group, cell: (p) => p.group },
+    ...Object.entries(cfg.categories ?? {}).map(([key, cat]) => /** @type {Column} */ ({
+      key, label: cat.label, value: (p) => p[key], cell: (p) => String(p[key] ?? ''),
+    })),
     {
       key: 'link',
       label: 'Link',
@@ -80,9 +93,15 @@ export function createTable(root, { cfg, store, papers }) {
     },
   ];
   const sortable = new Set(columns.filter((c) => c.key !== 'link').map((c) => c.key));
+  // text columns sort A-Z first, numbers largest first
+  const textKeys = new Set(['title', 'group', ...Object.keys(cfg.categories ?? {})]);
 
   const table = h('table', { class: 'data-table' });
   const caption = h('p', { class: 'table-caption' });
+  let limit = PAGE;
+  /** @type {(() => void) | null} */
+  let rerender = null;
+  const more = h('div', { class: 'table-more' });
   const onlySelected = /** @type {HTMLInputElement} */ (h('input', {
     type: 'checkbox',
     onchange: () => store.set({ onlySelected: onlySelected.checked }),
@@ -90,11 +109,12 @@ export function createTable(root, { cfg, store, papers }) {
   root.replaceChildren(
     h('div', { class: 'table-tools' }, caption, h('label', { class: 'toggle' }, onlySelected, ' Only selected papers')),
     h('div', { class: 'table-wrap' }, table),
+    more,
   );
 
   /** @param {string} key */
   const sortOn = (key) => store.set((s) => ({
-    sort: { key, dir: s.sort.key === key ? /** @type {1|-1} */ (-s.sort.dir) : key === 'title' || key === 'group' ? 1 : -1 },
+    sort: { key, dir: s.sort.key === key ? /** @type {1|-1} */ (-s.sort.dir) : textKeys.has(key) ? 1 : -1 },
   }));
 
   return {
@@ -111,7 +131,17 @@ export function createTable(root, { cfg, store, papers }) {
       const col = columns.find((c) => c.key === state.sort.key) ?? columns[0];
       const sorted = sortBy(rows, col.value, state.sort.dir);
       const nPapers = new Set(sorted.map((p) => p.paperId)).size;
-      caption.textContent = `${sorted.length} points from ${nPapers} papers`;
+      // keep the focused paper's rows drawn even when they sort past the current page
+      const focusAt = state.focus ? sorted.findIndex((p) => p.paperId === state.focus) : -1;
+      const shown = Math.min(sorted.length, Math.max(limit, focusAt + 1));
+      caption.textContent = shown < sorted.length
+        ? `${sorted.length} points from ${nPapers} papers; first ${shown} shown`
+        : `${sorted.length} points from ${nPapers} papers`;
+      rerender = () => this.render(points, state);
+      more.replaceChildren(...(shown < sorted.length ? [
+        h('button', { type: 'button', class: 'btn btn-quiet', onclick: () => { limit = shown + PAGE; rerender?.(); } }, `Show ${Math.min(PAGE, sorted.length - shown)} more`),
+        h('button', { type: 'button', class: 'link', onclick: () => { limit = sorted.length; rerender?.(); } }, `Show all ${sorted.length}`),
+      ] : []));
 
       const head = h('tr', null, columns.map((c) => {
         const active = c.key === state.sort.key;
@@ -123,7 +153,7 @@ export function createTable(root, { cfg, store, papers }) {
       }));
 
       const body = document.createDocumentFragment();
-      for (const p of sorted) {
+      for (const p of sorted.slice(0, shown)) {
         const id = /** @type {string} */ (p.paperId);
         const cls = [selected.has(id) ? 'is-selected' : '', state.focus === id ? 'is-focus' : ''].filter(Boolean).join(' ');
         body.append(h('tr', {

@@ -2,19 +2,35 @@
 /** Boot: pick the survey, load its config and data, wire the modules to one state. */
 
 import { DEFAULT_SURVEY, SURVEYS } from '../surveys/index.js';
-import { MANUAL_GROUP, columnsFor, createCharts } from './charts.js';
+import { CAT_PREFIX, MANUAL_GROUP, columnsFor, createCharts } from './charts.js';
 import { exportImage } from './export.js';
 import { $, h, metricLabel } from './format.js';
 import { createFilters } from './filters.js';
 import { createDetailCard } from './infopanel.js';
 import { createManualPoints } from './manual.js';
-import { excludeCaveats, filterByRanges, groupsInData, joinData } from './model.js';
+import { categoriesInData, excludeCaveats, filterByCategories, filterByRanges, groupsInData, joinData } from './model.js';
 import { createStore } from './state.js';
 import { createTable } from './table.js';
 import { decodeState, encodeState, surveyFromSearch } from './url.js';
 
 /** @typedef {import('./types.js').AppState} AppState */
 /** @typedef {import('./types.js').SurveyConfig} SurveyConfig */
+
+// Vendored Plotly bundles (scripts/fetch_vendor.py), never loaded from a CDN.
+// Surveys with thousands of points set `webgl` and get the bundle with scattergl.
+const PLOTLY_BUNDLES = { svg: 'plotly-cartesian-3.7.0.min.js', webgl: 'plotly-gl2d-3.7.0.min.js' };
+
+/** @param {boolean} webgl @returns {Promise<void>} */
+function loadPlotly(webgl) {
+  return new Promise((resolve, reject) => {
+    if (typeof Plotly !== 'undefined') return resolve();
+    const script = document.createElement('script');
+    script.src = new URL(`../vendor/${webgl ? PLOTLY_BUNDLES.webgl : PLOTLY_BUNDLES.svg}`, import.meta.url).href;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('The plotting library did not load.'));
+    document.head.append(script);
+  });
+}
 
 /** @param {string | Node} message */
 function fatal(message) {
@@ -49,21 +65,22 @@ function renderImportNotes(warnings) {
   for (const w of warnings) counts[/** @type {'dropped'|'nulled'|'note'} */ (w.severity)] += 1;
   const summary = `Import notes: ${counts.dropped} rows not plotted, ${counts.nulled} values not plotted, ${counts.note} annotations`;
   const order = { dropped: 0, nulled: 1, note: 2 };
-  const sorted = [...warnings].sort((a, b) => order[/** @type {'note'} */ (a.severity)] - order[/** @type {'note'} */ (b.severity)] || a.row - b.row);
+  const sorted = [...warnings].sort((a, b) => order[/** @type {'note'} */ (a.severity)] - order[/** @type {'note'} */ (b.severity)] ||
+    String(a.sheet ?? '').localeCompare(String(b.sheet ?? '')) || a.row - b.row);
   $('#import-notes').replaceChildren(
     h('summary', null, summary),
     h('ul', null, sorted.map((w) => h('li', null,
-      h('span', { class: `sev sev-${w.severity}` }, w.severity), ` row ${w.row}`, w.column ? `, ${w.column}` : '', ': ',
+      h('span', { class: `sev sev-${w.severity}` }, w.severity), w.sheet ? ` ${w.sheet} row ${w.row}` : ` row ${w.row}`, w.column ? `, ${w.column}` : '', ': ',
       w.raw ? [h('code', null, w.raw), ' → '] : '', w.issue))));
 }
 
 async function main() {
-  if (typeof Plotly === 'undefined') return fatal('The plotting library did not load.');
-
   const requested = surveyFromSearch(location.search);
   const surveyId = requested && Object.hasOwn(SURVEYS, requested) ? requested : DEFAULT_SURVEY;
   const cfg = (await SURVEYS[surveyId].load()).default;
 
+  // the data and the plotting library load in parallel
+  const plotly = loadPlotly(!!cfg.webgl);
   let json;
   try {
     const res = await fetch(new URL(`../data/${cfg.id}.json`, import.meta.url));
@@ -73,9 +90,15 @@ async function main() {
     return fatal(`data/${cfg.id}.json is missing or unreadable (${err instanceof Error ? err.message : err}). ` +
       'Build it with "uv run scripts/build_data.py" and serve the site over http, not file://.');
   }
+  try {
+    await plotly;
+  } catch (err) {
+    return fatal(err instanceof Error ? err.message : String(err));
+  }
 
   const model = joinData(json, cfg);
   const groups = groupsInData(model.points, cfg.groups.order);
+  const catValues = categoriesInData(model.points, cfg);
   renderChrome(cfg, model.meta, surveyId);
   renderImportNotes(json.warnings ?? []);
 
@@ -84,6 +107,7 @@ async function main() {
     survey: DEFAULT_SURVEY,
     groups: null,
     exclude: [],
+    cats: {},
     ranges: {},
     selected: [],
     focus: null,
@@ -96,9 +120,10 @@ async function main() {
   };
   const known = {
     metrics: new Set(Object.keys(cfg.metrics)),
-    sortKeys: new Set(['title', 'year', 'band', 'group', ...cfg.table]),
+    sortKeys: new Set(['title', 'year', 'band', 'group', ...Object.keys(cfg.categories ?? {}), ...cfg.table]),
     colorKeys: new Set(['group', ...cfg.explorer.metrics]),
     caveats: new Set(Object.keys(cfg.caveats ?? {})),
+    categories: new Map(Object.entries(catValues).map(([k, vs]) => [k, new Set(vs)])),
   };
   const initial = decodeState(location.search, defaults, known);
   initial.survey = surveyId;
@@ -115,8 +140,8 @@ async function main() {
   const linkedEl = $('#linked-figure');
   const explorerEl = $('#explorer-figure');
   const cardEl = $('#detail-card');
-  const filters = createFilters($('#filters'), { cfg, store, points: model.points, groups });
-  const table = createTable($('#table'), { cfg, store, papers: model.papers });
+  const filters = createFilters($('#filters'), { cfg, store, points: model.points, groups, catValues });
+  const table = createTable($('#table'), { cfg, store, papers: model.papers, multiBand: model.points.some((p) => p.nBands > 1) });
   const card = createDetailCard(cardEl, { cfg, store, papers: model.papers, byPaper: model.byPaper, warnings: model.warnings });
   const manual = createManualPoints($('#manual'), { cfg, onChange: () => store.set((s) => ({ manualRev: s.manualRev + 1 })) });
 
@@ -130,6 +155,25 @@ async function main() {
       store.set((s) => ({ selected: papers, focus: papers.length === 1 ? papers[0] : papers.length ? null : s.focus }));
     },
     onLegend(group, isolate) {
+      if (group?.startsWith(CAT_PREFIX)) {
+        // a shape in the legend: toggle (or isolate) that category value
+        const rest = group.slice(CAT_PREFIX.length);
+        const key = rest.slice(0, rest.indexOf(':'));
+        const value = rest.slice(key.length + 1);
+        const all = catValues[key];
+        if (!all?.includes(value)) return;
+        store.set((s) => {
+          const on = s.cats[key] ?? all;
+          let next;
+          if (isolate) next = on.length === 1 && on[0] === value ? all : [value];
+          else next = on.includes(value) ? on.filter((v) => v !== value) : all.filter((v) => v === value || on.includes(v));
+          const cats = { ...s.cats };
+          if (next.length === all.length) delete cats[key];
+          else cats[key] = next;
+          return { cats };
+        });
+        return;
+      }
       if (group === MANUAL_GROUP || !groups.includes(group)) return;
       store.set((s) => {
         const on = s.groups ?? groups;
@@ -203,11 +247,14 @@ async function main() {
   function render() {
     const s = store.get();
     const enabled = new Set(s.groups ?? groups);
-    const inRanges = filterByRanges(excludeCaveats(model.points, s.exclude), s.ranges);
+    const inRanges = filterByCategories(filterByRanges(excludeCaveats(model.points, s.exclude), s.ranges), s.cats);
     const visible = inRanges.filter((p) => enabled.has(p.group));
     const visiblePapers = new Set(visible.map((p) => /** @type {string} */ (p.paperId)));
 
-    lastCtx = { cfg, state: s, points: inRanges, manual: manual.points(), papers: model.papers, groups, enabled, selected: new Set(s.selected) };
+    lastCtx = {
+      cfg, state: s, points: inRanges, manual: manual.points(), papers: model.papers, groups, enabled,
+      selected: new Set(s.selected), catValues, gl: !!cfg.webgl,
+    };
     lastCols = charts.render(lastCtx, linkedEl, explorerEl);
     filters.render(s);
     table.render(visible, s);

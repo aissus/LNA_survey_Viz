@@ -10,6 +10,8 @@
 export function fmt(v, digits = 2) {
   if (typeof v !== 'number' || !Number.isFinite(v)) return '–';
   if (Math.abs(v) >= 1e5) return v.toExponential(2);
+  // a small non-zero value would round to 0.00: show two significant digits instead
+  if (v !== 0 && Math.abs(v) < 0.5 * 10 ** -digits) return Number(v.toPrecision(2)).toString();
   return v.toFixed(digits);
 }
 
