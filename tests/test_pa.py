@@ -2,6 +2,7 @@
 real spreadsheet (ETH PA Survey v11, downloaded by the build and sha256-pinned)."""
 
 import json
+import urllib.error
 from collections import Counter
 from datetime import datetime
 
@@ -172,8 +173,11 @@ def test_the_hook_can_fix_paper_fields_of_the_row_that_starts_the_paper(tmp_path
     assert {p["year"] for p in data["papers"]} == {1999}
 
 
-@pytest.mark.skipif(not (ROOT / LNA.source).exists(), reason="LNA source xlsx not present")
 def test_single_sheet_output_has_no_sheet_keys():
+    try:
+        ensure_source(LNA)
+    except (urllib.error.URLError, OSError) as err:
+        pytest.skip(f"LNA spreadsheet not available offline: {err}")
     data = build_survey(LNA)
     assert not any("sheet" in e for p in data["papers"] for e in p["entries"])
     assert not any("sheet" in w for w in data["warnings"])

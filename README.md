@@ -24,8 +24,9 @@ And Systems (IDEAS)**. If you use them, please cite them as the surveys ask:
   Hua Wang, Yuqi Liu, Naga Sasikanth Mannem, "Phased Array Survey 2010-Present,"
   [Online]. Available: https://ideas.ethz.ch/Surveys/phased-array-survey.html
 
-The PA and phased-array spreadsheets are not in this repository: the build
-downloads them from ETH and checks them against a pinned sha256.
+None of the spreadsheets is stored in this repository: the build downloads them
+from ETH and checks them against a pinned sha256 (ETH's copyright notice asks for
+written consent before its documents are stored on other servers).
 
 ## What the site does
 
@@ -138,8 +139,7 @@ at build time:
 ## Repository layout
 
 ```
-sources/lna/LNA_Survey_v3.0.xlsx   LNA spreadsheet (input; not published to Pages)
-sources/<id>/                      spreadsheets downloaded at build time (gitignored)
+sources/<id>/                      survey spreadsheets, downloaded at build time (gitignored)
 scripts/parsing.py                 pure parsing helpers (decimal commas, bands, text, Excel errors)
 scripts/caveats.py                 simulated / system-level / cryogenic notes -> flags
 scripts/survey_sources.py          SurveySource + RowContext, and the LNA source

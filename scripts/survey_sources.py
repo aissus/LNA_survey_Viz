@@ -85,6 +85,11 @@ class SurveySource:
 LNA = SurveySource(
     id="lna",
     source="sources/lna/LNA_Survey_v3.0.xlsx",
+    # Downloaded from ETH at build time, not committed. ETH updates this file in
+    # place (same name): when the pin no longer matches, check the new rows and
+    # update sha256 and the tests' counts.
+    url="https://ethz.ch/content/dam/ethz/special-interest/itet/ideas-dam/documents/LNA_Survey_v3.0.xlsx",
+    sha256="84cf7fbd887e9cec24291af82bbdcb2a61f395bcc26c4455c09809a564a7f9bd",
     sheet="All",
     paper_fields={
         "venue": "Publication",
