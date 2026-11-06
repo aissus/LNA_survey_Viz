@@ -29,12 +29,12 @@ Milestone 1 is implemented on branch `refactor/static-modular-viewer` (see READM
   draws them hollow and can exclude them (`x=` in the URL). Derived metrics declare `dependsOn` so a
   FOM built from a simulated value counts as simulated.
 - Paper details live in a floating card (`site/js/infopanel.js`) that stays until the next click.
-- PA (ETH PA-Survey-v11, ~6.1k points, 10 sheets) and phased array (ETH v3, 151 points) are added on
-  branch `surveys/phased-array-and-pa` (kept off `main` until ETH answers the republishing question).
-  Their xlsx are downloaded at build time (`SurveySource.url` + pinned `sha256`), not committed.
-- LNA too (branch `lna/source-download`, based on main): its xlsx is no longer committed. ETH updated
-  LNA_Survey_v3.0.xlsx in place (561 rows: release 3.0's 472 + 89 from 2025-26); tests download it.
-  Per-survey rules live in `scripts/source_<id>.py` (`adjust(ctx)` hook); registry in `scripts/registry.py`.
+- PA (ETH PA-Survey-v11, ~6.1k points, 10 sheets) and phased array (ETH v3, 151 points) are on `main`
+  and live since 2026-11-06: the owner chose to publish before ETH answered the permission email.
+- No survey xlsx is committed (LNA's was removed in PR #2): the build and the tests download them
+  (`SurveySource.url` + pinned `sha256`); CI caches them. ETH updates files in place (LNA_Survey_v3.0
+  now has 561 rows: release 3.0's 472 + 89 from 2025-26); a new file fails the pin until checked.
+- Per-survey rules live in `scripts/source_<id>.py` (`adjust(ctx)` hook); registry in `scripts/registry.py`.
 - Viewer config also has `categories` (filters; one may set marker shape), `refs` (reference curves on
   panels), value-level caveats (`entry.metric_flags`) and `webgl` (PA: scattergl + gl2d bundle; exports
   redraw as SVG). Only 3 hues validate for an all-pairs scatter: more groups = grey + shape.
