@@ -20,6 +20,17 @@ from dataclasses import dataclass
 # Whole-cell or per-band placeholders meaning "not reported".
 MISSING_TOKENS = frozenset({"", "-", "–", "—", "*", "?", "n/a", "na", "nan", "none"})
 
+# Cached results of broken Excel formulas. Not data: read as missing, with an
+# error, so the import notes show where the source sheet itself is broken.
+# Checked before splitting on "/", because "#DIV/0!" contains the separator.
+EXCEL_ERRORS = frozenset({"#value!", "#ref!", "#div/0!", "#n/a", "#name?", "#num!", "#null!", "#spill!", "#calc!"})
+
+
+def excel_error(text: str) -> str | None:
+    """The error message for a cached Excel error value, else None."""
+    t = text.strip()
+    return f"Excel error {t.upper()} in the source cell" if t.lower() in EXCEL_ERRORS else None
+
 _NUM = r"[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)"
 _TOKEN_RE = re.compile(
     rf"""^
@@ -60,6 +71,8 @@ def parse_number(raw: object) -> Parsed:
     text = str(raw).strip()
     if text.lower() in MISSING_TOKENS:
         return Parsed(None)
+    if err := excel_error(text):
+        return Parsed(None, error=err)
 
     m = _TOKEN_RE.match(text)
     if not m:
@@ -91,6 +104,8 @@ def parse_bands(raw: object) -> list[Parsed]:
     text = raw.strip()
     if text.lower() in MISSING_TOKENS or _NA_RE.fullmatch(text):
         return []
+    if err := excel_error(text):
+        return [Parsed(None, error=err)]
     text = _NA_RE.sub("-", text)
     return [parse_number(part) for part in text.split("/")]
 

@@ -1,18 +1,30 @@
-"""End-to-end checks of build_data.py against the real LNA spreadsheet."""
+"""End-to-end checks of build_data.py against the real LNA spreadsheet.
+
+The spreadsheet is downloaded from ETH when it is missing (as in CI). Without
+a network the tests are skipped; a file that does not match the pinned sha256
+fails them, because the counts below belong to that exact file.
+"""
 
 import json
+import urllib.error
 from collections import Counter
 
 import pytest
 
-from build_data import ROOT, build_survey, main
+from build_data import build_survey, ensure_source, main
 from survey_sources import LNA
-
-pytestmark = pytest.mark.skipif(not (ROOT / LNA.source).exists(), reason="LNA source xlsx not present")
 
 
 @pytest.fixture(scope="module")
-def lna():
+def lna_source():
+    try:
+        return ensure_source(LNA)
+    except (urllib.error.URLError, OSError) as err:
+        pytest.skip(f"LNA spreadsheet not available offline: {err}")
+
+
+@pytest.fixture(scope="module")
+def lna(lna_source):
     return build_survey(LNA)
 
 
@@ -24,7 +36,7 @@ def points_of(data, **paper_match):
 def test_every_row_is_accounted_for(lna):
     m = lna["meta"]
     entries = sum(len(p["entries"]) for p in lna["papers"])
-    assert m["rows_in"] == 472
+    assert m["rows_in"] == 561  # 472 of release 3.0 + 89 rows ETH appended in 2026
     assert entries + m["rows_dropped"] == m["rows_in"]
     dropped = {w["row"] for w in lna["warnings"] if w["severity"] == "dropped"}
     assert len(dropped) == m["rows_dropped"]
@@ -87,16 +99,25 @@ def test_caveats_reach_the_points(lna):
     assert [p.get("temp_k") for p in pts] == [300, 4.2] * 4
     assert [p.get("flags", []) for p in pts] == [[], ["cryogenic"]] * 4
     # individually simulated values are listed on the entry, not as a point flag
-    sim_entries = [e for p in lna["papers"] for e in p["entries"] if e.get("sim_metrics")]
-    assert len(sim_entries) == 13
-    assert set().union(*(e["sim_metrics"] for e in sim_entries)) == {"nf", "nfmin", "gain", "iip3", "p1db"}
+    sim_entries = [e for p in lna["papers"] for e in p["entries"] if e.get("metric_flags")]
+    assert len(sim_entries) == 17
+    assert all(set(e["metric_flags"]) == {"simulated"} for e in sim_entries)
+    assert set().union(*(e["metric_flags"]["simulated"] for e in sim_entries)) == {"nf", "nfmin", "gain", "iip3", "p1db"}
 
 
-def test_cli_writes_json(tmp_path, capsys):
+def test_problems_in_the_rows_appended_in_2026_are_reported(lna):
+    issues = {(w["row"], w["severity"]): w for w in lna["warnings"] if w["row"] > 473}
+    assert issues[(536, "nulled")]["raw"] == "70-88"  # a power range, not a value
+    assert "--17" in issues[(541, "nulled")]["raw"]  # a doubled minus sign in band 4 of P1dB
+    assert issues[(546, "dropped")]["issue"].startswith("no usable frequency")
+    assert lna["meta"]["rows_dropped"] == 1
+
+
+def test_cli_writes_json(lna_source, tmp_path, capsys):
     assert main(["lna", "--out", str(tmp_path)]) == 0
     data = json.loads((tmp_path / "lna.json").read_text(encoding="utf-8"))
     assert data["meta"]["survey"] == "lna"
-    assert "[lna] 472 rows" in capsys.readouterr().out
+    assert "[lna] 561 rows" in capsys.readouterr().out
 
 
 def test_cli_rejects_unknown_survey():

@@ -20,10 +20,27 @@
  * @property {string} short            badge text, e.g. "sim"
  * @property {string} description      why it is not directly comparable
  *
+ * @typedef {object} Category
+ * A categorical field besides the colour groups (e.g. phased-array type: TX, RX, TRX).
+ * Each category gets a checkbox filter, a hover line and a table column.
+ * @property {string} label            e.g. "Type"
+ * @property {string} field            entry field (written by the build) holding each point's value
+ * @property {string[]} order          display order of the values; values not listed go last
+ * @property {Record<string, string>} [symbols]  marker shape per value (Plotly symbol names).
+ *   At most one category sets this; its values then pick the marker shape (colour stays the group).
+ * @property {Record<string, string>} [descriptions]  tooltip per value
+ *
+ * @typedef {object} RefLine
+ * A reference curve drawn behind the data of one panel, e.g. a scaling law.
+ * @property {string} label            legend and hover text, e.g. "(λ/2)²"
+ * @property {(x: number) => (number|null)} y   evaluated across the panel's x range
+ * @property {'solid'|'dot'|'dash'|'longdash'} [dash]
+ *
  * @typedef {object} PanelSpec
  * @property {string} x
  * @property {string} y
  * @property {string} [title]
+ * @property {RefLine[]} [refs]
  *
  * @typedef {object} ManualField
  * @property {string} metric
@@ -39,6 +56,7 @@
  * @property {string[]} paperFields            paper fields copied onto every point (e.g. "year")
  * @property {Record<string, (p: Record<string, any>) => (number|null)>} [derived]
  * @property {{order: string[], colors: Record<string, string>, symbols: Record<string, string>, fallbackColor: string, label?: string}} groups
+ * @property {Record<string, Category>} [categories]  extra categorical fields, each filterable
  * @property {string[]} filters                metrics that get a range slider
  * @property {PanelSpec[]} panels              main figure; panels sharing an x metric zoom together
  * @property {{metrics: string[], x: string, y: string, color: string}} explorer
@@ -47,8 +65,9 @@
  * @property {string[]} info                   metrics in the info panel band table
  * @property {{citation: (paper: any) => string, link?: (paper: any) => (string|null), entryDetails?: (entry: any) => Array<[string, string]>}} paper
  * @property {Record<string, Record<string, string>>} [sourceNotes]  metric -> source column -> explanation
- * @property {Record<string, Caveat>} [caveats]  point flags set by the build (simulated, system, ...);
- *   flagged points are drawn hollow and can be excluded
+ * @property {Record<string, Caveat>} [caveats]  caveats set by the build (simulated, system, ...): a
+ *   point flag covers the whole point, an entry's metric_flags only some of its values. Flagged
+ *   points / values are drawn hollow and can be excluded.
  * @property {{fields: ManualField[]}} manual
  *
  * A plotted point: one band of one entry of one paper (or a user-added point).

@@ -4,6 +4,8 @@
  * how the spreadsheet is read lives in scripts/survey_sources.py.
  */
 
+import { NEUTRAL, PROCESS_COLORS } from './palette.js';
+
 const FREQ_TICKS = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
 
 /**
@@ -64,7 +66,7 @@ const lna = {
   groups: {
     label: 'Process',
     order: ['CMOS Bulk', 'SiGe', 'CMOS SOI', 'FinFET', 'III-V', 'Other'],
-    colors: { 'CMOS Bulk': '#2a78d6', SiGe: '#eb6834', 'CMOS SOI': '#1baf7a' },
+    colors: PROCESS_COLORS,
     symbols: {
       'CMOS Bulk': 'circle',
       SiGe: 'diamond',
@@ -73,7 +75,7 @@ const lna = {
       'III-V': 'cross',
       Other: 'x',
     },
-    fallbackColor: '#6f6e69',
+    fallbackColor: NEUTRAL,
   },
 
   filters: ['freq', 'year', 'nf', 'gain', 'power'],

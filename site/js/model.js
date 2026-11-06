@@ -49,6 +49,12 @@ export function joinData(json, cfg) {
   const points = json.points.map((/** @type {any} */ raw) => {
     const paper = papers.get(raw.paper);
     const entry = paper.entries[raw.entry];
+    // caveat -> metrics it applies to; a derived metric inherits its inputs' caveats
+    /** @type {Record<string, string[]>} */
+    const metricFlags = {};
+    for (const [flag, keys] of Object.entries(entry.metric_flags ?? {})) {
+      metricFlags[flag] = withDependents(/** @type {string[]} */ (keys), cfg);
+    }
     /** @type {Point} */
     const p = {
       ...raw,
@@ -59,7 +65,8 @@ export function joinData(json, cfg) {
       sources: entry.sources ?? {},
       flags: raw.flags ?? [],
       tempK: raw.temp_k ?? null,
-      simMetrics: withDependents(entry.sim_metrics ?? [], cfg),
+      metricFlags,
+      simMetrics: metricFlags.simulated ?? [],
       manual: false,
     };
     for (const f of cfg.paperFields ?? []) p[f] = paper[f];
