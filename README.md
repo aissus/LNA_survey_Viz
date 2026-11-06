@@ -11,7 +11,9 @@ array, ...) is its spreadsheet plus two small config files.
 The LNA data is the survey compiled by **ETH Zürich Integrated Devices,
 Electronics, And Systems (IDEAS)**:
 [ideas.ethz.ch/Surveys/lna-survey.html](https://ideas.ethz.ch/Surveys/lna-survey.html).
-If you use it, please cite it as the survey asks:
+The spreadsheet is not stored in this repository: the build downloads it from
+ETH and checks it against a pinned sha256. If you use the data, please cite it
+as the survey asks:
 
 > Hua Wang, Argyro Kamperi, Boce Lin, Basem Abdelaziz Abdelmagid Ali, "Low Noise
 > Amplifier Noise Figure Survey 2018-present," [Online]. Available:
@@ -82,7 +84,7 @@ at build time:
 ## Repository layout
 
 ```
-sources/lna/LNA_Survey_v3.0.xlsx   survey spreadsheet (input; not published)
+sources/lna/                       survey spreadsheet, downloaded at build time (gitignored)
 scripts/parsing.py                 pure parsing helpers (decimal commas, bands, text)
 scripts/caveats.py                 simulated / system-level / cryogenic notes -> flags
 scripts/survey_sources.py          how to read each survey's spreadsheet
@@ -122,7 +124,8 @@ npm test               # viewer unit tests + survey config consistency
 
 ## Adding a survey
 
-1. Put the spreadsheet in `sources/<id>/`.
+1. Point the build at the spreadsheet: give its `url` and `sha256` (it is then
+   downloaded at build time and cached in CI), or commit it under `sources/<id>/`.
 2. Describe how to read it in `scripts/survey_sources.py`: sheet, columns,
    fallbacks, which columns are multi-band, and process grouping rules.
 3. Describe how to show it in `site/surveys/<id>.js`: metrics with units and

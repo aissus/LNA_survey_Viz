@@ -11,5 +11,6 @@ __pycache__/
 node_modules/
 
 # Survey spreadsheets downloaded at build time (SurveySource.url); not republished
+sources/lna/
 sources/phased_array/
 sources/pa/
